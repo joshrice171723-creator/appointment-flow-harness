@@ -6,7 +6,7 @@ I tested how different coding instructions changed the Rails and React apps AI a
 
 [Reminder benchmark](#the-reminder-benchmark) · [Correctness and Active Record](#the-working-baseline-and-the-query-rule) · [How the versions were judged](#how-i-decided-which-version-was-better)
 
-![Matched reminder workload and later decisions. Statements fell from 119 to 18 for the same 24 reminders. The later build passed four more checks and failed the Active Record rule. A scoped index change cut buffer hits from 176 to 3 for two visit records.](dashboard/experiment-results.png)
+![Full rebuilds compared with the original app. The 24-reminder run used 119 statements in the original, 18 in V2.6.1.1.0, and 45 in V2.7.1.1.0. A later V2.7 comparison passed four more checks and failed the Active Record rule.](dashboard/experiment-results.png)
 
 **28 run bundles** pair the recovered instructions with the application output. The index marks verified inputs, historical matches, and interrupted builds. [Browse the paired runs](runs/README.md)
 
@@ -31,6 +31,8 @@ A `0` means that part has no separate revision in the label. The base can still 
 **Paired ZIPs** include the recovered harness input and app output. **Harness ZIPs** contain guidance for designs with no completed app in the record. Full-build benchmarks, focused refactors, and historical source reviews each cover different evidence.
 
 ### The original appointment-flow and its refactors
+
+![Original app and two staff appointment refactors. On the dated view, 1,852 rows fell to 41 and 31. On the upcoming view, 314 rows changed to 322 and 14. A separate patient history refactor reduced buffer hits from 176 to 3 for one lookup.](dashboard/original-refactor-results.png)
 
 | Version or trial | What changed and what we found | Files |
 |---|---|---|
@@ -95,8 +97,10 @@ Each build sent the same 24 synthetic reminders and passed the same 16 checks. T
 | V2.5.1.0.0 | Standalone Codex | 26 |
 | V2.5.1.1.0 | Standalone Codex | 40 |
 | V2.6.1.1.0 | Standalone Codex | 18 |
+| V2.7.1.1.0 | Standalone Codex | 45 |
 
 - **85% fewer statements in V2.6.1.1.0.** Grouping equivalent writes brought the batch down from the original’s 119 statements to 18.
+- **62% fewer statements in V2.7.1.1.0.** It used 45 statements for the same 24 sends. V2.6 used fewer writes and returned fewer rows for the matched reply under growth. [Six-build workload](benchmarks/V2.7_Compared_Workload.csv) · [Tradeoffs](reports/V2.7_Clean_Room_Comparison.md)
 - **Query count can hide growth.** V2.5.1.0.0 still sent the same two reminders in 26 statements after adding 600 later appointments. Rows returned to Rails rose from 13 to 1,213. [Run report](reports/V2.6_Run_Report.md) · [Matched workload](benchmarks/V2.6_Compared_Workload.csv)
 
 ### The working baseline and the query rule

@@ -23,14 +23,14 @@
   <aside class="sidebar">
     <div class="mark"><span class="mark-icon" aria-hidden="true">≡</span><span>Appointment Flow<br>Harness experiment</span></div>
     <nav aria-label="Experiment pages">
-      <a href="#overview">Overview</a><a href="#database">Database audit</a><a href="#quality">Code quality</a><a href="#refactor">Refactor</a><a href="#versions">Harness versions</a><a href="#runs">Run log</a>
+      <a href="#overview">Overview</a><a href="#database">Database audit</a><a href="#quality">Code quality</a><a href="#refactor">Refactor</a><a href="#original-refactor">Original-app refactors</a><a href="#versions">Harness versions</a><a href="#runs">Run log</a>
     </nav>
     <div class="side-status"><span class="dot"></span>5 builds in the shared benchmark<br>Later trials in Harness versions</div>
   </aside>
   <main>
     <div class="mast"><span>Rails / React rebuild comparison</span><span>16 Nov 2026 · PostgreSQL 17.11</span></div>
     <section id="overview" class="view">
-      <header class="intro"><h1>Appointment Flow comparison</h1><p class="lede">The original <strong>appointment-flow</strong> is the baseline. This shared workload compares it with four standalone builds. Later rebuilds and scoped refactors appear under Harness versions.</p></header>
+      <header class="intro"><h1>Appointment Flow comparison</h1><p class="lede">The original <strong>appointment-flow</strong> is the baseline. This shared workload compares it with four standalone builds. The six-build summary includes the first V2.7 rebuild. The original-app refactors have their own comparison.</p></header>
       <div class="summary snapshot" aria-label="What has been measured">
         <article class="card"><div class="label">Baseline · original project</div><strong class="metric project">appointment-flow</strong><span class="small">Source reviewed. The same database test is complete.</span></article>
         <article class="card"><div class="label">Same database test completed</div><strong class="metric">5 builds</strong><span class="small">The original plus V2.5.0.0.0, V2.5.1.0.0, V2.5.1.1.0, and V2.6.1.1.0. All five passed the same 16 checks.</span></article>
@@ -51,6 +51,7 @@
       </div>
       <article class="card section"><h2>What changed in V2.6.1.1.0</h2><p>The implementation check cut the unchanged retry from <strong>2,410 to 8 rows returned to Rails</strong> in a separate 1,200-appointment fixture. Independent review brought the leadership report from <strong>183 to 6 queries</strong> at 60 clinics. The shared benchmark then cut the 24-reminder batch from <strong>41 to 18 statements</strong> by grouping its writes.</p><p class="sources"><a href="../reports/V2.6_Run_Report.md">How each change was verified</a></p></article>
       <article class="card section"><h2>Measured builds</h2><div class="tablewrap"><table id="build-table" class="wide"></table></div></article>
+      <article class="card section"><h2>One rebuild per harness, compared with the original</h2><p>The rebuilds started from the assignment with the selected harness and ran through implementation and any configured review loop. The six measured builds sent the same 24 reminders. The chart shows the first V2.7 rebuild alongside the original and earlier versions.</p><img src="experiment-results.png" alt="The original used 119 database statements for 24 reminders. V2.6 used 18 and the first V2.7 rebuild used 45." style="display:block;max-width:100%;height:auto" width="928"><p class="sources"><a href="../benchmarks/V2.7_Compared_Workload.csv" download>Six-build benchmark</a><a href="#original-refactor">See the original-app refactors</a></p></article>
     </section>
     <section id="database" class="view" hidden>
       <header class="intro"><h1>What the database did</h1><p class="lede">Rails and PostgreSQL recorded the statements for every measured run. The tables compare the original baseline and four standalone builds on the same cases.</p></header>
@@ -120,7 +121,17 @@
         <article class="card"><h2>Full V2.7 clean-room rebuild</h2><p><strong>Frozen and benchmarked.</strong> V2.7.1.1.0 passed seven configured checks, two browser scenarios, and all 16 shared workload checks after repairs. With 600 later appointments present, both V2.6 and V2.7 confirmed the intended appointment. The database returned 9 rows to V2.6, 609 to the first V2.7 checkpoint, and 608 to the final V2.7 build.</p><p class="sources"><a href="../reports/V2.7_Clean_Room_Comparison.md">Build comparison</a> · <a href="../benchmarks/V2.7_Compared_Workload.csv" download>Measured workloads</a> · <a href="../packages/Apex_Appointment_Flow_Harness_V2.7.1.1.0.zip" download>V2.7 clean-room package</a></p></article>
       </div>
       <article class="card section"><h2>Second refactor trial · V2.6.1.2</h2><p><strong>REVISE.</strong> The structure-only change preserved the original results and read counts. The trial also tested plain Active Record for weekly totals and for the review lookup. The final controller returned the same appointment list and kept one SQL expression for the review lookup.</p><p>On a fixture with 500 additional out-of-day reviews and 500 additional weekly appointment times, the frozen V2.6 confirmed tab used 8 reads and returned 10 rows to Rails. The refactor used 13 reads and returned 13 rows. The alternative plain Active Record review lookup used 14 reads and returned 514 rows. All three returned the same confirmed appointment.</p><p class="sources"><a href="../reports/V2.6.1.2_Refactor_Harness.md">Second refactor harness</a> · <a href="../reports/V2.6.1.2_Staff_Appointments_Result.md">Second refactor results</a></p></article>
+    </section>
+    <section id="original-refactor" class="view" hidden>
+      <header class="intro"><h1>Refactors of the original app</h1><p class="lede">These trials use copies of the original appointment-flow. The staff appointment experiments compare two versions of the same refactor. The patient appointment experiments improve history and access queries on a separate copy.</p></header>
+      <img src="original-refactor-results.png" alt="Staff appointment results showed 1,852, 41, and 31 Rails rows on the dated view. A later patient history lookup fell from 176 shared buffer hits to 3." style="display:block;max-width:100%;height:auto" width="928">
       <article class="card section"><h2>Original app refactor · V2.7.2.1.0</h2><p><strong>Both trials compared.</strong> The first copy contained old project guidance. The second excluded it before launch. On 22 common requests, the first refactor matched all original responses and the isolated refactor matched 21. The difference concerns whether a confirmation committed during a read appears immediately.</p><p>For the same dated view with added history, the original returned 1,852 database rows, the first refactor 41, and the isolated refactor 31. With 300 past visits added to the undated view, the counts were 314, 322, and 14. The isolated version reduced work but added complex time-zone filtering. Both remain REVISE under the strict harness. These two runs do not establish that removing old guidance caused the differences.</p><p class="sources"><a href="../reports/V2.7.2_Refactor_Isolation_Comparison.md">Two-trial comparison and decision</a> · <a href="../benchmarks/V2.7.2_Refactor_Comparison.csv" download>All measured responses</a> · <a href="../reports/V2.7.2_Original_Refactor_Result.md">First trial results</a></p></article>
+      <article class="card section"><h2>Patient appointment refactor</h2><p>V2.7.5.1.0 exercised the original app in a disposable clone. All 330 measured GETs returned the same bodies and cursors across index variants. Only the app database received indexes.</p>
+      <div class="tablewrap"><table class="wide"><thead><tr><th>Database operation in the original-app refactor</th><th>Existing indexes</th><th>Two app-owned indexes</th></tr></thead><tbody>
+      <tr><td>Tracked-only source lookup</td><td>Scans and rejects 5,577 mirror rows</td><td>Index seek with zero heap fetches</td></tr>
+      <tr><td>Load two tracked visits</td><td>176 shared PostgreSQL buffer hits</td><td>3 shared buffer hits</td></tr>
+      </tbody></table></div><p class="explain">Full-request growth remains REVISE. The clinic membership check and one upcoming-history join still scan unrelated rows.</p></article>
+      <p class="sources"><a href="../reports/PATIENT_APPOINTMENTS_REFACTOR.md">Patient appointment query refactor</a><a href="../reports/PATIENT_APPOINTMENTS_MIRROR_INDEX.md">Index follow-up and remaining query work</a><a href="../benchmarks/V2.7.5_Patient_Appointment_Index_Workload.csv" download>Measured request comparisons</a></p>
     </section>
     <section id="versions" class="view" hidden>
       <header class="intro"><h1>Harness versions</h1><p class="lede">Compare the instructions, evidence, and version decisions across the experiment.</p></header>
@@ -130,11 +141,6 @@
       <tr><td>V2.7.3.1.0</td><td>40 of 44</td><td>1,228</td><td>Working baseline. Recipient-safety and growth gaps remain.</td></tr>
       <tr><td>V2.7.4.1.0</td><td>44 of 44</td><td>16</td><td>Authored SQL in views and functions failed the Active Record rule.</td></tr>
       </tbody></table></div></article>
-      <article class="card section"><h2>Patient appointment refactor</h2><p>V2.7.5.1.0 exercised the original app in a disposable clone. All 330 measured GETs returned the same bodies and cursors across index variants. Only the app database received indexes.</p>
-      <div class="tablewrap"><table class="wide"><thead><tr><th>Database operation in the original-app refactor</th><th>Existing indexes</th><th>Two app-owned indexes</th></tr></thead><tbody>
-      <tr><td>Tracked-only source lookup</td><td>Scans and rejects 5,577 mirror rows</td><td>Index seek with zero heap fetches</td></tr>
-      <tr><td>Load two tracked visits</td><td>176 shared PostgreSQL buffer hits</td><td>3 shared buffer hits</td></tr>
-      </tbody></table></div><p class="explain">Full-request growth remains REVISE. The clinic membership check and one upcoming-history join still scan unrelated rows.</p></article>
       <article id="paired-runs" class="card section"><h2>Harness input and application output</h2><p>Each archive includes both. The evidence column distinguishes verified inputs, historical matches, and unfinished trials.</p><p class="sources"><a href="../runs/README.md">Paired run index</a></p><div class="tablewrap"><table class="wide"><thead><tr><th>Run</th><th>Scope</th><th>Evidence</th><th>Archive</th></tr></thead><tbody><tr><td>Original appointment-flow</td><td>Historical product control</td><td>Includes the preserved project guidance. No single frozen launch input is documented</td><td><a href="../runs/Original.zip" download>Paired ZIP</a></td></tr>
 <tr><td>V2</td><td>Historical source and harness</td><td>Archived input manifest matches the saved application workspace</td><td><a href="../runs/V2.zip" download>Paired ZIP</a></td></tr>
 <tr><td>V2.1</td><td>Historical source and harness</td><td>Input manifest matches the nested harness preserved with the application</td><td><a href="../runs/V2.1.zip" download>Paired ZIP</a></td></tr>
@@ -484,7 +490,7 @@ node("run-table").innerHTML=table(["Build time (minutes)","Rails tests / asserti
   b.api ?? "—",
   b.rev ? `<code>${b.rev}</code>` : status("Waiting for the build")
 ]);
-const routes=["overview","database","quality","refactor","versions","runs"];
+const routes=["overview","database","quality","refactor","original-refactor","versions","runs"];
 function navigate(){
   const requested = location.hash.substring(1);
   const current = requested === "original-job" ? "database" : routes.includes(requested) ? requested : "overview";
