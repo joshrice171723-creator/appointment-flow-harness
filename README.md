@@ -25,11 +25,13 @@ I tested how different coding instructions changed the Rails and React apps AI a
 
 | Same workload | Original or control | Best recorded comparison | What it tells you |
 |---|---:|---:|---|
-| Standard application workload, 16 cases | Original 48/100 | V2.7.4 Active Record rewrite 95/100 | The saved diagnostic rewrite did the least overall work and passed the 44 behavior checks. |
+| Standard application workload, 16 cases | Original 48/100 | V2.7.4 Active Record rewrite 94/100 | V2.9.5.1.1 scored 68/100 and passed 44 of 44 checks. The saved rewrite still leads this comparison. |
 | Patient details and appointment history, 10 cases | Original 57/100 | Final original-app refactor 96/100 | Exact page bodies and cursors matched. The refactor did less database work inside its SELECTs. |
 | V2.9.5.1.1 growth check, four fixed-output cases | Small fixture 100/100 | Grown fixture 91/100 | The source ownership lookup drove the extra work in the first eligible reminder batch. |
 
 The performance score uses the lowest measured work within each table. The separate automation score counts six kinds of recorded checks. The rank tables include the metric weights, exact datasets, and runs without enough evidence for a score. [Full score tables](reports/DATABASE_RUN_SCORES.md)
+
+V2.9.5.1.1 now has the same 44-case benchmark as the later V2.7 and V2.8.5 builds. It passed all outcomes and the Active Record source check. Sending two reminders with 2,000 extra patients still read 2,007 rows. The V2.7.4 Active Record rewrite read nine. The scores were recalculated with the new run included, so the rewrite's standard score changed from 95 to 94. [Matched results and raw trace](reports/V2.9.5.1.1_Full_Benchmark.md)
 
 ## What we grade and where
 
@@ -156,7 +158,7 @@ The older archive also contains an app snapshot labeled `V26`. Its exact harness
 | **V2.7.4.1.0** | Checked recipient decisions against relevant history and tested the real prerequisite under growth. It passed 44 of 44 checks and cut the grown reminder case to 16 statements. Handwritten SQL in views and functions failed the plain Active Record standard. | [Paired ZIP](runs/V2.7.4.1.0.zip) · [Adoption decision](reports/V2.7.4_Candidate.md) |
 | **V2.8.4.1.0** | Added a check that identifies the event that sets the clock for a time-dependent decision. It was packaged with no verified completed build. | [Harness ZIP](packages/Apex_Appointment_Flow_Harness_V2.8.4.1.0.zip) · [Evaluation plan](reports/Harness_Autonomous_Experiment_Plan.md) |
 | **V2.8.5.1.1** | Restored the Active Record check and added query plan checks. The rebuild passed its own rubric and 42 of 44 independent checks. It still reads the full source contact directory. | [Harness ZIP](packages/Apex_Appointment_Flow_Harness_V2.8.5.1.1.zip) · [Rebuild ZIP](runs/V2.8.5.1.1-rebuild.zip) · [Validation report](reports/V2.8.5_Harness_Validation.md) |
-| **V2.9.5.1.1** | Added the mandatory four-part execution standard and ASD-STE100 writing principles. The separate rebuild passed eight gate checks and six focused independent regrade tests. The first eligible reminder batch still reads more source contacts as they grow. | [Harness ZIP](packages/Apex_Appointment_Flow_Harness_V2.9.5.1.1.zip) · [Rebuild ZIP](runs/V2.9.5.1.1-rebuild.zip) · [Upgrade and results](reports/V2.9.5.1.1_Harness_Upgrade_Report.md) |
+| **V2.9.5.1.1** | Added the mandatory four-part execution standard and ASD-STE100 writing principles. The separate rebuild passed eight gate checks and six focused independent regrade tests. The later matched benchmark passed all 44 outcomes and scored 68/100 on the 16 shared standard cases. Contact ownership reads still grow. | [Harness ZIP](packages/Apex_Appointment_Flow_Harness_V2.9.5.1.1.zip) · [Rebuild ZIP](runs/V2.9.5.1.1-rebuild.zip) · [Matched benchmark ZIP](benchmarks/V2.9.5.1.1_Full_Benchmark.zip) · [Full result](reports/V2.9.5.1.1_Full_Benchmark.md) |
 
 ### Focused refactors on variant builds
 

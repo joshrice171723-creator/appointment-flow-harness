@@ -1,0 +1,37 @@
+{
+  "version": "V2.9.5.1.1",
+  "revision": "e26f412b52c435e031e5beb40f33cbfddf652f59",
+  "total": 44,
+  "passed": 44,
+  "failures": [],
+  "app_role": "apex_app",
+  "query_source_passed": true,
+  "started_at": "2026-11-17T16:31:36.830543+00:00",
+  "finished_at": "2026-11-17T16:35:24.630339+00:00",
+  "elapsed_seconds": 227.8,
+  "unchanged_cases": true,
+  "unchanged_shared_runner": true,
+  "case_sources": [
+    {
+      "name": "cases.json",
+      "sha256": "aa5296acd836af30ed9942439bfef1ba2ef1b8dc96bd0a0730a0ab890c514e4b"
+    },
+    {
+      "name": "recipient_change_cases.json",
+      "sha256": "203d9ebe92aac069deb4e0b89c101e9806406fb8570ae8a3c200aaf84908ea3e"
+    },
+    {
+      "name": "later_day_cases.json",
+      "sha256": "18450aef64f4c44123989e225f506a2e9aae87f725e107154ae592f74509068b"
+    },
+    {
+      "name": "historical_recipient_cases.json",
+      "sha256": "d4afdb578a90fb4d4acffd9e8b696e2ff0869a48f38725afa428bc1950747a57"
+    }
+  ],
+  "adapter_sha256": "57b8672691adeb96314c884a7979d9d6af598bcd54dc4b077118c882264c5daa",
+  "standard_performance_score": 68,
+  "standard_automation_score": 83,
+  "standard_rank": 10,
+  "standard_scored_cases": 16
+}
