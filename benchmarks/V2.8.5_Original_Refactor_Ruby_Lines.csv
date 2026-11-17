@@ -1,0 +1,7 @@
+directory,original_files,original_lines,refactor_files,refactor_lines,line_change
+controllers,5,228,5,224,-4
+jobs,1,14,1,14,0
+models,18,387,18,394,7
+queries,9,731,9,831,100
+serializers,6,153,6,153,0
+services,14,1374,14,1379,5

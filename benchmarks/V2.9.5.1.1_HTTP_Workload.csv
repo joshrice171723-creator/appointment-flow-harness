@@ -1,0 +1,11 @@
+revision,operation,entry_point,fixture,statements,rows_read,active_record_instances,write_statements,affected_rows,returned_write_rows,elapsed_ms
+de7eceef78152ce10df32f9fb55c71d339ab4f4c,Appointment day,GET /api/staff/appointments?date=2026-07-08,small,17,15,7,0,0,0,977
+de7eceef78152ce10df32f9fb55c71d339ab4f4c,Appointment day,GET /api/staff/appointments?date=2026-07-08,grown,17,15,7,0,0,0,104
+de7eceef78152ce10df32f9fb55c71d339ab4f4c,First eligible batch with fixed deliveries,POST /api/staff/reminder_runs,small,22,27,14,6,11,1,1466
+de7eceef78152ce10df32f9fb55c71d339ab4f4c,First eligible batch with fixed deliveries,POST /api/staff/reminder_runs,grown,24,5027,14,6,11,1,1001
+de7eceef78152ce10df32f9fb55c71d339ab4f4c,Exact repeat with fixed deliveries,POST /api/staff/reminder_runs,small,13,26,15,1,1,0,63
+de7eceef78152ce10df32f9fb55c71d339ab4f4c,Exact repeat with fixed deliveries,POST /api/staff/reminder_runs,grown,13,26,15,1,1,0,54
+de7eceef78152ce10df32f9fb55c71d339ab4f4c,First batch with all contacts held,POST /api/staff/reminder_runs,small,18,21,14,4,10,1,64
+de7eceef78152ce10df32f9fb55c71d339ab4f4c,First batch with all contacts held,POST /api/staff/reminder_runs,grown,18,21,14,4,10,1,97
+de7eceef78152ce10df32f9fb55c71d339ab4f4c,First batch with additional eligible visits,POST /api/staff/reminder_runs,small,23,28,14,6,11,1,85
+de7eceef78152ce10df32f9fb55c71d339ab4f4c,First batch with additional eligible visits,POST /api/staff/reminder_runs,grown with 100 additional eligible visits,25,5228,214,6,111,1,1364

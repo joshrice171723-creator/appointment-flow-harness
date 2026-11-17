@@ -37,3 +37,4 @@ See the [version catalog](../VERSIONS.md) for design packages V2.1.1 and V2.8.4.
 | V2.8.5.1.1-rebuild | Standalone full rebuild | The app passed its own rubric and 42 of 44 separate checks. The contact query still grows with source data | [Paired ZIP](V2.8.5.1.1-rebuild.zip) |
 | V2.8.5.1.1-refactor | Patient appointment read refactor on the original app | Response bodies and cursors matched. One upcoming-history query still scans the mirror | [Paired ZIP](V2.8.5.1.1-refactor.zip) |
 | V2.8.5.1.1-refactor-repair | Focused patient history query repair on the original app | The tested patient reads passed. All response bodies and cursors matched. The external PMS schema stayed the same | [Paired ZIP](V2.8.5.1.1-refactor-repair.zip) |
+| V2.9.5.1.1-rebuild | Standalone full rebuild | The input manifest and prompt match the launch receipt. Includes first and final source checkpoints plus the observed checks | [Paired ZIP](V2.9.5.1.1-rebuild.zip) |

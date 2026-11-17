@@ -6,9 +6,30 @@ I tested how different coding instructions changed the Rails and React apps AI a
 
 [What we grade and where](#what-we-grade-and-where) · [Reminder job and PMS reads](#reminder-job-and-pms-reads) · [Correctness and Active Record](#the-working-baseline-and-the-query-rule) · [How the versions were judged](#how-i-decided-which-version-was-better)
 
+[Search the evidence dashboard](dashboard/index.html#evidence) · [Browse all saved datasets and reports](reports/EVIDENCE_INDEX.md) · [Database performance and automation scores](reports/DATABASE_RUN_SCORES.md) · [Download structured evidence](dashboard/evidence.json)
+
 ![Full rebuilds compared with the original app. The 24-reminder run used 119 statements in the original, 18 in V2.6.1.1.0, and 45 in V2.7.1.1.0. A later V2.7 comparison passed four more checks and failed the Active Record rule.](dashboard/experiment-results.png)
 
-**31 run bundles** pair the recovered instructions with the application output. The index marks verified inputs, historical matches, and interrupted builds. [Browse the paired runs](runs/README.md)
+**32 run bundles** pair the recovered instructions with the application output. The index marks verified inputs, historical matches, and interrupted builds. [Browse the paired runs](runs/README.md)
+
+## Read the comparisons
+
+| What you want to know | What to hold constant | Where to check |
+|---|---|---|
+| **Did the reminder job send the correct reminders?** | Use the same case, clock, clinic, and contact data. Compare the recipients, saved sends, and staff tickets. Then compare first run and retry separately. | [Reminder test cases](#reminder-job-and-pms-reads) |
+| **Did it read too much data from the PMS?** | In the original job, the small and grown first-run fixtures both produced 16 tickets and used 239 database statements. The PMS returned 8,893 bytes on the small fixture and 393,743 bytes on the grown fixture. | [Original job measurements](benchmarks/Original_Reminder_Job_PMS_Workload.csv) |
+| **Did the patient history request do less database work?** | Compare the same response and cursor on the same fixture. With added unrelated appointments, the measured upcoming-history SELECTs used 521 PostgreSQL buffer accesses in the original app and 28 after the focused repair. | [Patient request measurements](benchmarks/V2.8.5_Patient_Appointments_Workload.csv) |
+| **Did the harness grade agree with independent checks?** | Check the exact revision and scope. V2.8.5.1.1 passed its own rebuild rubric and passed 42 of 44 independent checks. The two independent failures concerned weekly counts. | [Rebuild validation](reports/V2.8.5_Harness_Validation.md) |
+
+### Database performance and automation scores
+
+| Same workload | Original or control | Best recorded comparison | What it tells you |
+|---|---:|---:|---|
+| Standard application workload, 16 cases | Original 48/100 | V2.7.4 Active Record rewrite 95/100 | The saved diagnostic rewrite did the least overall work and passed the 44 behavior checks. |
+| Patient details and appointment history, 10 cases | Original 57/100 | Final original-app refactor 96/100 | Exact page bodies and cursors matched. The refactor did less database work inside its SELECTs. |
+| V2.9.5.1.1 growth check, four fixed-output cases | Small fixture 100/100 | Grown fixture 91/100 | The source ownership lookup drove the extra work in the first eligible reminder batch. |
+
+The performance score uses the lowest measured work within each table. The separate automation score counts six kinds of recorded checks. The rank tables include the metric weights, exact datasets, and runs without enough evidence for a score. [Full score tables](reports/DATABASE_RUN_SCORES.md)
 
 ## What we grade and where
 
@@ -61,6 +82,50 @@ The two later branches explain why a number sometimes goes down. `V2.8.4.1.0` to
 | **V2.8.5.1.1 patient appointment refactor** | Reduced the work that the authorization query does. An independent replay still found one broad scan in upcoming history. | [Refactor ZIP](runs/V2.8.5.1.1-refactor.zip) · [Validation report](reports/V2.8.5_Harness_Validation.md) |
 | **V2.8.5.1.1 focused repair** | Used a Rails association to match bookings by appointment, patient, and clinic. The final read passed its focused checks. On the larger data set, upcoming history used 28 buffers, down from 521 in the original. | [Repair ZIP](runs/V2.8.5.1.1-refactor-repair.zip) · [Patient request measurements](benchmarks/V2.8.5_Patient_Appointments_Workload.csv) |
 
+#### How the latest original-app refactor ran
+
+1. The original baseline was `db037d7`. The V2.7.5.1.0 snapshot had already converted the patient history query to Active Record and added two indexes to the app database.
+2. The V2.8.5.1.1 refactor started from that snapshot in a separate session. The agent read `AI_USAGE.md` and `DECISIONS.md`. The prompt asked it to measure the patient detail and history requests, preserve the external PMS schema, keep access and paging behavior, and repair verified findings. [Refactor prompt and input](runs/V2.8.5.1.1-refactor.zip)
+3. A separate replay found a remaining scan of 5,577 mirror appointments. The repair started from `500c78e` and targeted the upcoming-history read. The final recorded revision is `235c16d`. The original and repaired responses matched in the replay. [Repair prompt and result](runs/V2.8.5.1.1-refactor-repair.zip)
+
+#### Ruby lines in the original and final refactor
+
+The count includes every line in the tracked `.rb` files under these six directories, including blank lines and comments. Both revisions have 53 files in this scope. The size increase is concentrated in query code. [Line count data](benchmarks/V2.8.5_Original_Refactor_Ruby_Lines.csv)
+
+| Directory under `backend/app` | Original `db037d7` | Final refactor `235c16d` | Change |
+|---|---:|---:|---:|
+| Controllers | 228 | 224 | −4 |
+| Jobs | 14 | 14 | 0 |
+| Models | 387 | 394 | +7 |
+| Queries | 731 | 831 | +100 |
+| Serializers | 153 | 153 | 0 |
+| Services | 1,374 | 1,379 | +5 |
+| **Total** | **2,887** | **2,995** | **+108** |
+
+The two largest changes were `patient_appointments_query.rb` at +51 lines and `contact_profiles_query.rb` at +41. The original-to-final comparison includes the earlier Active Record conversion and both V2.8.5.1.1 passes.
+
+#### Original app and final refactor on the same patient requests
+
+| Review check | Original `db037d7` | Final refactor `235c16d` |
+|---|---|---|
+| Matched request tests | 199 assertions passed | 199 assertions passed. Response bodies and cursors matched the original. |
+| External PMS schema and access | Schema and read-only access established the baseline | Same schema checksum and read-only permissions |
+| Scoped rubric grade | 5 PASS and 3 REVISE. The review found query growth, an implicit appointment ownership rule, and a source check failure. | 8 scoped PASS grades from the builder. An independent replay verified the behavior and performance results below. |
+| Active Record rule | The patient appointment query used handwritten SQL | The changed files passed the scoped source check. The full repository still had 17 inherited findings. |
+| Ease of change | One change from 25 to 10 at the page-size constant passed in a disposable copy. | The same change passed in a disposable copy. Paging and order held on the grown fixture. |
+
+[All eight criteria and supporting checks](reports/ORIGINAL_PATIENT_READ_RUBRIC.md)
+
+The grown fixture adds 5,000 mirror appointments and 15,000 tracked visits. Each arrow shows the original value followed by the refactor value. Both versions recorded zero writes for these requests. **Buffers** count database page accesses for the captured SELECTs. **Statements** count the whole request. Each timing is the median of five samples. [All small and grown measurements](benchmarks/V2.8.5_Patient_Appointments_Workload.csv) · [Rubric and replay evidence](reports/V2.8.5_Harness_Validation.md)
+
+| Request on the grown fixture | PostgreSQL buffers | Statements | Rows returned | Rails records loaded | Median request time (ms) |
+|---|---:|---:|---:|---:|---:|
+| Past history, first page | 522 → 30 | 16 → 19 | 61 → 62 | 59 → 35 | 262.1 → 48.9 |
+| Past history, next page | 510 → 31 | 7 → 12 | 56 → 57 | 55 → 30 | 177.0 → 32.7 |
+| Upcoming history | 521 → 28 | 16 → 19 | 14 → 14 | 12 → 11 | 146.1 → 48.8 |
+| Patient details | 288 → 23 | 18 → 20 | 12 → 13 | 7 → 7 | 142.2 → 70.7 |
+| Tracked-only past history | 695 → 28 | 15 → 20 | 58 → 59 | 32 → 32 | 178.2 → 173.9 |
+
 ### Early experiments
 
 | Version | What changed and what we found | Files |
@@ -91,6 +156,7 @@ The older archive also contains an app snapshot labeled `V26`. Its exact harness
 | **V2.7.4.1.0** | Checked recipient decisions against relevant history and tested the real prerequisite under growth. It passed 44 of 44 checks and cut the grown reminder case to 16 statements. Handwritten SQL in views and functions failed the plain Active Record standard. | [Paired ZIP](runs/V2.7.4.1.0.zip) · [Adoption decision](reports/V2.7.4_Candidate.md) |
 | **V2.8.4.1.0** | Added a check that identifies the event that sets the clock for a time-dependent decision. It was packaged with no verified completed build. | [Harness ZIP](packages/Apex_Appointment_Flow_Harness_V2.8.4.1.0.zip) · [Evaluation plan](reports/Harness_Autonomous_Experiment_Plan.md) |
 | **V2.8.5.1.1** | Restored the Active Record check and added query plan checks. The rebuild passed its own rubric and 42 of 44 independent checks. It still reads the full source contact directory. | [Harness ZIP](packages/Apex_Appointment_Flow_Harness_V2.8.5.1.1.zip) · [Rebuild ZIP](runs/V2.8.5.1.1-rebuild.zip) · [Validation report](reports/V2.8.5_Harness_Validation.md) |
+| **V2.9.5.1.1** | Added the mandatory four-part execution standard and ASD-STE100 writing principles. The separate rebuild passed eight gate checks and six focused independent regrade tests. The first eligible reminder batch still reads more source contacts as they grow. | [Harness ZIP](packages/Apex_Appointment_Flow_Harness_V2.9.5.1.1.zip) · [Rebuild ZIP](runs/V2.9.5.1.1-rebuild.zip) · [Upgrade and results](reports/V2.9.5.1.1_Harness_Upgrade_Report.md) |
 
 ### Focused refactors on variant builds
 

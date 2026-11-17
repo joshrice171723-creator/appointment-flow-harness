@@ -1,0 +1,48 @@
+build,method,path,endpoint,requests,status_counts
+2.5.0.0.0,GET,/up(.:format),Rails::HealthController#show,0,
+2.5.0.0.0,GET,/api/workspaces(.:format),Api::WorkspacesController#index,2,200=2
+2.5.0.0.0,POST,/api/staff_session(.:format),Api::StaffSessionsController#create,5,"200=4, 404=1"
+2.5.0.0.0,GET,/api/leadership_report(.:format),Api::LeadershipReportsController#show,1,200=1
+2.5.0.0.0,GET,/api/clinics/:clinic_id/appointments(.:format),Api::AppointmentsController#index,5,"200=4, 401=1"
+2.5.0.0.0,POST,/api/clinics/:clinic_id/work_items/:work_item_id/follow_ups(.:format),Api::FollowUpsController#create,2,"200=1, 422=1"
+2.5.0.0.0,GET,/api/clinics/:clinic_id/work_items(.:format),Api::WorkItemsController#index,3,"200=2, 403=1"
+2.5.0.0.0,PATCH,/api/clinics/:clinic_id/work_items/:id(.:format),Api::WorkItemsController#update,1,404=1
+2.5.0.0.0,PUT,/api/clinics/:clinic_id/work_items/:id(.:format),Api::WorkItemsController#update,2,200=2
+2.5.0.0.0,PATCH,/api/clinics/:clinic_id/patients/:patient_id/contact_verifications/:id(.:format),Api::ContactVerificationsController#update,2,200=2
+2.5.0.0.0,PUT,/api/clinics/:clinic_id/patients/:patient_id/contact_verifications/:id(.:format),Api::ContactVerificationsController#update,2,200=2
+2.5.0.0.0,GET,/api/clinics/:clinic_id/patients/:id(.:format),Api::PatientsController#show,3,"200=2, 404=1"
+2.5.0.0.0,POST,/api/clinics/:clinic_id/pms_refresh(.:format),Api::PmsRefreshesController#create,2,200=2
+2.5.0.0.0,POST,/api/clinics/:clinic_id/reminder_batch(.:format),Api::ReminderBatchesController#create,2,200=2
+2.5.0.0.0,POST,/api/demo_clinics/:demo_clinic_id/patients/:demo_patient_id/replies(.:format),Api::DemoRepliesController#create,1,200=1
+2.5.0.0.0,GET,/api/demo_clinics/:demo_clinic_id/patients(.:format),Api::DemoPatientsController#index,2,200=2
+2.5.0.0.0,GET,/api/demo_clinics/:demo_clinic_id/patients/:id(.:format),Api::DemoPatientsController#show,3,"200=2, 404=1"
+2.5.1.0.0,GET,/up(.:format),Rails::HealthController#show,0,
+2.5.1.0.0,GET,/api/clinics/:clinic_id/patients/:patient_id/messages(.:format),DemoMessagesController#index,3,"200=2, 404=1"
+2.5.1.0.0,POST,/api/clinics/:clinic_id/patients/:patient_id/replies(.:format),DemoRepliesController#create,2,"201=1, 404=1"
+2.5.1.0.0,GET,/api/clinics/:clinic_id/patients(.:format),DemoPatientsController#index,1,200=1
+2.5.1.0.0,GET,/api/clinics(.:format),ClinicsController#index,1,200=1
+2.5.1.0.0,POST,/api/demo_sessions(.:format),DemoSessionsController#create,12,201=12
+2.5.1.0.0,GET,/api/appointments(.:format),AppointmentsController#index,10,200=10
+2.5.1.0.0,POST,/api/work_items/:work_item_id/follow_ups(.:format),FollowUpsController#create,5,"201=2, 422=3"
+2.5.1.0.0,GET,/api/work_items(.:format),WorkItemsController#index,7,"200=6, 401=1"
+2.5.1.0.0,GET,/api/work_items/:id(.:format),WorkItemsController#show,1,200=1
+2.5.1.0.0,PATCH,/api/work_items/:id(.:format),WorkItemsController#update,2,"200=1, 404=1"
+2.5.1.0.0,PUT,/api/work_items/:id(.:format),WorkItemsController#update,1,200=1
+2.5.1.0.0,GET,/api/contacts/:id(.:format),ContactsController#show,2,"200=1, 404=1"
+2.5.1.0.0,PATCH,/api/contacts/:id(.:format),ContactsController#update,2,"200=1, 404=1"
+2.5.1.0.0,PUT,/api/contacts/:id(.:format),ContactsController#update,1,200=1
+2.5.1.0.0,POST,/api/reminder_runs(.:format),ReminderRunsController#create,1,201=1
+2.5.1.0.0,GET,/api/reports(.:format),ReportsController#index,1,200=1
+2.5.1.0.0,GET,/,WorkspaceController#show,0,
+2.5.1.1.0,GET,/up(.:format),Rails::HealthController#show,0,
+2.5.1.1.0,GET,/api/clinics/:clinic_id/dashboard(.:format),Api::DashboardsController#show,3,"200=2, 422=1"
+2.5.1.1.0,GET,/api/clinics/:clinic_id/appointments(.:format),Api::AppointmentsController#index,9,200=9
+2.5.1.1.0,POST,/api/clinics/:clinic_id/work_items/:work_item_id/assignment(.:format),Api::AssignmentsController#create,3,"200=2, 404=1"
+2.5.1.1.0,POST,/api/clinics/:clinic_id/work_items/:work_item_id/follow_ups(.:format),Api::FollowUpsController#create,6,"201=4, 422=2"
+2.5.1.1.0,POST,/api/clinics/:clinic_id/patients/:patient_id/contact_verification(.:format),Api::ContactVerificationsController#create,2,201=2
+2.5.1.1.0,GET,/api/clinics/:clinic_id/patients/:patient_id/inbox(.:format),Api::InboxesController#show,1,200=1
+2.5.1.1.0,POST,/api/clinics/:clinic_id/patients/:patient_id/replies(.:format),Api::RepliesController#create,1,201=1
+2.5.1.1.0,GET,/api/clinics/:clinic_id/patients(.:format),Api::PatientsController#index,1,200=1
+2.5.1.1.0,GET,/api/clinics/:clinic_id/patients/:id(.:format),Api::PatientsController#show,3,"200=2, 404=1"
+2.5.1.1.0,GET,/api/clinics(.:format),Api::ClinicsController#index,2,200=2
+2.5.1.1.0,GET,/api/leadership_report(.:format),Api::LeadershipReportsController#show,1,200=1

@@ -1,0 +1,8 @@
+case,statements,writes,read_result_rows,rails_records,active_record,ar_with_sql,direct_sql,transaction_commands,replica_statements,schema,cached,result
+small/reminder_batch,53,14,22,10,32,4,11,6,7,37,0,"{""sent"": 2}"
+small/calendar,12,0,14,15,11,0,1,0,0,0,1,"{""status"": 200, ""visits"": 2}"
+source_history/reminder_batch,53,14,22,10,32,4,11,6,7,0,0,"{""sent"": 2}"
+source_history/calendar,12,0,14,15,11,0,1,0,0,0,1,"{""status"": 200, ""visits"": 2}"
+larger/reminder_batch,119,80,110,54,98,4,11,6,7,0,0,"{""sent"": 24}"
+larger/calendar,12,0,124,147,11,0,1,0,0,0,1,"{""status"": 200, ""visits"": 24}"
+larger/same_clock_retry,38,6,154,75,19,4,9,6,7,0,0,"{""sent"": 0}"

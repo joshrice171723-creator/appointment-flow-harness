@@ -540,5 +540,31 @@
     "original_revision": "db037d7932b13fc4d735106e0fa199815fb2d22c",
     "application_sha256": "8fe11d55e3e55fd306ab1d101413010d0d28a1e9274333d30248bac5689244bf",
     "harness_sha256": "e90993264ee8a900e7f539b0379722117a332a082b31814be29e412943b65e40"
+  },
+  {
+    "archive": "V2.9.5.1.1-rebuild.zip",
+    "sha256": "0bab869ac422c2099a2521f5cfae1bb626fed040a5f7f3f2b31976b23e21232e",
+    "name": "V2.9.5.1.1-rebuild",
+    "scope": "Standalone full rebuild",
+    "evidence": "The input manifest and prompt match the launch receipt. Includes first and final source checkpoints plus the observed checks",
+    "started_at": "2026-11-17T07:35:24.573329+00:00",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "launch_text_sha256": "394c940d964e669e4116189804d96d99d9d95e3e2413558df819e80689aef6d3",
+    "agent_turn_completed": true,
+    "finished_at": "2026-11-17T08:45:05.715299+00:00",
+    "elapsed_seconds": 4181.1,
+    "revision": "e26f412b52c435e031e5beb40f33cbfddf652f59",
+    "initial_revision": "a0e5667b8f05550e99760987d4d6977f800e594a",
+    "input_manifest_sha256": "c1562571bb0d5c0c691674c21d809818625a9a08a35e25e9690a91d3cde6cb4a",
+    "input_archive_sha256": "d277ddc0933cf47a06a2ffa14144bde4912433a0de3a3f222174b55a67c467ca",
+    "application_sha256": "de021c97ddf8765d4a66b587bff439b020e8136d851ec1ca0f435517c47574f7",
+    "harness_sha256": "7b61c5c8aeff077c10950070bfac94a7e6159d606ce74589eafe9b04c47ec000"
   }
 ]

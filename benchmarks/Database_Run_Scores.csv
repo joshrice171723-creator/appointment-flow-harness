@@ -1,0 +1,50 @@
+comparison,run_or_stage,matched_cases,shared_cases,performance_1_to_100,automation_1_to_100,checks,scope_or_outcome
+Standard application workload,V2.7.4 Active Record rewrite,16,16,95,83,"Automated caller, Work counters, Growth fixture, Output and write effects, Active Record source check",Saved diagnostic rewrite. 44 of 44 behavior checks and plain Active Record check passed
+Standard application workload,V2.7.4 final,16,16,92,83,"Automated caller, Work counters, Growth fixture, Output and write effects, Executed query plans",44 of 44 behavior checks. Failed the plain Active Record rule
+Standard application workload,V2.7.4 initial,16,16,92,67,"Automated caller, Work counters, Growth fixture, Output and write effects",Before repair
+Standard application workload,V2.5.1.1.0 standalone,16,16,80,67,"Automated caller, Work counters, Growth fixture, Output and write effects",
+Standard application workload,V2.6.1.1.0 standalone,16,16,76,67,"Automated caller, Work counters, Growth fixture, Output and write effects",
+Standard application workload,V2.8.5 final rebuild,16,16,74,83,"Automated caller, Work counters, Growth fixture, Output and write effects, Active Record source check",42 of 44 checks. Active Record source check passed
+Standard application workload,V2.8.5 first rebuild,16,16,74,67,"Automated caller, Work counters, Growth fixture, Output and write effects",First build checkpoint. 42 of 44 checks
+Standard application workload,V2.8.5 reviewed rebuild,16,16,74,67,"Automated caller, Work counters, Growth fixture, Output and write effects",Reviewed checkpoint before final freeze
+Standard application workload,V2.7.2 initial,16,16,70,67,"Automated caller, Work counters, Growth fixture, Output and write effects",Before repair
+Standard application workload,V2.5.1.0.0 standalone,16,16,68,67,"Automated caller, Work counters, Growth fixture, Output and write effects",
+Standard application workload,V2.7.1.1.0,16,16,67,67,"Automated caller, Work counters, Growth fixture, Output and write effects",
+Standard application workload,V2.7.2 final,16,16,64,67,"Automated caller, Work counters, Growth fixture, Output and write effects",25 of 25 independent behavior checks passed
+Standard application workload,V2.7.4 scoped recipient,16,16,63,67,"Automated caller, Work counters, Growth fixture, Output and write effects",Separate recipient trial
+Standard application workload,V2.7.3 cold-write trial,16,16,62,67,"Automated caller, Work counters, Growth fixture, Output and write effects",Scoped write experiment
+Standard application workload,V2.5.0.0.0 standalone,16,16,60,67,"Automated caller, Work counters, Growth fixture, Output and write effects",
+Standard application workload,V2.7.3 scoped refresh,16,16,60,67,"Automated caller, Work counters, Growth fixture, Output and write effects",Scoped refresh experiment
+Standard application workload,V2.7.3 final,16,16,58,83,"Automated caller, Work counters, Growth fixture, Output and write effects, Executed query plans",40 of 44 independent behavior checks passed
+Standard application workload,V2.7.3 initial,16,16,58,67,"Automated caller, Work counters, Growth fixture, Output and write effects",Before repair
+Standard application workload,Original appointment-flow,16,16,48,67,"Automated caller, Work counters, Growth fixture, Output and write effects",
+"Expanded recipient, history, and standard cases",V2.7.4 Active Record rewrite,38,44,97,83,"Automated caller, Work counters, Growth fixture, Output and write effects, Active Record source check",Saved diagnostic rewrite. 44 of 44 behavior checks and plain Active Record check passed
+"Expanded recipient, history, and standard cases",V2.7.4 final,38,44,96,83,"Automated caller, Work counters, Growth fixture, Output and write effects, Executed query plans",44 of 44 behavior checks. Failed the plain Active Record rule
+"Expanded recipient, history, and standard cases",V2.7.4 initial,38,44,96,67,"Automated caller, Work counters, Growth fixture, Output and write effects",Before repair
+"Expanded recipient, history, and standard cases",V2.8.5 final rebuild,38,44,80,83,"Automated caller, Work counters, Growth fixture, Output and write effects, Active Record source check",42 of 44 checks. Active Record source check passed
+"Expanded recipient, history, and standard cases",V2.8.5 reviewed rebuild,38,44,80,67,"Automated caller, Work counters, Growth fixture, Output and write effects",Reviewed checkpoint before final freeze
+"Expanded recipient, history, and standard cases",V2.8.5 first rebuild,38,44,79,67,"Automated caller, Work counters, Growth fixture, Output and write effects",First build checkpoint. 42 of 44 checks
+"Expanded recipient, history, and standard cases",V2.7.4 scoped recipient,38,44,71,67,"Automated caller, Work counters, Growth fixture, Output and write effects",Separate recipient trial
+"Expanded recipient, history, and standard cases",V2.7.3 final,38,44,68,83,"Automated caller, Work counters, Growth fixture, Output and write effects, Executed query plans",40 of 44 independent behavior checks passed
+"Expanded recipient, history, and standard cases",V2.7.3 initial,38,44,68,67,"Automated caller, Work counters, Growth fixture, Output and write effects",Before repair
+Original-app staff appointment refactors,Isolated refactor,21,22,98,67,"Automated caller, Work counters, Growth fixture, Output and write effects",21 of 22 responses matched the original
+Original-app staff appointment refactors,First refactor,21,22,78,67,"Automated caller, Work counters, Growth fixture, Output and write effects",22 of 22 responses matched the original
+Original-app staff appointment refactors,Original,21,22,73,67,"Automated caller, Work counters, Growth fixture, Output and write effects",22 of 22 responses matched the original
+Original-app patient details and appointment history,Final,10,10,96,100,"Automated caller, Work counters, Growth fixture, Output and write effects, Executed query plans, Active Record source check",Exact responses and cursor match
+Original-app patient details and appointment history,First,10,10,87,83,"Automated caller, Work counters, Growth fixture, Output and write effects, Executed query plans",Exact responses and cursor match
+Original-app patient details and appointment history,Regraded,10,10,87,100,"Automated caller, Work counters, Growth fixture, Output and write effects, Executed query plans, Active Record source check",Exact responses and cursor match
+Original-app patient details and appointment history,Previous,10,10,66,83,"Automated caller, Work counters, Growth fixture, Output and write effects, Executed query plans",Exact responses and cursor match
+Original-app patient details and appointment history,Original,10,10,57,100,"Automated caller, Work counters, Growth fixture, Output and write effects, Executed query plans, Active Record source check",Original has handwritten SQL in the measured scope
+Patient history index trial,baseline,10,10,100,83,"Automated caller, Work counters, Growth fixture, Output and write effects, Executed query plans",This score uses the measured request counters. The report also has executed plan comparisons.
+Patient history index trial,both,10,10,100,83,"Automated caller, Work counters, Growth fixture, Output and write effects, Executed query plans",This score uses the measured request counters. The report also has executed plan comparisons.
+Patient history index trial,mirror,10,10,100,83,"Automated caller, Work counters, Growth fixture, Output and write effects, Executed query plans",This score uses the measured request counters. The report also has executed plan comparisons.
+"V2.6 staff screen, grown confirmed filter",V2.6 frozen,1,1,100,67,"Automated caller, Work counters, Growth fixture, Output and write effects",The measured response stayed the same.
+"V2.6 staff screen, grown confirmed filter",V2.6.1.2 refactor,1,1,74,67,"Automated caller, Work counters, Growth fixture, Output and write effects",The measured response stayed the same.
+"V2.6 staff screen, grown confirmed filter",Ruby review array trial,1,1,22,67,"Automated caller, Work counters, Growth fixture, Output and write effects",The measured response stayed the same.
+"V2.7 staff screen, grown review filter",V2.6 frozen,1,1,100,67,"Automated caller, Work counters, Growth fixture, Output and write effects",The measured response stayed the same.
+"V2.7 staff screen, grown review filter",V2.7 private methods and per-day counts,1,1,74,67,"Automated caller, Work counters, Growth fixture, Output and write effects",The measured response stayed the same.
+"V2.7 staff screen, grown review filter",Group by timestamp and combine in Ruby,1,1,37,67,"Automated caller, Work counters, Growth fixture, Output and write effects",The measured response stayed the same.
+V2.9.5.1.1 fixed-output growth check,small,4,4,100,100,"Automated caller, Work counters, Growth fixture, Output and write effects, Executed query plans, Active Record source check",Same build at two sizes. Separate from earlier rebuild workloads.
+V2.9.5.1.1 fixed-output growth check,grown,4,4,91,100,"Automated caller, Work counters, Growth fixture, Output and write effects, Executed query plans, Active Record source check",Same build at two sizes. Separate from earlier rebuild workloads.
+Original reminder job with additional PMS patients,mixed,2,2,100,67,"Automated caller, Work counters, Growth fixture, Output and write effects",Same original job. The first tick opens 16 tickets and the retry opens zero.
+Original reminder job with additional PMS patients,mixed_extra_patients,2,2,57,67,"Automated caller, Work counters, Growth fixture, Output and write effects",Same original job. The first tick opens 16 tickets and the retry opens zero.
