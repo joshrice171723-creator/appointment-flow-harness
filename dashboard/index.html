@@ -23,7 +23,7 @@
   <aside class="sidebar">
     <div class="mark"><span class="mark-icon" aria-hidden="true">≡</span><span>Appointment Flow<br>Harness experiment</span></div>
     <nav aria-label="Experiment pages">
-      <a href="#overview">Overview</a><a href="#database">Database audit</a><a href="#quality">Code quality</a><a href="#refactor">Refactor</a><a href="#original-refactor">Original-app refactors</a><a href="#versions">Harness versions</a><a href="#runs">Run log</a>
+      <a href="#overview">Overview</a><a href="#database">Database audit</a><a href="#reminder-job">Reminder job and PMS</a><a href="#quality">Code quality</a><a href="#refactor">Refactor</a><a href="#original-refactor">Original-app refactors</a><a href="#versions">Harness versions</a><a href="#runs">Run log</a>
     </nav>
     <div class="side-status"><span class="dot"></span>5 builds in the shared benchmark<br>Later trials in Harness versions</div>
   </aside>
@@ -55,6 +55,26 @@
     </section>
     <section id="database" class="view" hidden>
       <header class="intro"><h1>What the database did</h1><p class="lede">Rails and PostgreSQL recorded the statements for every measured run. The tables compare the original baseline and four standalone builds on the same cases.</p></header>
+      <div class="two section">
+        <article class="card"><h3>Reminder batch</h3><p>Run the app’s reminder workflow for one clinic. It reads appointment and contact data, checks eligibility and prior attempts, sends through a fake sender, and records the outcome.</p><p class="small">Patients had unique example email addresses. The clock stayed at noon Chicago time. All appointments eligible for a reminder were seven days away.</p></article>
+        <article class="card"><h3>Front Desk appointment list</h3><p>After the batch, send one authenticated HTTP GET for November 23. The request loads that date’s appointments and the status data attached to the response.</p><p class="small">This measures the Rails endpoint behind the Front Desk calendar. It excludes the browser render and the separate sign-in request.</p></article>
+      </div>
+      <article class="card section"><h2>Work to send reminders</h2><p class="small">Each measured build sent the expected 2 or 24 reminders. Repeating the 24-reminder run at the same time sent zero extra reminders.</p><div class="tablewrap"><table id="batch-table" class="wide"></table></div></article>
+      <div class="board section">
+        <article class="card"><h2>Database work for 24 sends</h2><p class="small">Each metric answers a different question about the same run.</p><div id="cost-buttons" class="segments" aria-label="Database work metric"></div><div id="cost-chart" aria-live="polite"></div></article>
+        <aside class="card side-note"><h2>Flat count, more data</h2><p>With 600 later appointments present, the two-reminder batch in V2.5.1.0.0 still used 26 statements. Rows returned to Rails grew from 13 to 1,213. V2.5.1.1.0 stayed at 10 rows because it reads appointments directly.</p><p class="small">V2.6.1.1.0 returned 611 rows on its first import and 10 on a separate retry of that case. PostgreSQL still compared 602 appointments on that retry. Rows returned measure data transfer, while a query plan shows what the database checked.</p></aside>
+      </div>
+      <article class="card section"><h2>Same two reminders, more data</h2><p class="small">In both cases the extra data produces zero additional reminders. The 600 later appointments are outside the send window and inside a wider calendar import window.</p><div class="tablewrap"><table id="growth-table" class="wide"></table></div></article>
+      <article class="card section"><h2>Front Desk appointment list</h2><div class="tablewrap"><table id="appointment-table" class="wide"></table></div></article>
+      <article class="card section"><h2>One patient reply</h2><p class="small">The test submits a valid email reply and verifies one saved confirmation. The second case adds 600 later appointments before the reply.</p><div class="tablewrap"><table id="reply-table" class="wide"></table></div></article>
+      <article class="card section"><h2>Where the SQL came from</h2><p class="small">Active Record generates SQL too. A fragment is a handwritten expression inside a Rails query. A full handwritten statement includes one sent through an adapter or through Rails with <code>find_by_sql</code>. The earlier counts come from the pinned V2.5 audit. The V2.6 counts come from its final benchmark trace.</p><div id="sql-buttons" class="segments" aria-label="SQL attribution workload"></div><div class="key"><span style="--key:#187260">Plain Active Record</span><span style="--key:#4b55a3">Active Record with SQL fragment</span><span style="--key:#a36931">Full handwritten statement</span><span style="--key:#687770">Transaction control</span></div><div id="mix-chart" aria-live="polite"></div><div id="mix-table" class="tablewrap"></div></article>
+      <div class="two section">
+        <article class="card"><h3>How much data the original imports</h3><p>The original uses Active Record for the staff appointment list and handwritten SQL for PMS import and advisory locks. The first 24-reminder run fetched <strong>9,045 bytes</strong> of replica JSON. With two reminders due and 600 later appointments, it fetched <strong>230,214 bytes</strong> and still sent just two reminders.</p><p class="small">Those byte counts cover the source JSON arrays. The reminder bodies and database storage have their own costs. The shared fixture used one clinic per case.</p></article>
+        <article class="card"><h3>Original app’s historical reporting check</h3><p>A separate leadership report test in the original app used 815 appointments and 125 issues. The project recorded that change in its own notes.</p><p class="sources"><a href="https://github.com/joshrice171723-creator/appointment-flow/blob/db037d7932b13fc4d735106e0fa199815fb2d22c/docs/performance.md">Original measurement notes</a></p></article>
+      </div>
+    </section>
+    <section id="reminder-job" class="view" hidden>
+      <header class="intro"><h1>Reminder job and PMS reads</h1><p class="lede">Follow the original app's background job from the external source through the ticket queue and fake sends. Measure each tick and its PMS transfer with the same small and grown workload.</p></header>
       <section id="original-job" class="section" aria-labelledby="original-job-title">
         <article class="card">
           <h2 id="original-job-title">How the original job turns appointments into staff work</h2>
@@ -90,23 +110,16 @@
           <p class="fine">Measured on the frozen original baseline using an isolated PostgreSQL test database and fake delivery. The shared five-build comparisons below use their own fixture with valid contacts and seven-day appointments.</p>
         </article>
       </section>
-      <div class="two section">
-        <article class="card"><h3>Reminder batch</h3><p>Run the app’s reminder workflow for one clinic. It reads appointment and contact data, checks eligibility and prior attempts, sends through a fake sender, and records the outcome.</p><p class="small">Patients had unique example email addresses. The clock stayed at noon Chicago time. All appointments eligible for a reminder were seven days away.</p></article>
-        <article class="card"><h3>Front Desk appointment list</h3><p>After the batch, send one authenticated HTTP GET for November 23. The request loads that date’s appointments and the status data attached to the response.</p><p class="small">This measures the Rails endpoint behind the Front Desk calendar. It excludes the browser render and the separate sign-in request.</p></article>
-      </div>
-      <article class="card section"><h2>Work to send reminders</h2><p class="small">Each measured build sent the expected 2 or 24 reminders. Repeating the 24-reminder run at the same time sent zero extra reminders.</p><div class="tablewrap"><table id="batch-table" class="wide"></table></div></article>
-      <div class="board section">
-        <article class="card"><h2>Database work for 24 sends</h2><p class="small">Each metric answers a different question about the same run.</p><div id="cost-buttons" class="segments" aria-label="Database work metric"></div><div id="cost-chart" aria-live="polite"></div></article>
-        <aside class="card side-note"><h2>Flat count, more data</h2><p>With 600 later appointments present, the two-reminder batch in V2.5.1.0.0 still used 26 statements. Rows returned to Rails grew from 13 to 1,213. V2.5.1.1.0 stayed at 10 rows because it reads appointments directly.</p><p class="small">V2.6.1.1.0 returned 611 rows on its first import and 10 on a separate retry of that case. PostgreSQL still compared 602 appointments on that retry. Rows returned measure data transfer, while a query plan shows what the database checked.</p></aside>
-      </div>
-      <article class="card section"><h2>Same two reminders, more data</h2><p class="small">In both cases the extra data produces zero additional reminders. The 600 later appointments are outside the send window and inside a wider calendar import window.</p><div class="tablewrap"><table id="growth-table" class="wide"></table></div></article>
-      <article class="card section"><h2>Front Desk appointment list</h2><div class="tablewrap"><table id="appointment-table" class="wide"></table></div></article>
-      <article class="card section"><h2>One patient reply</h2><p class="small">The test submits a valid email reply and verifies one saved confirmation. The second case adds 600 later appointments before the reply.</p><div class="tablewrap"><table id="reply-table" class="wide"></table></div></article>
-      <article class="card section"><h2>Where the SQL came from</h2><p class="small">Active Record generates SQL too. A fragment is a handwritten expression inside a Rails query. A full handwritten statement includes one sent through an adapter or through Rails with <code>find_by_sql</code>. The earlier counts come from the pinned V2.5 audit. The V2.6 counts come from its final benchmark trace.</p><div id="sql-buttons" class="segments" aria-label="SQL attribution workload"></div><div class="key"><span style="--key:#187260">Plain Active Record</span><span style="--key:#4b55a3">Active Record with SQL fragment</span><span style="--key:#a36931">Full handwritten statement</span><span style="--key:#687770">Transaction control</span></div><div id="mix-chart" aria-live="polite"></div><div id="mix-table" class="tablewrap"></div></article>
-      <div class="two section">
-        <article class="card"><h3>How much data the original imports</h3><p>The original uses Active Record for the staff appointment list and handwritten SQL for PMS import and advisory locks. The first 24-reminder run fetched <strong>9,045 bytes</strong> of replica JSON. With two reminders due and 600 later appointments, it fetched <strong>230,214 bytes</strong> and still sent just two reminders.</p><p class="small">Those byte counts cover the source JSON arrays. The reminder bodies and database storage have their own costs. The shared fixture used one clinic per case.</p></article>
-        <article class="card"><h3>Original app’s historical reporting check</h3><p>A separate leadership report test in the original app used 815 appointments and 125 issues. The project recorded that change in its own notes.</p><p class="sources"><a href="https://github.com/joshrice171723-creator/appointment-flow/blob/db037d7932b13fc4d735106e0fa199815fb2d22c/docs/performance.md">Original measurement notes</a></p></article>
-      </div>
+      <article class="card section" id="reminder-growth"><h2>Same 24 appointments, 2,000 more PMS patients</h2>
+        <p>Both fixtures created the same 16 tickets and 16 fake emails. The extra patients had no appointments and unique contacts.</p>
+        <div class="tablewrap"><table class="wide"><thead><tr><th scope="col">Run</th><th scope="col">Source patients</th><th scope="col">New tickets</th><th scope="col">New sends</th><th scope="col">Database statements</th><th scope="col">PMS bytes</th><th scope="col">App rows affected by refresh</th><th scope="col">Rails records loaded</th></tr></thead><tbody>
+<tr><td>First tick</td><td class="num">24</td><td class="num">16</td><td class="num">16</td><td class="num">239</td><td class="num">8,893</td><td class="num">73</td><td class="num">86</td></tr>
+<tr><td>Same-clock retry</td><td class="num">24</td><td class="num">0</td><td class="num">0</td><td class="num">88</td><td class="num">8,893</td><td class="num">1</td><td class="num">156</td></tr>
+<tr><td>First tick</td><td class="num">2,024</td><td class="num">16</td><td class="num">16</td><td class="num">239</td><td class="num">393,743</td><td class="num">2,073</td><td class="num">86</td></tr>
+<tr><td>Same-clock retry</td><td class="num">2,024</td><td class="num">0</td><td class="num">0</td><td class="num">88</td><td class="num">393,743</td><td class="num">1</td><td class="num">156</td></tr>
+        </tbody></table></div>
+        <p class="explain">Three PMS data reads fetched clinics, patients, and appointments in both fixtures. The patient response grew from 4,331 to 389,181 bytes. The first sync copied 2,000 extra patients. A retry transferred those records again and only updated the sync row.</p>
+        <p class="sources"><a href="../benchmarks/Original_Reminder_Job_PMS_Workload.csv" download>Download measured outcomes and PMS payloads by table</a></p></article>
     </section>
     <section id="quality" class="view" hidden>
       <header class="intro"><h1>What got easier to change</h1><p class="lede">Two AI reviewers compared the original and all four standalone builds in opposite orders. They both chose V2.5.1.1.0 as the app to continue from and tied it with V2.6.1.1.0 for measured database work. Readability rankings varied.</p></header>
@@ -201,6 +214,7 @@
 <tr><td>V2.7.4.1.0</td><td>Checked authoritative recipients and shared work outside the current view.</td><td><a href="../reports/V2.7.4_Candidate.md">Matched rebuild; authored SQL failed the standard</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.7.4.1.0.zip" download>Download</a></td></tr>
 <tr><td>V2.7.5.1.0</td><td>Made authored SQL a separate gate and moved query checks into each slice.</td><td><a href="../reports/PATIENT_APPOINTMENTS_MIRROR_INDEX.md">Scoped original-app refactor and index trial</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.7.5.1.0.zip" download>Download</a></td></tr>
 <tr><td>V2.8.4.1.0</td><td>Added an explicit check for the event that sets a time-dependent decision.</td><td><a href="../reports/Harness_Autonomous_Experiment_Plan.md">Packaged design, build unverified</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.8.4.1.0.zip" download>Download</a></td></tr>
+<tr><td>V2.8.5.1.1</td><td>Restored the Active Record checker and added executed-plan and existing-code checks.</td><td>Candidate package</td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.8.5.1.1.zip" download>Download</a></td></tr>
 <tr><td>V3</td><td>Parallel early harness with broader Rails and React guides.</td><td><a href="../reports/Appointment_Flow_All_Versions_Review.md">Historical source review</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V3.zip" download>Download</a></td></tr>
 <tr><td>V3.1.1</td><td>Added structured AI review to the V3 family. The preserved input was labeled V4.</td><td><a href="../reports/Appointment_Flow_All_Versions_Review.md">Historical source review</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V3.1.1.zip" download>Download</a></td></tr>
       </tbody></table></div></article>
@@ -499,10 +513,10 @@ node("run-table").innerHTML=table(["Build time (minutes)","Rails tests / asserti
   b.api ?? "—",
   b.rev ? `<code>${b.rev}</code>` : status("Waiting for the build")
 ]);
-const routes=["overview","database","quality","refactor","original-refactor","versions","runs"];
+const routes=["overview","database","reminder-job","quality","refactor","original-refactor","versions","runs"];
 function navigate(){
   const requested = location.hash.substring(1);
-  const current = requested === "original-job" ? "database" : requested === "graded-workflows" ? "quality" : routes.includes(requested) ? requested : "overview";
+  const current = requested === "original-job" ? "reminder-job" : requested === "graded-workflows" ? "quality" : routes.includes(requested) ? requested : "overview";
   for(const id of routes) node(id).hidden=id!==current;
   for(const link of document.querySelectorAll("nav a")){
     if(link.hash==="#"+current) link.setAttribute("aria-current","page");
