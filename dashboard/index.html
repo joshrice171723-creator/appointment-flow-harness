@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Appointment Flow · Harness experiment</title>
+<style>
+  :root{--paper:#f5f4ee;--surface:#fffefa;--ink:#182722;--muted:#516159;--rule:#dedfd4;--dark:#142922;--soft:#dce5d9;--green:#1d6955;--base:#7b5a4c;--perf:#187260;--loop:#4b55a3;--gold:#96601c;--radius:15px}
+  *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 Geist,Inter,system-ui,sans-serif}a{color:var(--green);text-underline-offset:3px}a:hover{color:#0c4636}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #cb8840;outline-offset:4px}[hidden]{display:none!important}
+  .layout{display:grid;grid-template-columns:229px minmax(0,1fr);min-height:100vh}.sidebar{position:sticky;top:0;align-self:start;min-height:100vh;background:var(--dark);color:#f6f6eb;padding:35px 22px;display:flex;flex-direction:column}.mark{display:flex;gap:11px;align-items:center;font-size:14px;font-weight:680;line-height:1.25}.mark-icon{display:grid;place-content:center;width:31px;height:31px;border:1px solid #80ab98;border-radius:8px;color:#a8dec4;font-size:17px}.sidebar nav{margin-top:49px;display:grid;gap:7px}.sidebar nav a{padding:10px 12px;color:#cbd9cf;text-decoration:none;border-radius:7px;font-size:14px}.sidebar nav a[aria-current="page"]{color:#fff;background:#28483d;font-weight:650}.sidebar nav a:hover{background:#244137}.side-status{margin-top:auto;padding:28px 8px 4px;color:#bbd0c2;font-size:12px;line-height:1.55}.dot{display:inline-block;width:7px;height:7px;background:#73c09d;border-radius:50%;margin-right:7px}
+  main{min-width:0;max-width:1460px;width:100%;padding:32px min(4vw,58px) 62px;margin:auto}.mast{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--rule);padding:0 0 14px;color:var(--muted);font-size:12px}.intro{margin:34px 0 22px}.eyebrow{font-weight:650;letter-spacing:.095em;text-transform:uppercase;font-size:11px;color:var(--green)}h1,h2,h3,p{margin-top:0}h1{font:500 clamp(39px,5.5vw,75px)/.99 Georgia,"Instrument Serif",serif;letter-spacing:-.055em;margin:.25em 0 .27em;max-width:850px}h2{font:500 clamp(26px,3vw,38px)/1.12 Georgia,serif;letter-spacing:-.034em;margin-bottom:9px}h3{font-size:16px;margin-bottom:6px;letter-spacing:-.01em}p{margin-bottom:13px}.lede{font-size:16px;color:var(--muted);max-width:74ch}.small{font-size:13px;color:var(--muted)}.fine{font-size:12px;color:var(--muted)}.label{font-size:12px;font-weight:650;color:var(--muted)}.section{margin:24px 0}.card{background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);padding:22px;min-width:0}.card p:last-child{margin-bottom:0}.card strong{font-weight:720}.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.summary .card{padding:17px 18px}.metric{display:block;font-size:clamp(25px,3.1vw,39px);letter-spacing:-.065em;font-weight:690;line-height:1.06;margin:8px 0;font-variant-numeric:tabular-nums}
+  .board{display:grid;grid-template-columns:minmax(0,1.74fr) minmax(245px,1fr);gap:14px}.chart{padding:22px 22px 18px}.chart-head{display:flex;justify-content:space-between;gap:12px;align-items:start}.chart h2{margin:0 0 5px}.segments{display:flex;flex-wrap:wrap;gap:6px;margin:13px 0 10px}.segments button{border:1px solid var(--rule);background:var(--surface);border-radius:7px;padding:5px 9px;font-size:12px;color:var(--muted)}.segments button[aria-pressed="true"]{background:#e3eee5;border-color:#a5bdaf;color:#164e3f;font-weight:700}.bars{display:grid;gap:13px;margin:15px 0 11px}.bar-row{display:grid;grid-template-columns:minmax(80px,120px) minmax(0,1fr) 41px;gap:10px;align-items:center;font-size:13px}.track{position:relative;display:flex;height:23px;background:repeating-linear-gradient(90deg,#f0efe9 0,#f0efe9 calc(25% - 1px),#d8dbd2 calc(25% - 1px),#d8dbd2 25%);border-radius:4px;overflow:hidden}.bar{height:100%;min-width:0;border-radius:4px}.bar-row strong{text-align:right;font-variant-numeric:tabular-nums}.axis{margin-left:min(130px,30%);margin-right:49px;display:flex;justify-content:space-between;color:var(--muted);font-size:10px}.explain{margin-top:14px;border-top:1px solid var(--rule);padding-top:11px;font-size:13px;color:var(--muted)}.side-note{background:#e7eee2;border-color:#d6e2d4}.side-note h2{font-size:28px}.point{border-bottom:1px solid #cad9cd;padding:12px 0}.point:last-child{border:0;padding-bottom:0}.point span{display:block;font-size:13px;color:var(--muted)}
+  .tablewrap{overflow:auto}.wide{width:100%;border-collapse:collapse;text-align:left;font-size:13px;min-width:570px}.wide th{color:var(--muted);font-size:11px;font-weight:650;line-height:1.4}.wide th,.wide td{border-bottom:1px solid var(--rule);padding:12px 11px 12px 0;vertical-align:top}.wide tbody tr:last-child td{border-bottom:none}.wide td:first-child{font-weight:660}.wide td.num{text-align:right;padding-right:18px;font-variant-numeric:tabular-nums}.wide caption{caption-side:bottom;text-align:left;color:var(--muted);margin-top:10px;font-size:12px}.tag{display:inline-flex;align-items:center;background:#e3eee5;color:#235b49;border-radius:20px;padding:3px 8px;white-space:nowrap;font-size:11px;font-weight:660}.tag.pending{background:#f2e8d5;color:#795019}.tag.original{background:#eee6dc;color:#684b3c}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.path{font-family:ui-monospace,monospace;font-size:12px;overflow-wrap:anywhere}.next{margin-top:18px}.decision{border-left:4px solid var(--perf)}.rank{font-size:12px;font-weight:700;padding:0 8px 0 0;color:var(--green)}.sequence{list-style:none;margin:10px 0 0;padding:0}.sequence li{position:relative;border-left:2px solid #b5cbbc;margin:0 0 0 8px;padding:0 0 14px 15px}.sequence li:before{content:"";position:absolute;left:-5px;top:6px;background:var(--green);border-radius:50%;height:8px;width:8px}.sequence li:last-child{padding-bottom:0}.key{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12px;color:var(--muted);margin:12px 0}.key span:before{content:"";display:inline-block;width:9px;height:9px;background:var(--key);border-radius:2px;margin-right:5px}.splitbar .bar{border-radius:0}.splitbar .bar+.bar{border-left:1px solid var(--surface)}code{font-family:ui-monospace,monospace;font-size:.9em;overflow-wrap:anywhere}.sources a{display:inline-block;margin:2px 14px 3px 0}.progress{height:8px;background:#e7eadf;border-radius:6px;overflow:hidden;margin:7px 0 9px}.progress span{display:block;height:100%;background:var(--green)}
+  @media(max-width:950px){.layout{grid-template-columns:179px minmax(0,1fr)}.sidebar{padding:27px 15px}main{padding-inline:25px}.board{grid-template-columns:1fr}.sidebar nav{margin-top:36px}}
+  .metric.project{font-size:clamp(16px,2.25vw,32px);overflow-wrap:anywhere}
+  .bar-row{grid-template-columns:minmax(126px,155px) minmax(0,1fr) 38px}.axis{margin-left:165px;margin-right:48px}.build-label{line-height:1.25;overflow-wrap:anywhere}.build-label strong{text-align:left}.build-label small{display:block;font-size:11px;color:var(--muted);margin-top:2px;font-weight:500}.bar-row .missing{grid-column:2/-1;padding:3px 8px;border:1px dashed #cacdc1;border-radius:5px;background:#f8f7f1;color:var(--muted);font-size:12px}.wide tr[data-build="original"] td{background:#f4efe7}.wide td:first-child,.wide th:first-child{min-width:132px;padding-left:8px}.status-text{color:var(--muted);font-weight:450;font-size:12px}.group-gap{margin-top:4px;padding-top:6px;border-top:1px solid var(--rule)}.snapshot{grid-template-columns:1fr 1fr}.snapshot .card{padding:16px 18px}
+  @media(max-width:630px){.layout{display:block}.sidebar{min-height:0;position:static;padding:16px 15px 13px}.sidebar nav{display:flex;gap:3px;overflow:auto;margin:12px 0 0}.sidebar nav a{font-size:12px;white-space:nowrap;padding:7px 8px}.side-status{display:none}main{padding:16px 13px 36px}.mast{font-size:10px}.intro{margin-top:25px}.card{padding:16px}.summary{gap:7px}.summary .card{padding:11px}.summary .fine{font-size:11px}.two,.snapshot{grid-template-columns:1fr}.bar-row{grid-template-columns:104px minmax(0,1fr) 43px;gap:6px}.axis{margin-left:110px;margin-right:49px}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="mark"><span class="mark-icon" aria-hidden="true">≡</span><span>Appointment Flow<br>Harness experiment</span></div>
+    <nav aria-label="Experiment pages">
+      <a href="#overview">Overview</a><a href="#database">Database audit</a><a href="#quality">Code quality</a><a href="#refactor">Refactor</a><a href="#versions">Harness versions</a><a href="#runs">Run log</a>
+    </nav>
+    <div class="side-status"><span class="dot"></span>5 builds benchmarked<br>3 RubyMine AIR builds pending</div>
+  </aside>
+  <main>
+    <div class="mast"><span>Rails / React rebuild comparison</span><span>16 Nov 2026 · PostgreSQL 17.11</span></div>
+    <section id="overview" class="view">
+      <header class="intro"><h1>Appointment Flow comparison</h1><p class="lede">The original <strong>appointment-flow</strong> is the baseline. Every comparison shows it first, followed by four standalone Codex builds and the three prepared RubyMine AIR builds.</p></header>
+      <div class="summary snapshot" aria-label="What has been measured">
+        <article class="card"><div class="label">Baseline · original project</div><strong class="metric project">appointment-flow</strong><span class="small">Source reviewed. The same database test is complete.</span></article>
+        <article class="card"><div class="label">Same database test completed</div><strong class="metric">5 of 8</strong><span class="small">The original plus V2.5.0.0.0, V2.5.1.0.0, V2.5.1.1.0, and V2.6.1.1.0. All five passed the same 16 checks.</span></article>
+      </div>
+      <div class="board section">
+        <article class="card chart"><div class="chart-head"><div><h2>Database work to send reminders</h2><p class="small">One clinic, one complete run. Choose a case and a measure to compare all eight builds.</p></div></div>
+          <div id="workload-buttons" class="segments" aria-label="Reminder workload"></div>
+          <div id="workload-metric-buttons" class="segments" aria-label="Reminder work metric"></div>
+          <div id="workload-chart" aria-live="polite"></div>
+        </article>
+        <aside class="card side-note"><h2>Why the counts differ</h2>
+          <div class="point"><strong>appointment-flow · original baseline</strong><span>The first 24-reminder run made 119 statements. It saved one message, one reminder-purpose row, and one activity event per send. <a href="#original-job">See how the job creates staff tickets</a>.</span></div>
+          <div class="point"><strong>V2.5.0.0.0 · Standalone Codex</strong><span>Patient, visit, and delivery writes repeat for each appointment. Checking whether a contact address is shared adds more reads.</span></div>
+          <div class="point"><strong>V2.5.1.0.0 · Standalone Codex</strong><span>The app saves patients, visits, and reminders in groups. The same number of statements can carry more rows.</span></div>
+          <div class="point"><strong>V2.5.1.1.0 · Standalone Codex</strong><span>It reads appointments directly from the source. It still writes a separate message row for each reminder.</span></div>
+          <div class="point"><strong>V2.6.1.1.0 · Standalone Codex</strong><span>It groups reminder writes and sends 24 reminders in 18 statements. The first run also imports later appointments into its local calendar.</span></div>
+          <div class="point"><strong>RubyMine AIR · waiting to start</strong><span>V2.5.0.0.0, V2.5.1.0.0, and V2.5.1.1.0 each have a prepared project.</span></div>
+        </aside>
+      </div>
+      <article class="card section"><h2>What changed in V2.6.1.1.0</h2><p>The implementation check cut the unchanged retry from <strong>2,410 to 8 rows returned to Rails</strong> in a separate 1,200-appointment fixture. Independent review brought the leadership report from <strong>183 to 6 queries</strong> at 60 clinics. The shared benchmark then cut the 24-reminder batch from <strong>41 to 18 statements</strong> by grouping its writes.</p><p class="sources"><a href="../reports/V2.6_Run_Report.md">How each change was verified</a></p></article>
+      <article class="card section"><h2>All eight builds</h2><div class="tablewrap"><table id="build-table" class="wide"></table></div></article>
+    </section>
+    <section id="database" class="view" hidden>
+      <header class="intro"><h1>What the database did</h1><p class="lede">Rails and PostgreSQL recorded the statements for every measured run. Each table shows the original baseline, the standalone Codex builds, and the RubyMine AIR builds. The status tells you which tests are still waiting.</p></header>
+      <section id="original-job" class="section" aria-labelledby="original-job-title">
+        <article class="card">
+          <h2 id="original-job-title">How the original job turns appointments into staff work</h2>
+          <p>Appointment Flow keeps front-desk staff informed when patients cannot be reached or still need to confirm. Its Sidekiq worker runs at startup and every five minutes. It keeps appointment facts current, updates the work queue, and sends reminders when a clinic is due.</p>
+          <ol class="sequence">
+            <li><strong>Set up the demo replica.</strong> <code>setup_replica.rb</code> creates a separate PostgreSQL database, runs the PMS migrations, and loads fictional clinic, patient, and appointment records. Setup uses a writable connection and grants the runtime reader SELECT access. This is the demo’s stand-in for the scheduling system’s replica.</li>
+            <li><strong>Refresh the app’s local copy.</strong> Each tick reads all replica clinics and patients. Appointment reads normally start at the beginning of the previous month and also include tracked appointment IDs that may have moved outside the range. PostgreSQL returns one JSON array per table. Rails parses and bulk upserts those facts into the app database, skips rewriting unchanged source rows, and records the last successful sync. Sends are suppressed if refresh fails.</li>
+            <li><strong>Work out what needs attention.</strong> The app reconciles its local visits against the refreshed appointment facts. If a visit changes, the job can retire the old visit and close follow-ups that no longer apply. It checks each relevant current visit for a usable, permitted contact and whether the patient still needs to respond.</li>
+            <li><strong>Save staff work and record reminders.</strong> The app writes its results to its own database. A database lock and a once-per-day marker protect each clinic’s sends. Subsequent ticks still refresh and maintain the queue even if today’s sends are already complete.</li>
+          </ol>
+          <p class="small">The front-desk page reads cases already in the app database. If the assessment demo history is enabled, setup also replays synthetic reminders, replies, and staff actions, so some tickets or their history can already exist before the worker starts.</p>
+          <p class="sources"><a href="https://github.com/joshrice171723-creator/appointment-flow/tree/db037d7932b13fc4d735106e0fa199815fb2d22c/backend">Original source used in this audit</a></p>
+        </article>
+        <div class="two section">
+          <article class="card"><h3>What opens a ticket</h3><p><strong>Contact issue.</strong> A visit is due for outreach but the app cannot safely message the patient. Examples include a missing address, a contact conflict, or a restricted channel.</p><p><strong>No-response issue.</strong> The patient can be contacted, the appointment is within 48 hours, and the job sees neither a confirmation nor a handled response. This rule can open an issue on the first tick when a visit is close enough.</p><p><strong>Delivery issue.</strong> The sender reports a failed attempt. Patient replies that need clarification can open review work through the reply workflow.</p><p class="small">The app stores the reason on an issue tied to a visit and groups issues in one front-desk case per patient and clinic. It reuses an existing issue for the same visit and reason category, reopening or updating it when necessary, and records an activity event for a new issue.</p></article>
+          <article class="card"><h3>What a reminder writes</h3><p>The job chooses SMS or email, formats the appointment time and clinic, and asks for confirmation or help when appropriate. The demo uses a fake sender and stores each attempt. A message can cover more than one purpose, such as an initial request and a day-before reminder.</p><p>Each attempt records a message with its delivery status, one or more rows linking it to its reminder purposes, and an activity event. The patient’s reply is a separate request.</p><p class="small">In the shared 24-due first run, the original persisted 24 messages, 24 purpose rows, and 24 activity events. Every synthetic patient had usable email and was seven days out, so no staff tickets were created. That run made 119 statements and affected 170 rows across the job.</p></article>
+        </div>
+        <article class="card section" id="original-ticket-workload">
+          <h3>Measured first run with tickets and reminders</h3>
+          <p>A separate test ran the original job at noon for one clinic with 24 fictional appointments. Eight were seven days out with valid email, eight were the next day with valid email and no response on record, and eight were seven days out with no usable contact.</p>
+          <div class="two">
+            <div>
+              <p><strong>First tick.</strong> The original opened <strong>16 tickets</strong> for 16 patients. Eight were contact issues and eight were no-response issues. The ticket work wrote 16 case rows, 16 issue rows, and 16 issue-opening activity events.</p>
+              <p>It also recorded <strong>16 simulated emails</strong>, 24 reminder-purpose rows, and 16 delivery activity events. Each email body was <strong>108 bytes</strong>, or <strong>1,728 bytes</strong> of body text in total. That excludes message metadata and delivery-provider overhead.</p>
+              <p class="small">The whole tick made 239 database statements, including 104 write statements. It affected 202 rows, returned 171 rows to Rails, and instantiated 86 Rails models.</p>
+            </div>
+            <div>
+              <p><strong>Same-clock retry.</strong> The job created <strong>zero new tickets and zero new messages</strong>. It still read the source and checked the existing queue. The 88 database statements included six write statements. Only the last-sync row was affected.</p>
+              <p>Rails instantiated 156 models on retry, including 64 visit objects and 48 follow-up issue objects. Repeated loads count each time, so the number can rise as the app has more existing work to check.</p>
+              <p class="small">Each tick fetched 8,893 bytes of replica JSON across three reads. Seven replica statements, including connection-level transaction commands, are already included in each total.</p>
+            </div>
+          </div>
+          <p class="fine">Measured on the frozen original baseline using an isolated PostgreSQL test database and fake delivery. The shared eight-build comparisons below use their own fixture with valid contacts and seven-day appointments.</p>
+        </article>
+      </section>
+      <div class="two section">
+        <article class="card"><h3>Reminder batch</h3><p>Run the app’s reminder workflow for one clinic. It reads appointment and contact data, checks eligibility and prior attempts, sends through a fake sender, and records the outcome.</p><p class="small">Patients had unique example email addresses. The clock stayed at noon Chicago time. All appointments eligible for a reminder were seven days away.</p></article>
+        <article class="card"><h3>Front Desk appointment list</h3><p>After the batch, send one authenticated HTTP GET for November 23. The request loads that date’s appointments and the status data attached to the response.</p><p class="small">This measures the Rails endpoint behind the Front Desk calendar. It excludes the browser render and the separate sign-in request.</p></article>
+      </div>
+      <article class="card section"><h2>Work to send reminders</h2><p class="small">Each measured build sent the expected 2 or 24 reminders. Repeating the 24-reminder run at the same time sent zero extra reminders.</p><div class="tablewrap"><table id="batch-table" class="wide"></table></div></article>
+      <div class="board section">
+        <article class="card"><h2>Database work for 24 sends</h2><p class="small">Each metric answers a different question about the same run.</p><div id="cost-buttons" class="segments" aria-label="Database work metric"></div><div id="cost-chart" aria-live="polite"></div></article>
+        <aside class="card side-note"><h2>Flat count, more data</h2><p>With 600 later appointments present, the two-reminder batch in V2.5.1.0.0 still used 26 statements. Rows returned to Rails grew from 13 to 1,213. V2.5.1.1.0 stayed at 10 rows because it reads appointments directly.</p><p class="small">V2.6.1.1.0 returned 611 rows on its first import and 10 on a separate retry of that case. PostgreSQL still compared 602 appointments on that retry. Rows returned measure data transfer, while a query plan shows what the database checked.</p></aside>
+      </div>
+      <article class="card section"><h2>Same two reminders, more data</h2><p class="small">In both cases the extra data produces zero additional reminders. The 600 later appointments are outside the send window and inside a wider calendar import window.</p><div class="tablewrap"><table id="growth-table" class="wide"></table></div></article>
+      <article class="card section"><h2>Front Desk appointment list</h2><div class="tablewrap"><table id="appointment-table" class="wide"></table></div></article>
+      <article class="card section"><h2>One patient reply</h2><p class="small">The test submits a valid email reply and verifies one saved confirmation. The second case adds 600 later appointments before the reply.</p><div class="tablewrap"><table id="reply-table" class="wide"></table></div></article>
+      <article class="card section"><h2>Where the SQL came from</h2><p class="small">Active Record generates SQL too. A fragment is a handwritten expression inside a Rails query. A full handwritten statement includes one sent through an adapter or through Rails with <code>find_by_sql</code>. The earlier counts come from the pinned V2.5 audit. The V2.6 counts come from its final benchmark trace.</p><div id="sql-buttons" class="segments" aria-label="SQL attribution workload"></div><div class="key"><span style="--key:#187260">Plain Active Record</span><span style="--key:#4b55a3">Active Record with SQL fragment</span><span style="--key:#a36931">Full handwritten statement</span><span style="--key:#687770">Transaction control</span></div><div id="mix-chart" aria-live="polite"></div><div id="mix-table" class="tablewrap"></div></article>
+      <div class="two section">
+        <article class="card"><h3>How much data the original imports</h3><p>The original uses Active Record for the staff appointment list and handwritten SQL for PMS import and advisory locks. The first 24-reminder run fetched <strong>9,045 bytes</strong> of replica JSON. With two reminders due and 600 later appointments, it fetched <strong>230,214 bytes</strong> and still sent just two reminders.</p><p class="small">Those byte counts cover the source JSON arrays. The reminder bodies and database storage have their own costs. The shared fixture used one clinic per case.</p></article>
+        <article class="card"><h3>Original app’s historical reporting check</h3><p>A separate leadership report test in the original app used 815 appointments and 125 issues. The project recorded that change in its own notes.</p><p class="sources"><a href="https://github.com/joshrice171723-creator/appointment-flow/blob/db037d7932b13fc4d735106e0fa199815fb2d22c/docs/performance.md">Original measurement notes</a></p></article>
+      </div>
+    </section>
+    <section id="quality" class="view" hidden>
+      <header class="intro"><h1>What got easier to change</h1><p class="lede">Two AI reviewers compared the original and all four standalone builds in opposite orders. They both chose V2.5.1.1.0 as the app to continue from and tied it with V2.6.1.1.0 for measured database work. Readability rankings varied.</p></header>
+      <article class="card section"><h2>V2.7 rubric applied to the frozen V2.6 build</h2><p><strong>REVISE.</strong> Five criteria passed and three require changes. V2.6.1.1.0 uses handwritten SQL and Arel, keeps several screen decisions inline in controller actions, and can report successful sync for an older open task whose PMS appointment disappeared.</p><p class="small">The 29-test Rails suite and the new calendar filter check passed. The missing-source test exercised a path those tests had missed. <a href="../reports/V2.7_Regrade_of_V2.6.md">Read the evidence for each grade</a>.</p></article>
+      <article class="card section"><h2>Strengths, costs, and review status</h2><div class="tablewrap"><table id="quality-table" class="wide"></table></div></article>
+      <article class="card section"><h2>Where the reminder workflow starts</h2><div class="tablewrap"><table id="workflow-table" class="wide"></table></div></article>
+    </section>
+    <section id="refactor" class="view" hidden>
+      <header class="intro"><h1>Refactor experiment</h1><p class="lede">Both trials start with the same staff appointment controller from the frozen V2.6.1.1.0 app. The full V2.7 rebuild starts from the assignment in a separate workspace.</p></header>
+      <div class="two section">
+        <article class="card"><h2>Staff appointment controller</h2><p><strong>REVISE.</strong> The action now reads in order and gives its filters, counts, and review flags named private methods. All four endpoint filters passed on the same 201-visit fixture.</p><p>The weekly view takes <strong>13 reads instead of 8</strong>. It replaces one grouped SQL query with six Active Record counts and reuses the selected day's total. The review filter still uses one SQL expression. Pulling the candidate arrays into Ruby transferred 10,017 rows with 10,000 unrelated reviews, compared with 14 using the retained query.</p><p class="sources">See the actual controller diff<a href="../reports/V2.7_Staff_Appointments_Refactor.md">Before-and-after results</a><a href="../reports/V2.7.1.1.1_Refactor_Mode.md">Refactor instructions</a></p></article>
+        <article class="card"><h2>Full V2.7 clean-room rebuild</h2><p><strong>Frozen and benchmarked.</strong> V2.7.1.1.0 passed seven configured checks, two browser scenarios, and all 16 shared workload checks after repairs. With 600 later appointments present, both V2.6 and V2.7 confirmed the intended appointment. The database returned 9 rows to V2.6, 609 to the first V2.7 checkpoint, and 608 to the final V2.7 build.</p><p class="sources"><a href="../reports/V2.7_Clean_Room_Comparison.md">Build comparison</a> · <a href="../benchmarks/V2.7_Compared_Workload.csv" download>Measured workloads</a> · <a href="../packages/Apex_Appointment_Flow_Harness_V2.7.1.1.0.zip" download>V2.7 clean-room package</a></p></article>
+      </div>
+      <article class="card section"><h2>Second refactor trial · V2.6.1.2</h2><p><strong>REVISE.</strong> The structure-only change preserved the original results and read counts. The trial also tested plain Active Record for weekly totals and for the review lookup. The final controller returned the same appointment list and kept one SQL expression for the review lookup.</p><p>On a fixture with 500 additional out-of-day reviews and 500 additional weekly appointment times, the frozen V2.6 confirmed tab used 8 reads and returned 10 rows to Rails. The refactor used 13 reads and returned 13 rows. The alternative plain Active Record review lookup used 14 reads and returned 514 rows. All three returned the same confirmed appointment.</p><p class="sources"><a href="../reports/V2.6.1.2_Refactor_Harness.md">Second refactor harness</a> · <a href="../reports/V2.6.1.2_Staff_Appointments_Result.md">Second refactor results</a></p></article>
+      <article class="card section"><h2>Original app refactor · V2.7.2.1.0</h2><p><strong>Both trials compared.</strong> The first copy contained old project guidance. The second excluded it before launch. On 22 common requests, the first refactor matched all original responses and the isolated refactor matched 21. The difference concerns whether a confirmation committed during a read appears immediately.</p><p>For the same dated view with added history, the original returned 1,852 database rows, the first refactor 41, and the isolated refactor 31. With 300 past visits added to the undated view, the counts were 314, 322, and 14. The isolated version reduced work but added complex time-zone filtering. Both remain REVISE under the strict harness. These two runs do not establish that removing old guidance caused the differences.</p><p class="sources"><a href="../reports/V2.7.2_Refactor_Isolation_Comparison.md">Two-trial comparison and decision</a> · <a href="../benchmarks/V2.7.2_Refactor_Comparison.csv" download>All measured responses</a> · <a href="../reports/V2.7.2_Original_Refactor_Result.md">First trial results</a></p></article>
+    </section>
+    <section id="versions" class="view" hidden>
+      <header class="intro"><h1>Harness versions</h1><p class="lede">Compare the instructions, evidence, and version decisions across the experiment.</p></header>
+      <article class="card section"><h2>Later matched rebuilds</h2><p>The original app remains the historical control. This exact workload was run on the two later rebuilds.</p>
+      <div class="tablewrap"><table class="wide"><thead><tr><th>Build</th><th>Exact outcomes</th><th>Statements for two sends with 600 later appointments</th><th>Decision</th></tr></thead><tbody>
+      <tr data-build="original"><td>appointment-flow</td><td>Unmeasured on this suite</td><td>—</td><td>Historical control</td></tr>
+      <tr><td>V2.7.3.1.0</td><td>40 of 44</td><td>1,228</td><td>Working baseline. Recipient-safety and growth gaps remain.</td></tr>
+      <tr><td>V2.7.4.1.0</td><td>44 of 44</td><td>16</td><td>Authored SQL in views and functions failed the Active Record rule.</td></tr>
+      </tbody></table></div></article>
+      <article class="card section"><h2>Patient appointment refactor</h2><p>V2.7.5.1.0 exercised the original app in a disposable clone. All 330 measured GETs returned the same bodies and cursors across index variants. Only the app database received indexes.</p>
+      <div class="tablewrap"><table class="wide"><thead><tr><th>Database operation in the original-app refactor</th><th>Existing indexes</th><th>Two app-owned indexes</th></tr></thead><tbody>
+      <tr><td>Tracked-only source lookup</td><td>Scans and rejects 5,577 mirror rows</td><td>Index seek with zero heap fetches</td></tr>
+      <tr><td>Load two tracked visits</td><td>176 shared PostgreSQL buffer hits</td><td>3 shared buffer hits</td></tr>
+      </tbody></table></div><p class="explain">Full-request growth remains REVISE. The clinic membership check and one upcoming-history join still scan unrelated rows.</p></article>
+      <article class="card section"><h2>Release archive</h2><label for="version-filter" class="label">Filter by version, change, or evidence</label><br>
+      <input id="version-filter" type="search" style="font:inherit;max-width:100%;margin:5px 0 14px;padding:6px 10px;border:1px solid var(--rule);border-radius:6px" aria-controls="version-rows">
+      <div class="tablewrap"><table class="wide"><thead><tr><th>Version</th><th>Design change</th><th>Evidence</th><th>Archive</th></tr></thead><tbody id="version-rows">
+<tr><td>Original appointment-flow</td><td>Historical product baseline built over roughly a week.</td><td><a href="../reports/V2.6_Run_Report.md">Measured control</a></td><td><a href="../snapshots/Appointment-Flow-V1.zip" download>Download</a></td></tr>
+<tr><td>V2</td><td>Chosen as the code-quality baseline after inspecting real workflows.</td><td><a href="../reports/Appointment_Flow_All_Versions_Review.md">Historical source review</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.zip" download>Download</a></td></tr>
+<tr><td>V2.1</td><td>Added query selectivity, explicit workflow stages, and meaningful failure contracts.</td><td><a href="../reports/Appointment_Flow_Harness_Progress.md">Historical build</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.1.zip" download>Download</a></td></tr>
+<tr><td>V2.1.1</td><td>Packaged the first AI grade, repair, and regrade loop.</td><td><a href="../reports/Appointment_Flow_Harness_Progress.md">Skipped in testing</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.1.1.zip" download>Download</a></td></tr>
+<tr><td>V2.2</td><td>Revised simplification guidance after meaningful service stages disappeared.</td><td><a href="../reports/Appointment_Flow_Harness_Regression_Log.md">Historical build</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.2.zip" download>Download</a></td></tr>
+<tr><td>V2.3.0.0.0</td><td>Made entry points, private stages, and failure paths explicit.</td><td><a href="../reports/Appointment_Flow_All_Versions_Review.md">Historical build</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.3.0.0.0.zip" download>Download</a></td></tr>
+<tr><td>V2.4.0.0.0</td><td>Revised review wording and separated reference implementations from builder inputs.</td><td><a href="../reports/Appointment_Flow_Harness_Progress.md">Historical build</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.4.0.0.0.zip" download>Download</a></td></tr>
+<tr><td>V2.4.1.1.0</td><td>Added performance checks and AI grading to the V2.4 base.</td><td><a href="../reports/Appointment_Flow_All_Versions_Review.md">Historical build and scoped measurements</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.4.1.1.0.zip" download>Download</a></td></tr>
+<tr><td>V2.5.0.0.0</td><td>Returned to the V2 base and controlled the standalone launch settings.</td><td><a href="../reports/V2.5_Family_Ranking_and_Benchmarks.md">Standalone measured; AIR prepared</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.5.0.0.0.zip" download>Download</a></td></tr>
+<tr><td>V2.5.1.0.0</td><td>Added growth measurements and audited query paths against the Rails guide.</td><td><a href="../reports/V2.5.1.0.0_Active_Record_Audit.md">Standalone measured; AIR prepared</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.5.1.0.0.zip" download>Download</a></td></tr>
+<tr><td>V2.5.1.1.0</td><td>Required AI grading, repair, and regrading in the performance variant.</td><td><a href="../reports/V2.5_Variant_Comparison.md">Standalone measured; AIR prepared</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.5.1.1.0.zip" download>Download</a> · <a href="../packages/Apex_Appointment_Flow_Harness_V2.5.1.1.0-variant-input.zip" download>Variant input</a></td></tr>
+<tr><td>V2.6.1.1.0</td><td>Measured growing work during implementation and verified a disposable rule change.</td><td><a href="../reports/V2.6_Run_Report.md">Matched rebuild and follow-up</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.6.1.1.0.zip" download>Download</a></td></tr>
+<tr><td>V2.6.1.2</td><td>Separated structure changes from query changes and required equivalent responses.</td><td><a href="../reports/V2.6.1.2_Staff_Appointments_Result.md">Scoped refactor overlay</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.6.1.2-overlay.zip" download>Download</a></td></tr>
+<tr><td>V2.7.1.1.0</td><td>Set Rails ownership rules and tightened evidence for plain Active Record.</td><td><a href="../reports/V2.7_Clean_Room_Comparison.md">Matched rebuild</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.7.1.1.0.zip" download>Download</a></td></tr>
+<tr><td>V2.7.1.1.1</td><td>Applied the V2.7 rules to an existing appointment controller.</td><td><a href="../reports/V2.7_Staff_Appointments_Refactor.md">Scoped refactor overlay</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.7.1.1.1-overlay.zip" download>Download</a></td></tr>
+<tr><td>V2.7.2.1.0</td><td>Added checks for late filtering, per-item work, response size, and repeat effects.</td><td><a href="../reports/V2.7.2_Refactor_Isolation_Comparison.md">Rebuild and isolated refactors</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.7.2.1.0.zip" download>Download</a></td></tr>
+<tr><td>V2.7.3.1.0</td><td>Made query representation and its update owner an early design decision.</td><td><a href="../reports/V2.7.3_Performance_Experiment.md">Working full-rebuild baseline</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.7.3.1.0.zip" download>Download</a></td></tr>
+<tr><td>V2.7.4.1.0</td><td>Checked authoritative recipients and shared work outside the current view.</td><td><a href="../reports/V2.7.4_Candidate.md">Matched rebuild; authored SQL failed the standard</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.7.4.1.0.zip" download>Download</a></td></tr>
+<tr><td>V2.7.5.1.0</td><td>Made authored SQL a separate gate and moved query checks into each slice.</td><td><a href="../reports/PATIENT_APPOINTMENTS_MIRROR_INDEX.md">Scoped original-app refactor and index trial</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.7.5.1.0.zip" download>Download</a></td></tr>
+<tr><td>V2.8.4.1.0</td><td>Added an explicit check for the event that sets a time-dependent decision.</td><td><a href="../reports/Harness_Autonomous_Experiment_Plan.md">Packaged design, build unverified</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.8.4.1.0.zip" download>Download</a></td></tr>
+<tr><td>V3</td><td>Parallel early harness with broader Rails and React guides.</td><td><a href="../reports/Appointment_Flow_All_Versions_Review.md">Historical source review</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V3.zip" download>Download</a></td></tr>
+<tr><td>V3.1.1</td><td>Added structured AI review to the V3 family. The preserved input was labeled V4.</td><td><a href="../reports/Appointment_Flow_All_Versions_Review.md">Historical source review</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V3.1.1.zip" download>Download</a></td></tr>
+      </tbody></table></div></article>
+    </section>
+    <section id="runs" class="view" hidden>
+      <header class="intro"><h1>Build records</h1><p class="lede">Build time includes implementation, testing, and repair. The database tests ran against frozen copies. The original project has its own development history.</p></header>
+      <article class="card section"><h2>Regressions and what to avoid</h2><p>Some changes reduced query counts or removed SQL while sending more data to Rails. Others made the code harder to follow or changed when a concurrent update became visible. The log shows the measured results and the checks that can catch them in later builds.</p><p class="sources"><a href="../reports/Appointment_Flow_Harness_Regression_Log.md">Read the regression log</a></p></article>
+      <article class="card section"><h2>V2.7.4.1.0 full rebuild decision</h2><p><strong>Keep V2.7.3.1.0 as the working harness baseline.</strong> The V2.7.4.1.0 rebuild relies on handwritten SQL in views and functions for recipient matching and staff views. That fails the plain Active Record standard. The baseline's recipient safety and database growth gaps remain open.</p><p><strong>Behavior.</strong> V2.7.3.1.0 passed 40 of 44 matched checks at both checkpoints. It confirmed three ambiguous replies and sent one reminder to a shared number. V2.7.4.1.0 passed all 44 at both checkpoints. It routed the ambiguous replies to staff review and held the unsafe reminder.</p><p><strong>Database work.</strong> With 600 later appointments added, the reviewed V2.7.3.1.0 build sent two reminders in 1,228 statements. The reviewed V2.7.4.1.0 build sent the same two in 16 statements. A successful confirming reply went from 3,019 rows returned to Rails to six. The reviewed appointment list loaded one more Rails record in V2.7.4.1.0 and used one fewer statement.</p><p><strong>Scoped refactors.</strong> The earlier refresh trial cut the first reminder run from 1,228 to 26 statements while still affecting 1,207 rows. The separate V2.7.4.1.0 recipient refactor used plain Active Record and passed all 44 checks. Its historical reply transferred 614 rows with 600 additional owners, compared with 14 on the small fixture. That growth remains an open cost.</p><p class="sources"><a href="../reports/V2.7.4_Candidate.md">Full rebuild comparison</a><a href="../benchmarks/V2.7.3_Matched_Final_Workload.csv" download>V2.7.3.1.0 reviewed measurements</a><a href="../benchmarks/V2.7.4_Matched_Final_Workload.csv" download>V2.7.4.1.0 reviewed measurements</a><a href="../benchmarks/V2.7.4_Scoped_Recipient_Workload.csv" download>Scoped recipient measurements</a><a href="../reports/Appointment_Flow_Harness_Regression_Log.md">Regression log</a><a href="../reports/V2.7.3_Performance_Experiment.md">Earlier comparison and checkpoints</a><a href="../benchmarks/V2.7.3_Cold_Write_Refactor_Workload.csv" download>First-time write measurements</a><a href="../packages/Apex_Appointment_Flow_Harness_V2.7.4.1.0.zip" download>V2.7.4.1.0 harness ZIP</a></p></article>
+      <article class="card section"><h2>Build, test, and source record</h2><div class="tablewrap"><table id="run-table" class="wide"></table></div><p class="fine">Standalone runs used GPT-6.1 Sol at High effort and the same launch prompt. V2.6.1.1.0 took 66 minutes for the rebuild and review, plus about 13 minutes for the measured follow-up. The three RubyMine AIR projects have no build results yet.</p></article>
+      <div class="two section">
+        <article class="card"><h2>Waiting for a run</h2><ol class="sequence"><li><strong>V2.5.0.0.0 · RubyMine AIR.</strong> Project prepared.</li><li><strong>V2.5.1.0.0 · RubyMine AIR.</strong> Project prepared.</li><li><strong>V2.5.1.1.0 · RubyMine AIR.</strong> Project prepared.</li></ol><p class="next sources"><a href="../reports/V2.5_Variant_Comparison.md">Prepared project paths</a><a href="../reports/V2.5_Launch_Prompt.md">Shared prompt</a></p></article>
+        <article class="card"><h2>Audit corrections</h2><ol class="sequence"><li>Added PostgreSQL’s tools to PATH so Rails could load the schema.</li><li>Fixed a JSON-encoded GET in the benchmark driver. The rerun reached the appointment-list action.</li><li>Corrected two supplemental probe inputs and verified the expected HTTP responses.</li></ol><p class="small next">Initial and corrected logs are retained. The audited app code stayed frozen.</p></article>
+      </div>
+      <article class="card section"><h2>Download the evidence</h2><p>The current evidence includes exact revisions, SQL traces, query plans, grading rounds, and the blind reviews. The metrics CSV contains 80 measured operation records.</p><p class="sources"><a href="../reports/Appointment_Flow_Harness_Progress.md">Harness progress by version</a><a href="../reports/V2.7_Regrade_of_V2.6.md">V2.7 regrade</a><a href="../reports/V2.6_Run_Report.md">V2.6 run report</a><a href="../benchmarks/V2.6_Compared_Workload.csv" download>Matched metrics CSV</a>SQL traces and gradesReusable benchmark kit<a href="../packages/Apex_Appointment_Flow_Harness_V2.7.1.1.0.zip" download>V2.7 harness ZIP</a><a href="../packages/Apex_Appointment_Flow_Harness_V2.6.1.1.0.zip" download>V2.6 harness ZIP</a>Earlier V2.5 SQL audit</p><p class="fine">Statement counts include transaction commands. Fixture loading, separate sign-in calls, and schema queries have separate counters.</p></article>
+    </section>
+  </main>
+</div>
+<script>
+// Matched benchmark data from V2.6_Compared_Workload.csv.
+const benchmark = {
+  "original": {
+    "small/reminder_batch": {"sql_statements": 53, "rails_read_rows": 19, "affected_rows": 16, "write_statements": 14, "models_loaded": 10},
+    "small/appointment_list": {"sql_statements": 12, "rails_read_rows": 14, "affected_rows": 0, "write_statements": 0, "models_loaded": 15},
+    "small/confirming_reply": {"sql_statements": 35, "rails_read_rows": 27, "affected_rows": 2, "write_statements": 2, "models_loaded": 19},
+    "older_history/reminder_batch": {"sql_statements": 53, "rails_read_rows": 19, "affected_rows": 16, "write_statements": 14, "models_loaded": 10},
+    "older_history/appointment_list": {"sql_statements": 12, "rails_read_rows": 14, "affected_rows": 0, "write_statements": 0, "models_loaded": 15},
+    "older_history/confirming_reply": {"sql_statements": 35, "rails_read_rows": 27, "affected_rows": 2, "write_statements": 2, "models_loaded": 19},
+    "extra_patients/reminder_batch": {"sql_statements": 53, "rails_read_rows": 19, "affected_rows": 2016, "write_statements": 14, "models_loaded": 10},
+    "extra_patients/appointment_list": {"sql_statements": 12, "rails_read_rows": 14, "affected_rows": 0, "write_statements": 0, "models_loaded": 15},
+    "extra_patients/confirming_reply": {"sql_statements": 35, "rails_read_rows": 27, "affected_rows": 2, "write_statements": 2, "models_loaded": 19},
+    "nearby_source_appointments/reminder_batch": {"sql_statements": 53, "rails_read_rows": 1819, "affected_rows": 2416, "write_statements": 14, "models_loaded": 610},
+    "nearby_source_appointments/appointment_list": {"sql_statements": 12, "rails_read_rows": 14, "affected_rows": 0, "write_statements": 0, "models_loaded": 15},
+    "nearby_source_appointments/confirming_reply": {"sql_statements": 35, "rails_read_rows": 1227, "affected_rows": 2, "write_statements": 2, "models_loaded": 1219},
+    "larger/reminder_batch": {"sql_statements": 119, "rails_read_rows": 107, "affected_rows": 170, "write_statements": 80, "models_loaded": 54},
+    "larger/appointment_list": {"sql_statements": 12, "rails_read_rows": 124, "affected_rows": 0, "write_statements": 0, "models_loaded": 147},
+    "larger/confirming_reply": {"sql_statements": 35, "rails_read_rows": 71, "affected_rows": 2, "write_statements": 2, "models_loaded": 63},
+    "larger/same_clock_retry": {"sql_statements": 38, "rails_read_rows": 151, "affected_rows": 1, "write_statements": 6, "models_loaded": 75}
+  },
+  "standalone-V2.5.0.0.0": {
+    "small/reminder_batch": {"sql_statements": 29, "rails_read_rows": 13, "affected_rows": 7, "write_statements": 9, "models_loaded": 13},
+    "small/appointment_list": {"sql_statements": 6, "rails_read_rows": 7, "affected_rows": 0, "write_statements": 0, "models_loaded": 6},
+    "small/confirming_reply": {"sql_statements": 23, "rails_read_rows": 17, "affected_rows": 2, "write_statements": 3, "models_loaded": 17},
+    "older_history/reminder_batch": {"sql_statements": 29, "rails_read_rows": 13, "affected_rows": 7, "write_statements": 9, "models_loaded": 13},
+    "older_history/appointment_list": {"sql_statements": 6, "rails_read_rows": 7, "affected_rows": 0, "write_statements": 0, "models_loaded": 6},
+    "older_history/confirming_reply": {"sql_statements": 23, "rails_read_rows": 17, "affected_rows": 2, "write_statements": 3, "models_loaded": 17},
+    "extra_patients/reminder_batch": {"sql_statements": 29, "rails_read_rows": 13, "affected_rows": 7, "write_statements": 9, "models_loaded": 13},
+    "extra_patients/appointment_list": {"sql_statements": 6, "rails_read_rows": 7, "affected_rows": 0, "write_statements": 0, "models_loaded": 6},
+    "extra_patients/confirming_reply": {"sql_statements": 23, "rails_read_rows": 17, "affected_rows": 2, "write_statements": 3, "models_loaded": 17},
+    "nearby_source_appointments/reminder_batch": {"sql_statements": 1229, "rails_read_rows": 1213, "affected_rows": 1207, "write_statements": 1209, "models_loaded": 1213},
+    "nearby_source_appointments/appointment_list": {"sql_statements": 6, "rails_read_rows": 7, "affected_rows": 0, "write_statements": 0, "models_loaded": 6},
+    "nearby_source_appointments/confirming_reply": {"sql_statements": 23, "rails_read_rows": 2417, "affected_rows": 2, "write_statements": 3, "models_loaded": 2417},
+    "larger/reminder_batch": {"sql_statements": 161, "rails_read_rows": 123, "affected_rows": 73, "write_statements": 97, "models_loaded": 123},
+    "larger/appointment_list": {"sql_statements": 6, "rails_read_rows": 51, "affected_rows": 0, "write_statements": 0, "models_loaded": 50},
+    "larger/confirming_reply": {"sql_statements": 23, "rails_read_rows": 105, "affected_rows": 2, "write_statements": 3, "models_loaded": 105},
+    "larger/same_clock_retry": {"sql_statements": 87, "rails_read_rows": 195, "affected_rows": 0, "write_statements": 24, "models_loaded": 195}
+  },
+  "standalone-V2.5.1.0.0": {
+    "small/reminder_batch": {"sql_statements": 26, "rails_read_rows": 13, "affected_rows": 7, "write_statements": 4, "models_loaded": 5},
+    "small/appointment_list": {"sql_statements": 6, "rails_read_rows": 6, "affected_rows": 0, "write_statements": 0, "models_loaded": 5},
+    "small/confirming_reply": {"sql_statements": 29, "rails_read_rows": 20, "affected_rows": 2, "write_statements": 3, "models_loaded": 11},
+    "older_history/reminder_batch": {"sql_statements": 26, "rails_read_rows": 13, "affected_rows": 7, "write_statements": 4, "models_loaded": 5},
+    "older_history/appointment_list": {"sql_statements": 6, "rails_read_rows": 6, "affected_rows": 0, "write_statements": 0, "models_loaded": 5},
+    "older_history/confirming_reply": {"sql_statements": 29, "rails_read_rows": 20, "affected_rows": 2, "write_statements": 3, "models_loaded": 11},
+    "extra_patients/reminder_batch": {"sql_statements": 26, "rails_read_rows": 13, "affected_rows": 7, "write_statements": 4, "models_loaded": 5},
+    "extra_patients/appointment_list": {"sql_statements": 6, "rails_read_rows": 6, "affected_rows": 0, "write_statements": 0, "models_loaded": 5},
+    "extra_patients/confirming_reply": {"sql_statements": 29, "rails_read_rows": 20, "affected_rows": 2, "write_statements": 3, "models_loaded": 11},
+    "nearby_source_appointments/reminder_batch": {"sql_statements": 26, "rails_read_rows": 1213, "affected_rows": 1207, "write_statements": 4, "models_loaded": 5},
+    "nearby_source_appointments/appointment_list": {"sql_statements": 6, "rails_read_rows": 6, "affected_rows": 0, "write_statements": 0, "models_loaded": 5},
+    "nearby_source_appointments/confirming_reply": {"sql_statements": 29, "rails_read_rows": 3020, "affected_rows": 2, "write_statements": 3, "models_loaded": 1211},
+    "larger/reminder_batch": {"sql_statements": 26, "rails_read_rows": 145, "affected_rows": 73, "write_statements": 4, "models_loaded": 49},
+    "larger/appointment_list": {"sql_statements": 6, "rails_read_rows": 50, "affected_rows": 0, "write_statements": 0, "models_loaded": 49},
+    "larger/confirming_reply": {"sql_statements": 29, "rails_read_rows": 130, "affected_rows": 2, "write_statements": 3, "models_loaded": 55},
+    "larger/same_clock_retry": {"sql_statements": 22, "rails_read_rows": 241, "affected_rows": 0, "write_statements": 0, "models_loaded": 97}
+  },
+  "standalone-V2.5.1.1.0": {
+    "small/reminder_batch": {"sql_statements": 18, "rails_read_rows": 10, "affected_rows": 3, "write_statements": 4, "models_loaded": 7},
+    "small/appointment_list": {"sql_statements": 7, "rails_read_rows": 7, "affected_rows": 0, "write_statements": 0, "models_loaded": 6},
+    "small/confirming_reply": {"sql_statements": 20, "rails_read_rows": 9, "affected_rows": 3, "write_statements": 4, "models_loaded": 7},
+    "older_history/reminder_batch": {"sql_statements": 18, "rails_read_rows": 10, "affected_rows": 3, "write_statements": 4, "models_loaded": 7},
+    "older_history/appointment_list": {"sql_statements": 7, "rails_read_rows": 7, "affected_rows": 0, "write_statements": 0, "models_loaded": 6},
+    "older_history/confirming_reply": {"sql_statements": 20, "rails_read_rows": 9, "affected_rows": 3, "write_statements": 4, "models_loaded": 7},
+    "extra_patients/reminder_batch": {"sql_statements": 18, "rails_read_rows": 10, "affected_rows": 3, "write_statements": 4, "models_loaded": 7},
+    "extra_patients/appointment_list": {"sql_statements": 7, "rails_read_rows": 7, "affected_rows": 0, "write_statements": 0, "models_loaded": 6},
+    "extra_patients/confirming_reply": {"sql_statements": 20, "rails_read_rows": 9, "affected_rows": 3, "write_statements": 4, "models_loaded": 7},
+    "nearby_source_appointments/reminder_batch": {"sql_statements": 18, "rails_read_rows": 10, "affected_rows": 3, "write_statements": 4, "models_loaded": 7},
+    "nearby_source_appointments/appointment_list": {"sql_statements": 7, "rails_read_rows": 7, "affected_rows": 0, "write_statements": 0, "models_loaded": 6},
+    "nearby_source_appointments/confirming_reply": {"sql_statements": 20, "rails_read_rows": 9, "affected_rows": 3, "write_statements": 4, "models_loaded": 7},
+    "larger/reminder_batch": {"sql_statements": 40, "rails_read_rows": 76, "affected_rows": 25, "write_statements": 26, "models_loaded": 51},
+    "larger/appointment_list": {"sql_statements": 7, "rails_read_rows": 51, "affected_rows": 0, "write_statements": 0, "models_loaded": 50},
+    "larger/confirming_reply": {"sql_statements": 20, "rails_read_rows": 9, "affected_rows": 3, "write_statements": 4, "models_loaded": 7},
+    "larger/same_clock_retry": {"sql_statements": 16, "rails_read_rows": 100, "affected_rows": 1, "write_statements": 2, "models_loaded": 75}
+  },
+  "standalone-V2.6.1.1.0": {
+    "small/reminder_batch": {"sql_statements": 18, "rails_read_rows": 11, "affected_rows": 5, "write_statements": 3, "models_loaded": 8},
+    "small/appointment_list": {"sql_statements": 8, "rails_read_rows": 9, "affected_rows": 0, "write_statements": 0, "models_loaded": 6},
+    "small/confirming_reply": {"sql_statements": 18, "rails_read_rows": 9, "affected_rows": 2, "write_statements": 3, "models_loaded": 7},
+    "older_history/reminder_batch": {"sql_statements": 18, "rails_read_rows": 11, "affected_rows": 5, "write_statements": 3, "models_loaded": 8},
+    "older_history/appointment_list": {"sql_statements": 8, "rails_read_rows": 9, "affected_rows": 0, "write_statements": 0, "models_loaded": 6},
+    "older_history/confirming_reply": {"sql_statements": 18, "rails_read_rows": 9, "affected_rows": 2, "write_statements": 3, "models_loaded": 7},
+    "extra_patients/reminder_batch": {"sql_statements": 18, "rails_read_rows": 11, "affected_rows": 5, "write_statements": 3, "models_loaded": 8},
+    "extra_patients/appointment_list": {"sql_statements": 8, "rails_read_rows": 9, "affected_rows": 0, "write_statements": 0, "models_loaded": 6},
+    "extra_patients/confirming_reply": {"sql_statements": 18, "rails_read_rows": 9, "affected_rows": 2, "write_statements": 3, "models_loaded": 7},
+    "nearby_source_appointments/reminder_batch": {"sql_statements": 18, "rails_read_rows": 611, "affected_rows": 605, "write_statements": 3, "models_loaded": 608},
+    "nearby_source_appointments/appointment_list": {"sql_statements": 8, "rails_read_rows": 9, "affected_rows": 0, "write_statements": 0, "models_loaded": 6},
+    "nearby_source_appointments/confirming_reply": {"sql_statements": 18, "rails_read_rows": 9, "affected_rows": 2, "write_statements": 3, "models_loaded": 7},
+    "larger/reminder_batch": {"sql_statements": 18, "rails_read_rows": 99, "affected_rows": 49, "write_statements": 3, "models_loaded": 74},
+    "larger/appointment_list": {"sql_statements": 8, "rails_read_rows": 53, "affected_rows": 0, "write_statements": 0, "models_loaded": 50},
+    "larger/confirming_reply": {"sql_statements": 18, "rails_read_rows": 9, "affected_rows": 2, "write_statements": 3, "models_loaded": 7},
+    "larger/same_clock_retry": {"sql_statements": 14, "rails_read_rows": 98, "affected_rows": 0, "write_statements": 0, "models_loaded": 49}
+  }
+};
+const original = {
+  id:"original", name:"appointment-flow", host:"Original baseline", color:"#91622a",
+  mix:[[32, 4, 11, 6], [11, 0, 1, 0]],
+  rev:"db037d7932b13fc4d735106e0fa199815fb2d22c", route:"GET /api/appointments",
+  evidence:"Original development baseline. The shared benchmark and two blind source reviews are complete.",
+  quality:["The scheduled worker has named steps for syncing appointments, deciding who should get a reminder, and sending it.",
+    "Following one send takes several files. Source reads and locks use handwritten SQL.",
+    "Ranked first or tied first for locating the timing rule. Reviewers traced the most handoffs for one delivery."],
+  workflow:["Scheduled job → ReminderRunner.tick","PmsSnapshot and PmsReplica refresh appointments. The worker finds which clinics are due.",
+    "ReminderFlow and ReminderSender process each clinic’s daily batch."]
+};
+const standalone = [
+  {name:"V2.5.0.0.0",color:"#7b5a4c",mix:[[25,0,0,4],[4,2,0,0]],tests:"24 / 140",api:"16 / 16",minutes:"45.0",rev:"f62d0e633b84b7927a7fbb58fc6a64680f9f46e7",
+    route:"GET /api/clinics/:id/appointments",
+    evidence:"V2.5 starting package. Shared database test and blind code review completed.",
+    quality:["The folder structure makes it easiest to find clinic routes and scheduling-system models.",
+      "The retry issued 24 updates that changed zero rows. Contact checks repeat per appointment.",
+      "First or tied second for readability in the latest blind comparison. The named reply rejection reasons helped."],
+    workflow:["Staff presses the reminder button → ReminderBatch.call","PmsSync reads through the app’s read-only source connection. The clinic stays locked through syncing and sending.","It checks and writes each appointment individually."]},
+  {name:"V2.5.1.0.0",color:"#187260",mix:[[11,3,6,6],[5,1,0,0]],tests:"25 / 189",api:"16 / 16",minutes:"46.0",rev:"a04a25a6778829bfce3c3b010895b131527001b1",
+    route:"GET /api/appointments",
+    evidence:"Added performance checks. Shared database test and blind code review completed.",
+    quality:["One service makes the batch easy to follow. It groups the writes and makes the initial reminder rule easy to find.",
+      "The clinic stays locked during refresh and planning. The batch uses handwritten SQL for two reads and four timeout commands.",
+      "Strong grouped writes. The latest reviews found that a normal reply refreshes a broad source window."],
+    workflow:["Staff presses the reminder button → ReminderRun.call","PmsRefresh runs handwritten reads through the database adapter while the clinic is locked.","It saves contacts, visits, and messages in groups."]},
+  {name:"V2.5.1.1.0",color:"#4b55a3",mix:[[13,3,0,2],[6,1,0,0]],tests:"30 / 190",api:"11 / 11",minutes:"54.4",rev:"3830aaba78e0c1660ef64d6109231e583b7b3743",
+    route:"GET /api/clinics/:id/appointments",
+    evidence:"Added performance checks and an AI review-and-fix loop. Shared database test and blind code review completed.",
+    quality:["It reads appointments from the scheduling system and avoids keeping a second copy. The review caught safety and setup issues.",
+      "Each send writes one message row. Workflows and code that prepares screen data sit together in the models folder.",
+      "Both latest blind reviewers chose this app as their starting point."],
+    workflow:["Reminder command → ReminderBatch#run","ClinicState owns the lock, database transaction, and retries. The app reads appointments directly.","It writes each message separately and updates clinic state at the end."]},
+  {name:"V2.6.1.1.0",color:"#a36931",mix:[[13,2,1,2],[5,3,0,0]],tests:"29 / 233",minutes:"66 + 13",rev:"b30516d41f740154aa13b5d0f7791fc9580486ba",
+    route:"GET /api/staff/:clinic_id/appointments",
+    evidence:"Clean-room build, three rubric rounds and shared benchmark complete. Seven quality checks and two browser tests passed.",
+    quality:["The entry point shows the clinic lock, source refresh, per-visit decisions, and final grouped write.",
+      "The first reminder run builds a calendar copy. The retry transfers fewer rows to Rails, while PostgreSQL still compares the tracked appointments.",
+      "Second or tied second for readability. A disposable timing change touched one production file and passed 17 assertions."],
+    workflow:["Staff reminder action or CLI → ReminderRun#call","PmsRefresh uses a database comparison to return only new, changed, and missing appointments.","The batch evaluates attempts per visit, then saves them together inside the clinic transaction."]}
+];
+for (const build of standalone) {
+  build.id = `standalone-${build.name}`;
+  build.host = "Standalone Codex";
+}
+const air = standalone.filter(build => build.name.startsWith("V2.5.")).map(({name}) => ({
+  id:`air-${name}`, name, host:"RubyMine AIR", missing:"Waiting to start",
+  evidence:"Project prepared. The build, database test, and code review are still waiting.",
+  quality:["Build waiting to start.", "Build waiting to start.", "Review waiting for the build."],
+  workflow:["Build waiting to start.", "Build waiting to start.", "Build waiting to start."]
+}));
+const builds = [original, ...standalone, ...air];
+const cases = [
+  ["small","2 due","Each measured run sent two simulated reminders."],
+  ["older_history","2 due + 600 old","The added appointments were completed in 2024. Each measured run still sent two reminders."],
+  ["extra_patients","2 due + 2,000 extra patients","The extra patients had no appointments. The original wrote 2,000 additional rows while its statement count stayed flat."],
+  ["nearby_source_appointments","2 due + 600 later","The extra appointments were too far out for reminders. Builds that keep a local calendar still had more source data to import."],
+  ["larger","24 due","This is the first reminder run on a fresh fixture. Each measured build sent 24 reminders. V2.6.1.1.0 used 18 statements compared with 119 in the original."],
+  ["retry","Retry of 24","Each measured retry sent zero extra reminders. V2.6.1.1.0 wrote zero rows."]
+];
+const number = new Intl.NumberFormat("en-US");
+const format = value => value == null ? "—" : number.format(value);
+const get = (build, scenario, operation = "reminder_batch") =>
+  benchmark[build.id]?.[scenario === "retry" ? "larger/same_clock_retry" : `${scenario}/${operation}`];
+const range = (start, end) => `${format(start)} → ${format(end)}`;
+const colors = ["#187260","#4b55a3","#a36931","#687770"];
+const node = id => document.getElementById(id);
+const label = build => `<span class="build-label"><strong>${build.name}</strong><small>${build.host}</small></span>`;
+const status = text => `<span class="status-text">${text}</span>`;
+function table(headers, cells, caption = "", mergeMissing = false) {
+  return `<thead><tr><th scope="col">Build</th>${headers.map(x=>`<th scope="col">${x}</th>`).join("")}</tr></thead>
+    <tbody>${builds.map(build=>{
+      const values = mergeMissing && build.missing
+        ? `<td colspan="${headers.length}">${status(build.missing)}</td>`
+        : cells(build).map(value=>`<td>${value}</td>`).join("");
+      return `<tr data-build="${build.id}"><td>${label(build)}</td>${values}</tr>`;
+    }).join("")}</tbody>${caption ? `<caption>${caption}</caption>` : ""}`;
+}
+function chart(rows, maximum, description = "") {
+  const bars = rows.map((row, index)=>{
+    const groupGap = index > 0 && row.host !== rows[index - 1].host ? " group-gap" : "";
+    const content = row.value == null
+      ? `<span class="missing">${row.missing}</span>`
+      : `<div class="track ${row.segments ? "splitbar" : ""}" aria-hidden="true">${(row.segments || [row.value]).map((value,i)=>value ? `<span class="bar" style="width:${value/maximum*100}%;background:${row.segments ? colors[i] : row.color}"></span>`:"").join("")}</div><strong>${format(row.value)}</strong>`;
+    return `<div class="bar-row${groupGap}" data-build="${row.id}">${label(row)}${content}</div>`;
+  }).join("");
+  return `<div class="bars">${bars}</div><div class="axis" aria-hidden="true">${[0,1,2,3,4].map(i=>`<span>${format(maximum*i/4)}</span>`).join("")}</div>${description ? `<p class="explain">${description}</p>` : ""}`;
+}
+function controls(id, labels, update, initial) {
+  const area = node(id);
+  labels.forEach((name, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = name;
+    button.addEventListener("click", () => select(index));
+    area.append(button);
+  });
+  function select(index) {
+    for (const [i, button] of [...area.children].entries()) button.setAttribute("aria-pressed", i === index);
+    update(index);
+  }
+  select(initial);
+}
+const metrics = [
+  ["Database statements","sql_statements","Counts database round trips, including transaction commands."],
+  ["Rows returned to Rails","rails_read_rows","Counts rows returned by Rails queries, including aggregate results and repeated reads. The original also returns raw JSON from its separate source connection."],
+  ["Rows affected","affected_rows","Counts rows affected by writes. One bulk statement can affect many rows."],
+  ["Write statements","write_statements","Counts inserts, updates, and deletes, including updates that affect zero rows."],
+  ["Rails records loaded","models_loaded","Counts Ruby model objects Active Record builds from query results. Loading the same visit twice counts twice. Scalar reads such as pluck and bulk writes can do database work without loading models."]
+];
+function compareWork(id, scenario, metric, description) {
+  const rows = builds.map(build => ({ ...build, value: get(build, scenario)?.[metric] }));
+  const largest = Math.max(4, ...rows.map(row => row.value ?? 0));
+  const step = Math.max(1, 10 ** (Math.floor(Math.log10(largest)) - 1));
+  node(id).innerHTML = chart(rows, Math.ceil(largest / (4 * step)) * 4 * step, description);
+}
+let selectedCase = 4;
+let selectedMetric = 0;
+function showWorkload() {
+  const [scenario, , detail] = cases[selectedCase];
+  const [, metric, explanation] = metrics[selectedMetric];
+  compareWork("workload-chart", scenario, metric, detail + " " + explanation);
+}
+controls("workload-buttons", cases.map(row => row[1]), index => {
+  selectedCase = index;
+  showWorkload();
+}, selectedCase);
+controls("workload-metric-buttons", metrics.map(row => row[0]), index => {
+  selectedMetric = index;
+  showWorkload();
+}, selectedMetric);
+controls("sql-buttons", ["Reminder batch · 2 sends","Appointment list · 2 returned"], i=>{
+  const rows = builds.map(b=>({...b,segments:b.mix?.[i],value:b.mix?.[i].reduce((a,n)=>a+n,0)}));
+  node("mix-chart").innerHTML=chart(rows,Math.max(i===0?32:8,Math.ceil(Math.max(...rows.map(row=>row.value ?? 0))/4)*4));
+  node("mix-table").innerHTML=`<table class="wide">${table(
+    ["Plain Active Record","Active Record with a SQL fragment","Full handwritten statement","Transaction commands","Total"],
+    b=>[...b.mix[i],b.mix[i].reduce((a,n)=>a+n,0)],"",true
+  )}</table>`;
+},0);
+const costs = [metrics[3], metrics[1], metrics[4], metrics[2]];
+controls("cost-buttons", costs.map(row => row[0]), index => {
+  const [, metric, explanation] = costs[index];
+  compareWork("cost-chart", "larger", metric, explanation);
+}, 0);
+node("build-table").innerHTML=table(["Available evidence"],b=>[b.evidence]);
+node("batch-table").innerHTML=table(
+  [...cases.map(row => row[1]), "Write statements for 2 → 24", "Write statements on retry"],
+  build => [
+    ...cases.map(([scenario]) => format(get(build, scenario).sql_statements)),
+    range(get(build, "small").write_statements, get(build, "larger").write_statements),
+    format(get(build, "retry").write_statements)
+  ],
+  "Case columns count every statement during the batch, including transaction commands.", true
+);
+node("growth-table").innerHTML=table(
+  ["Rows returned to Rails with 600 later appointments", "Rows affected with 600 later appointments", "Rows affected with 2,000 extra patients"],
+  build => {
+    const small = get(build, "small");
+    const later = get(build, "nearby_source_appointments");
+    return [
+      range(small.rails_read_rows, later.rails_read_rows),
+      range(small.affected_rows, later.affected_rows),
+      range(small.affected_rows, get(build, "extra_patients").affected_rows)
+    ];
+  },
+  "Each cell shows the small fixture followed by the expanded fixture. The original also returned 830 → 230,214 raw JSON bytes from its separate source connection in the later-appointment case.", true
+);
+node("appointment-table").innerHTML=table(
+  ["Database statements · 2 appointments","Database statements · 24 appointments","Rails records loaded · 2 → 24","Request"],
+  build => {
+    const small = get(build, "small", "appointment_list");
+    const larger = get(build, "larger", "appointment_list");
+    return [format(small.sql_statements), format(larger.sql_statements),
+      range(small.models_loaded, larger.models_loaded), `<code>${build.route}</code>`];
+  },
+  "Each measured request succeeded. The original endpoint reads a full week when given a selected date.", true
+);
+node("reply-table").innerHTML=table(
+  ["Statements", "Statements with 600 later appointments", "Rows returned to Rails", "Rows returned with 600 later appointments"],
+  build => {
+    const small = get(build, "small", "confirming_reply");
+    const later = get(build, "nearby_source_appointments", "confirming_reply");
+    return [small.sql_statements, later.sql_statements, small.rails_read_rows, later.rails_read_rows].map(format);
+  }, "", true
+);
+node("quality-table").innerHTML=table(["What works well","Cost or tradeoff","Review status"],b=>b.quality);
+node("workflow-table").innerHTML=table(["What starts it","Where source data comes from","How the app saves reminders"],b=>b.workflow);
+node("run-table").innerHTML=table(["Build time (minutes)","Rails tests / assertions","Benchmark checks","Earlier API route checks","Saved source version"],b=>[
+  b.minutes ?? status(b === original ? "Original development" : b.missing),
+  b.tests ?? status(b === original ? "Original test suite" : b.missing),
+  benchmark[b.id] ? "16 / 16" : status(b.missing),
+  b.api ?? "—",
+  b.rev ? `<code>${b.rev}</code>` : status("Waiting for the build")
+]);
+const routes=["overview","database","quality","refactor","versions","runs"];
+function navigate(){
+  const requested = location.hash.substring(1);
+  const current = requested === "original-job" ? "database" : routes.includes(requested) ? requested : "overview";
+  for(const id of routes) node(id).hidden=id!==current;
+  for(const link of document.querySelectorAll("nav a")){
+    if(link.hash==="#"+current) link.setAttribute("aria-current","page");
+    else link.removeAttribute("aria-current");
+  }
+  document.title=`${document.querySelector("nav a[aria-current]").textContent} · Appointment Flow`;
+  if (requested === "original-job") node(requested).scrollIntoView();
+  else window.scrollTo(0,0);
+}
+node("version-filter").addEventListener("input", event => {
+  const text = event.target.value.trim().toLowerCase();
+  for (const row of node("version-rows").rows) row.hidden = !row.textContent.toLowerCase().includes(text);
+});
+window.addEventListener("hashchange",navigate);
+navigate();
+</script>
+</body>
+</html>

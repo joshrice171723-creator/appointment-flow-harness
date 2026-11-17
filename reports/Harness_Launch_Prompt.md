@@ -1,0 +1,28 @@
+# Paste this file into a RubyMine coding-agent session
+
+You are the implementation agent for a clean-room quality-harness evaluation. Build a **new** Rails + React version of the Apex appointment-confirmation product using ONLY this ZIP's assessment document, included UI screenshots, sanitized product specification, and engineering rules. A separate old implementation exists but is forbidden to access until this rebuild is completely finished and frozen. The purpose is to test whether the harness creates a high-quality implementation, not whether it can reproduce old code.
+
+## Mandatory sequence — start immediately
+
+Use a fresh agent session with optional skills and review plugins off. Capture the agent/model, any required host guidance still active, and the Stage 0 start time in the session. Add those details to the build log after preflight passes. After preflight passes, record that start time and subsequent phase timestamps in `notes/BUILD_LOG.md`.
+
+**Stage 0: Harness setup, before application code.** Read `AGENTS.md`, `START_HERE.md`, `reference/Appointment-Confirmation-Take-Home.pdf`, every file in `product-spec/`, then `docs/CODING_STANDARDS.md`, `docs/ARCHITECTURE_GUARDRAILS.md`, `docs/REVIEW_RUBRIC.md`, and `docs/DELIVERABLES_AND_DECISIONS.md`. Run `python quality/verify_harness.py` (Windows: `py quality/verify_harness.py`). Confirm the screen count from the actual filesystem. Confirm the Email-tab screenshot is included, read it, and do not infer hidden behavior from it. State a concise implementation plan and identify decision points. Do not read old code, and do not write app code until this Stage 0 plan has been established.
+
+**Stage 1: Independent design.** Choose the smallest understandable Rails + React solution that can meet the *official* scope and present the UI/workflows shown. Use appropriate current stable runtime and tool versions available on the user's machine; document the exact versions. No mandated classes, API routes, component structure, background job product, global store, or folder split. The picture and written behavior are inputs, not an architecture blueprint. Explicitly address reminder scheduling, safe reply matching, reschedules, clinic isolation, read-only PMS boundary, timezones, fake transport, and testability.
+
+**Stage 2: Scaffold and implement.** After the Stage 0 plan is captured, proceed with implementation in small working vertical slices without asking about ordinary, reversible choices. Prioritize a runnable app and the official core requirements; then add the visual workflows and safety-sensitive extended behavior within scope. No pixel-perfect mandate: retain the warm neutral / dark-green visual identity and the main navigation patterns. Seed **fictional** records representing Austin and Phoenix and enough cases to exercise each state. No live external messaging. After the first working Rails write path, use the existing simplify pass to trace its route, rule owner, transaction, and response. If a multi-step service owns the operation, check its public workflow and private steps. Trace a successful and a rejected path before repeating that structure across endpoints. Apply the Rails responsibility boundaries before adding the remaining endpoints. For each slice, test behavior and simplify the real diff before adding new abstractions. Keep a compact progress record in `notes/BUILD_LOG.md`.
+
+**Stage 3: Working local demo.** Document one reproducible startup path from a clean checkout, how to seed, how to trigger a reminder batch manually, how to simulate SMS/email replies, how to inspect sent fake messages, and how to run all checks. If prerequisites are not available, describe the exact blocker and give tested partial steps; do not fabricate success.
+
+**Stage 4 — AI grading and repair.** Prepare the README, architecture, AI usage record, and factual candidate decision notes. Configure `quality/checks.json`, exercise the relevant safety scenarios, run the local UI smoke, and gather the performance evidence in `docs/PERFORMANCE.md`. Apply `docs/REVIEW_RUBRIC.md` with `agent-prompts/03_INDEPENDENT_REVIEW.md`. Grade the build, fix verified in-scope issues, rerun affected checks and measurements, and regrade. Repeat until every required criterion passes. Record each round in `review/RUBRIC_RESULTS.md`. Use the configured quality gate on the final revision and carry forward evidence whose implementation and inputs still apply. The AI owns code review, repair, and validation.
+
+**Stage 5 — Technical freeze.** Complete `review/FREEZE_CHECKLIST.md` using the final PASS report and checks for the revision being frozen. Resume Stage 4 when a change affects a grade. Preserve the clean-room boundary during freeze. Candidate-authored decisions and the live defense are employer assessment requirements outside the AI grade. The agent supplies factual decision notes. External publication or submission requires explicit authorization.
+
+## Agent interaction rules
+- Do not ask broad stylistic preference questions. Make reasonable, documented choices.
+- Stop and ask only for a blocking prerequisite, a truly consequential irreversible choice, or required permission.
+- Explicitly distinguish **observed in screenshot**, **provided in spec**, **chosen for rebuild**, and **verified by test**.
+- Use this ZIP's instructions for planning, implementation, and review. Standard IDE and framework tools are available for development and verification.
+- Keep the new implementation fully independent until the user explicitly authorizes final comparison.
+
+Begin Stage 0 now, in this directory.
