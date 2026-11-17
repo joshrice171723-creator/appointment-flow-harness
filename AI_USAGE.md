@@ -110,3 +110,10 @@ Joshua authorized a disposable clone of the original app. He required the builde
 The AI builder replaced SQL strings in the patient appointment query, captured evidence for both cursor pages, and left clinic-wide scans visible in the grade. A second AI run used a reconstructed fixture to compare existing indexes, a mirror index, and both app-owned indexes on the same input within that run. All 330 measured requests matched across variants. The follow-up measured scans and index plans, tested migration rollback and reapply, and left the full-request performance grade at REVISE. Codex independently ran the focused suite and compared external schema dumps. The proposed patient access rewrite shown afterward was kept as a comment for manual review and did not enter these measurements.
 
 Joshua authorized publication of his code and screenshots and kept the other company’s PDF private. The public archive records the original and export checksums separately. The public reports describe completed evidence, design-only packages, and prepared runs. The public dashboard keeps the original app in the comparison.
+
+## Pairing the published runs
+
+- Joshua asked for the instructions and resulting app in the same downloadable bundle. Codex traced the saved manifests, launch prompts, and frozen source to 28 pairs.
+- The V2.5.1.1.0 standalone run used the alternate input archive. Codex verified its manifest against the build workspace.
+- Two earlier matched builds ended before benchmarking. Their saved outputs remain available with an interrupted status.
+- Joshua requested a quicker visual summary and removal of the unmeasured RubyMine AIR rows. The README now leads to the matched reminder benchmark, later behavior checks, and the original-app refactor.

@@ -1,0 +1,473 @@
+[
+  {
+    "archive": "Original.zip",
+    "sha256": "c2c28b29bbae63f4dd2c9b7e114b4f34de39fc6746421bdefad583fb9d983d94",
+    "name": "Original appointment-flow",
+    "scope": "Historical product control",
+    "evidence": "Includes the preserved project guidance. No single frozen launch input is documented",
+    "input_match": "Project guidance retained from the frozen baseline",
+    "application_sha256": "b39bbb7beeaac88c0bb17acfc9a73bed9e0ab97fe72c413de7f9861096adecb7",
+    "harness_sha256": "69560381c9a0585d0f28f44c8168012f348f2191c84aeeb21bd05b8aa7a5827e"
+  },
+  {
+    "archive": "V2.zip",
+    "sha256": "ab0c3cba05a71bfe59f5077b8c85373aa0de21b77e50ad75c9fb571f99510aa3",
+    "name": "V2",
+    "scope": "Historical source and harness",
+    "evidence": "Archived input manifest matches the saved application workspace",
+    "input_manifest_sha256": "1f0eafadcd62ea6ada493ed86acfe9d69a049f71dfbd955d3dc618a345a57eb1",
+    "application_sha256": "ff124ec8085ee881392122c363bee448d3a394d19e2f2660d88e05c49dec1ce5",
+    "harness_sha256": "28187f8acfbf01a19eb4a8aa96ab0c4262b02116763781c9cecda6f331978de9"
+  },
+  {
+    "archive": "V2.1.zip",
+    "sha256": "bf7d68d77be150a70d90c85daabaf4283042a8492870631fb0645c48a46e5e8c",
+    "name": "V2.1",
+    "scope": "Historical source and harness",
+    "evidence": "Input manifest matches the nested harness preserved with the application",
+    "input_manifest_sha256": "de7a3f0e0ec2d008afd8d54e2b6a8e2d9b20470fb94c244550c550d52f022ed2",
+    "application_sha256": "32467b2be5789634fa01c8943b2d36a31c7029163fdf5dc2c14287cebded880d",
+    "harness_sha256": "043bb5691e2df96abe2226a10b695a2e04da136a882f23d1f7c131b687493076"
+  },
+  {
+    "archive": "V2.2.zip",
+    "sha256": "5fdfa4fe3157a48ed7572b4acba40378cd33ab15e856c5014a85f91454190543",
+    "name": "V2.2",
+    "scope": "Historical source and harness",
+    "evidence": "Version-associated archives. No matching launch receipt was recovered",
+    "input_manifest_sha256": "bff2dcfbfb647ce27bfab42cb0a37c0edc6de1cb2e1f6ee9e1665c30ac76ba74",
+    "application_sha256": "25edf49c15dcccf72bbf78a6a8c4737524000e01839f20d0f205ba47c0e58e0e",
+    "harness_sha256": "7a6c63f21046ee5db7d4c5053347495895bf2705c7e3783c14d7ab1eb77aa345"
+  },
+  {
+    "archive": "V2.3.0.0.0.zip",
+    "sha256": "7cb494c9fa243d4316160a943c5eedc162d2fb136598875c8553d8e7a4f60ea2",
+    "name": "V2.3.0.0.0",
+    "scope": "Historical source and harness",
+    "evidence": "Archived input manifest matches the saved application workspace",
+    "input_manifest_sha256": "bf2ef009df73cf314664b3ab73dec712d86aa0af5c6458b09d4f54ca99810b25",
+    "application_sha256": "2e354f8fad7e777fefde1b5ed50591abd0a5e8e2973172726ad782c750b769e6",
+    "harness_sha256": "39542257171ba3a52463a5b224e20c9dd0f5856a016145e58c4d7ee9c82950b0"
+  },
+  {
+    "archive": "V2.4.0.0.0.zip",
+    "sha256": "d5ae3401959671082308798c1413fadf519c565a773e0ef4a2610529ea9c13f4",
+    "name": "V2.4.0.0.0",
+    "scope": "Historical source and harness",
+    "evidence": "Version-associated archives. No matching launch receipt was recovered",
+    "input_manifest_sha256": "1e15ede508573bf628ad491ac0df70232ac71016eb581b7463f3610596aa1a1a",
+    "application_sha256": "a472c8ec86096b9786006fbf0e7e21d1f2dabb3e22ad5186f89fe877a703d0a1",
+    "harness_sha256": "439696a69b782053901c37a9a8f68d98d7a6bd8180bcd4beb39db43621744a2b"
+  },
+  {
+    "archive": "V2.4.1.1.0.zip",
+    "sha256": "a71f72ad2b33e4a165578ed142ea244e6d8950c2fc9dbf6c9d86420a598ac0bf",
+    "name": "V2.4.1.1.0",
+    "scope": "Historical source and harness",
+    "evidence": "Archived input manifest matches the saved application workspace",
+    "input_manifest_sha256": "f49d8f6c495e5086e07d85f3658be1185d367ee896af39f4d5e044fac8e231ee",
+    "application_sha256": "bf137d46979a9d456207df1eb6a82ecdb75aca6ec5ecc7d863d982d5fe1c9739",
+    "harness_sha256": "372b4e548fd533a0dcc26720fbf0e24b1e512dab155568a370ea4d8a1bbf7f8b"
+  },
+  {
+    "archive": "V3.zip",
+    "sha256": "5e0f50ce4c75913e8986f31bc05e75be1117161e83ed9e2bdba3ec0c7424b01f",
+    "name": "V3",
+    "scope": "Historical source and harness",
+    "evidence": "Input manifest matches the nested harness preserved with the application",
+    "input_manifest_sha256": "5debd316ba16025dcc8a9e29a95f4bf9dcc900cbb934a3dc0d4b9661b198b919",
+    "application_sha256": "0b31f7ecc6791b16c43d580f4fdc7f95c37806b4d3457af3ffc75e27a378bbc7",
+    "harness_sha256": "0e5046a56d8162445346aa3fcf8aa8f3c1212a5e9dfee190237e18191a2d1014"
+  },
+  {
+    "archive": "V3.1.1.zip",
+    "sha256": "1fe3ea3cc3e9ef41b6216ef9d053a84f56d7782a868373a2a57755ef351ec2e8",
+    "name": "V3.1.1",
+    "scope": "Historical source and harness",
+    "evidence": "Archived input manifest matches the saved application workspace",
+    "input_manifest_sha256": "740d7814ceb7b8d3ee36738ac3d862cfce0c80be802d49a819487c053eb7675d",
+    "application_sha256": "abc4be515bd7aa9b8a5d09a32933459e1aadf5467badad09ef257b5940efff62",
+    "harness_sha256": "978193663dcf5ec2973f18643973303af6468fd158cf95ce105a4b3cb55cb2b2"
+  },
+  {
+    "archive": "V2.5.0.0.0.zip",
+    "sha256": "bfd506bcc18bd5d40b55b556aa2365b68e09110e6f7380bb070bb1b0439294ee",
+    "name": "V2.5.0.0.0",
+    "scope": "Standalone full rebuild",
+    "evidence": "Input manifest matches the launched workspace. The application is the recorded frozen build",
+    "started_at": "2026-11-16T06:46:57.195059+00:00",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "launch_text_sha256": "394c940d964e669e4116189804d96d99d9d95e3e2413558df819e80689aef6d3",
+    "input_archive": "Apex_Appointment_Flow_Harness_V2.5.0.0.0.zip",
+    "input_manifest_sha256": "29d6e9c51ae23e85c8de462029e0ec14080b2037e65a680a2a7d788640d42de4",
+    "application_sha256": "fb9b29e3c46b4fa3436da4d80f5a98935c367c06ce7c0d4911f888c8ebf2756f",
+    "harness_sha256": "e3304aad832dde6bfb2f064f4ba98262e6d10013a71527bb785570cfa269ff26"
+  },
+  {
+    "archive": "V2.5.1.0.0.zip",
+    "sha256": "271538eb4e1f307821c4260a5422212d5cc12c113dd4364ad080074437eb3edd",
+    "name": "V2.5.1.0.0",
+    "scope": "Standalone full rebuild",
+    "evidence": "Input manifest matches the launched workspace. The application is the recorded frozen build",
+    "started_at": "2026-11-16T07:37:24.669961+00:00",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "launch_text_sha256": "394c940d964e669e4116189804d96d99d9d95e3e2413558df819e80689aef6d3",
+    "input_archive": "Apex_Appointment_Flow_Harness_V2.5.1.0.0.zip",
+    "input_manifest_sha256": "9be33a076efc7fda75735535b67b3e2e378f97f3c4edfa7fbaa817726fa88a8b",
+    "application_sha256": "17265e280055ec7877091ff45d27232b72d28e9ebd00c3414da117750e9de832",
+    "harness_sha256": "946df83798001b0334beb8544318eefaf73ce29dd92086f93333413c052151db"
+  },
+  {
+    "archive": "V2.5.1.1.0.zip",
+    "sha256": "0254dfa13735b7b82d1db9bb124958d6e2bad1539382373754671e22388306f1",
+    "name": "V2.5.1.1.0",
+    "scope": "Standalone full rebuild",
+    "evidence": "Input manifest matches the launched workspace. The application is the recorded frozen build",
+    "started_at": "2026-11-16T07:37:24.803865+00:00",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "launch_text_sha256": "394c940d964e669e4116189804d96d99d9d95e3e2413558df819e80689aef6d3",
+    "input_archive": "Apex_Appointment_Flow_Harness_V2.5.1.1.0-variant-input.zip",
+    "input_manifest_sha256": "5c1ae05b579d311b5cfecebfeaa370f195fcf5b9a9327ca8688c1a432420aa22",
+    "application_sha256": "884c1e1fd40a2740f0d6fdbd079164b53e9cb7183cb9dbbb85a23faaa587a7b0",
+    "harness_sha256": "e3bf2fcb8f19e1eef045e835a1a024e0076ce5291f8e70033fb44053e35752f2"
+  },
+  {
+    "archive": "V2.6.1.1.0.zip",
+    "sha256": "c374d22f09f4c96d4b2010e2b8a997ea67cca545feb84a9da940189e0e2c8a63",
+    "name": "V2.6.1.1.0",
+    "scope": "Standalone full rebuild",
+    "evidence": "Input manifest matches the launched workspace. The application is the recorded frozen build",
+    "started_at": "2026-11-16T17:35:22.068398+00:00",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "launch_text_sha256": "394c940d964e669e4116189804d96d99d9d95e3e2413558df819e80689aef6d3",
+    "input_archive": "Apex_Appointment_Flow_Harness_V2.6.1.1.0.zip",
+    "input_manifest_sha256": "722645632e36800b886d8f7ddc43da3700a0a063f63c3b8080339c541648e435",
+    "application_sha256": "c42b8eea6a6d6e02736fa53b5b5445db9bf484e0ab602de2149b318a09f4015d",
+    "harness_sha256": "ed8aec6fc5bab30c302c9ad4e66b3d6c6c9840f9d2e07ef779af162cfb15d179"
+  },
+  {
+    "archive": "V2.7.1.1.0.zip",
+    "sha256": "3b034df75ae163377ae867f1f10e6fc41c4ddadef2f0f967272d8daeb122e56e",
+    "name": "V2.7.1.1.0",
+    "scope": "Standalone full rebuild",
+    "evidence": "Input manifest matches the launched workspace. The application is the recorded frozen build",
+    "started_at": "2026-11-16T20:49:30.956752+00:00",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "launch_text_sha256": "394c940d964e669e4116189804d96d99d9d95e3e2413558df819e80689aef6d3",
+    "input_archive": "Apex_Appointment_Flow_Harness_V2.7.1.1.0.zip",
+    "input_manifest_sha256": "71d6757080fb4b75b52e5ff42dd19b7a6304d1d7c1bd9389f57f688cba062585",
+    "application_sha256": "99cdeecafab57ed0ad8abcf1376339e15a5691782a2577b75db0c6c58b903117",
+    "harness_sha256": "2b6001b7cc51299a58b9b1156cce0079544115764e1c8f55ae45137a70fcbfee"
+  },
+  {
+    "archive": "V2.7.2.1.0.zip",
+    "sha256": "d1611827bed43279cc55be303e28ef933f15ce2b5968351e8c42bc04ea132098",
+    "name": "V2.7.2.1.0",
+    "scope": "Standalone full rebuild",
+    "evidence": "Input manifest matches the launched workspace. The application is the recorded frozen build",
+    "started_at": "2026-11-16T23:24:50.510816+00:00",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "launch_text_sha256": "394c940d964e669e4116189804d96d99d9d95e3e2413558df819e80689aef6d3",
+    "input_archive": "Apex_Appointment_Flow_Harness_V2.7.2.1.0.zip",
+    "input_manifest_sha256": "bc5e1fee39fea1bfadbf67635bf9661b413664973a50f06b1a3176b098e4e34f",
+    "application_sha256": "dd871ce5a41e8cba61818c1751e9f34c2a207092f92b612e2ddd474dba173912",
+    "harness_sha256": "30b0ed6ce1715ddd7acee9db0c21fa9377448509a35dc76a78c65fbf9c69c3ef"
+  },
+  {
+    "archive": "V2.7.3.1.0.zip",
+    "sha256": "7d8eb22bbf3f0a338e4e742f1058029f8558432da805c663c176edf189758f32",
+    "name": "V2.7.3.1.0",
+    "scope": "Standalone full rebuild",
+    "evidence": "Input manifest matches the launched workspace. The application is the recorded frozen build",
+    "started_at": "2026-11-17T00:11:06.173678+00:00",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "launch_text_sha256": "394c940d964e669e4116189804d96d99d9d95e3e2413558df819e80689aef6d3",
+    "input_archive": "Apex_Appointment_Flow_Harness_V2.7.3.1.0.zip",
+    "input_manifest_sha256": "789ed4e8690015e13eb3762d5144bec2a4dbc6a3df3addb1d872dfdfdf9c5e06",
+    "application_sha256": "49c870c2db585898c8bcfd84d528e5c494b9e9ec5117de0f020cb09dd6a523d3",
+    "harness_sha256": "fbf747df2d056ef3582039d243d9587eccf69cb97c1f7e8c4277ca7f905d5cf4"
+  },
+  {
+    "archive": "V2.7.4.1.0.zip",
+    "sha256": "d53eb7da20161dcefbcb039a511a53740a681a33fb00e00a981007f0b90374fc",
+    "name": "V2.7.4.1.0",
+    "scope": "Standalone full rebuild",
+    "evidence": "Input manifest matches the launched workspace. The application is the recorded frozen build",
+    "started_at": "2026-11-17T02:14:26.577898+00:00",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "launch_text_sha256": "394c940d964e669e4116189804d96d99d9d95e3e2413558df819e80689aef6d3",
+    "input_archive": "Apex_Appointment_Flow_Harness_V2.7.4.1.0.zip",
+    "input_manifest_sha256": "a0e2f3c4d04c793445a91408707a7fe4b557b50d8c2a19722aac64882a80f34b",
+    "application_sha256": "5f1a7ed321c2d972cba02f445ccd94789fc558aee620c6da27a343704af14d6e",
+    "harness_sha256": "eaff971c638694201fc6e4c19ed885cc063838947197038784f325868e15be2d"
+  },
+  {
+    "archive": "V2.6.1.2-staff-refactor.zip",
+    "sha256": "c6c43f0447936c7a3d98317664fbd87665cba177360d34b2c111c9c6411e156b",
+    "name": "V2.6.1.2-staff-refactor",
+    "scope": "Staff appointment refactor",
+    "evidence": "Preserved launch prompt and guidance paired with the completed source",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "prompt_sha256": "876f22f9839562105424cddd2fbb8b83e37d1cb9f0408c8932a38b375dde7f75",
+    "builder_exit": 0,
+    "builder_seconds": 2218.2,
+    "source_revision": "00e715891e9da22485b2d448ff64adeb0246e660",
+    "application_sha256": "3038417afee323a6ae7bcd4b89b29185f3097b10b7b770fe3e96c0609e7af526",
+    "harness_sha256": "8cf404bdbcda33460581ca9fd84d2703bac3f62d552d054375553f26d7e444d8"
+  },
+  {
+    "archive": "V2.7.1.1.1-staff-refactor.zip",
+    "sha256": "6f9d10a70d19d69328a13bb960e869c0654ef661cfe182875285930bb3f11e2e",
+    "name": "V2.7.1.1.1-staff-refactor",
+    "scope": "Staff appointment controller refactor",
+    "evidence": "Preserved launch prompt and guidance paired with the completed source",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "prompt_sha256": "45d14b0505badf9faeb4a4edf5dd6885045cbfc6ca4a6fd919fe2d616c8ecde4",
+    "builder_exit": 0,
+    "builder_seconds": 546.4,
+    "source_revision": "52fbaa95b3cb13d97814400189132f75f706b64a",
+    "application_sha256": "029757bd55a7eb6cb8bb2a165d1f42c349ef953d71c3aee39f5afe4abe7b8010",
+    "harness_sha256": "8517f24d50be49ea8726876461aecf0d91b37180a0d3ea0ca51fea1184799f7d"
+  },
+  {
+    "archive": "V2.7.2-original-refactor.zip",
+    "sha256": "b8784aeddfa60a3ffb56ea2a26fdf03d5f74e09ce8ae7e4bac997fa68509c7d2",
+    "name": "V2.7.2-original-refactor",
+    "scope": "Original-app refactor with historical guidance present",
+    "evidence": "Preserved launch prompt and guidance paired with the completed source",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "prompt_sha256": "937dd10046338f89c38e17a686fb9c5e4126841b2b2919f07fcfb0060ebc6863",
+    "builder_exit": 0,
+    "builder_seconds": 1362.2,
+    "source_revision": "dc75c9b1c6a6019d0df0f3b218e1408d61744c47",
+    "application_sha256": "c42c38c0d5f7899866831f43dcf3eb9e15a99aca870e456a8c78380e3ee9a151",
+    "harness_sha256": "9b21668e2ae968c9a4f6867347c1561906e654770f9263d6674860ab53b07824"
+  },
+  {
+    "archive": "V2.7.2-original-isolated.zip",
+    "sha256": "c3fcc5f9b78189a9f1f76ff9ff616f16239ccebce47da6a5036a2e9153db472c",
+    "name": "V2.7.2-original-isolated",
+    "scope": "Original-app refactor with prior guidance excluded",
+    "evidence": "Preserved launch prompt and guidance paired with the completed source",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "prompt_sha256": "822345d405b604f89c8236ff3c6ff3f9c349535f43af400bec7617b7f5b5afd2",
+    "builder_exit": 0,
+    "builder_seconds": 1597.5,
+    "source_revision": "eb37b7b9b79e9f13f06d3c3714c8b0d1a0b4764e",
+    "application_sha256": "fe37a52f829377061887b3dbe432303493dbbb4d5e23cb98eb5b73b7abac6639",
+    "harness_sha256": "bd626b8f6b4de76483f18d19534492152ce9336f16813fe1d8595e30c872d9f6"
+  },
+  {
+    "archive": "V2.7.3-refresh.zip",
+    "sha256": "3b275f3c5451038ea85ef659183be98b836dcbbe129f50d17bb43119acc92bed",
+    "name": "V2.7.3-refresh",
+    "scope": "Scoped refresh refactor",
+    "evidence": "Preserved launch prompt and guidance paired with the completed source",
+    "started_utc": "2026-11-17T00:53:25.701510+00:00",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "prompt_sha256": "2a726c2ef886722875c672a0e1c9661bce4229a56d46bc2a82df3be737cc7a41",
+    "disposable_control": "dd996c1a6d32167996ae4db6e01fc7b8bfd7b41d",
+    "original_revision": "85b47df2613aa0b707ed160ad1a92d3acc63e6d8",
+    "source_revision": "67ee06a2c361ecfdf9570be96306c2facbc8d73d",
+    "application_sha256": "6f40dad9ac2460a9d42f5233adf282967e1e073edd7d8e572371d6bc0c16eaae",
+    "harness_sha256": "e25f597a46af6552e6d42d1c61567b25e9a5f4c9f2db065ccf1e7e7cb18893d0"
+  },
+  {
+    "archive": "V2.7.3-cold-write.zip",
+    "sha256": "d6e96841b0050e48f984d1ed403b6356fd8a6dc0d6035b5ca3c1aa1fe70c197f",
+    "name": "V2.7.3-cold-write",
+    "scope": "cold_writes",
+    "evidence": "Preserved launch prompt and guidance paired with the completed source",
+    "started_utc": "2026-11-17T01:13:15.357527+00:00",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "prompt_sha256": "c0ca0886058ca144f9d7330826efedf2e468b8c4c9478fd9ad61f55b0c49a5d3",
+    "disposable_control": "8a4ac0d580a614309aeb471fa6c014b140f1abdd",
+    "original_revision": "67ee06a2c361ecfdf9570be96306c2facbc8d73d",
+    "source_revision": "06b3547f02cb4ea8f9f48cd76ec09a857f97280f",
+    "application_sha256": "2681f842ff7624a943243df01a4450d7c4abe9eb7858f2f26e43663d872545b3",
+    "harness_sha256": "74b9c08c96017092fd3e6e07217c50fe08cd98f5d02c9e700c720008fd46eee3"
+  },
+  {
+    "archive": "V2.7.4-recipient.zip",
+    "sha256": "23d32e279b463b7494dc6cb59b20527c9298305a6a9b4ad10945e2d860c4024e",
+    "name": "V2.7.4-recipient",
+    "scope": "recipient_decision",
+    "evidence": "Preserved launch prompt and guidance paired with the completed source",
+    "started_utc": "2026-11-17T01:50:47.958003+00:00",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "prompt_sha256": "a8b332fc81f3c4a726ac3824a1f182a934127778bb29dedfd611db2373cc27ef",
+    "disposable_control": "f1e1b7b36246ac1b417c8aad242b826b14fb9b5e",
+    "original_revision": "06b3547f02cb4ea8f9f48cd76ec09a857f97280f",
+    "source_revision": "1086d7ccadcc716ab310f239d56ba61a54f69be1",
+    "application_sha256": "be2e76f8080889f9150c6ee049d0dc442a24f99e6b313546b0789a6e896cfa66",
+    "harness_sha256": "25ed53818d76e6ab6e177c49ede304861e7c0e178cbbe5bc0255b29498489fc8"
+  },
+  {
+    "archive": "V2.7.5.1.0-query-refactor.zip",
+    "sha256": "aa8b4f647b5384b4b7c376b13b5daa7902809763a9ae452e8bb8dde7030039cd",
+    "name": "V2.7.5.1.0 query refactor",
+    "scope": "Patient appointment query before the index follow-up",
+    "evidence": "Launch prompt and supplied guidance match recorded input hashes. Ten paired HTTP responses matched",
+    "started_utc": "2026-11-17T03:49:17.843498+00:00",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "prompt_sha256": "18c8c512c71b2175a6870e93dd0b66000f8774ee4808e0dc0038f1ef33085dfd",
+    "original_revision": "db037d7932b13fc4d735106e0fa199815fb2d22c",
+    "application_sha256": "31580f08c08181beac4c154f24e3fac3d2cb0394938974b2be0f5188425c16de",
+    "harness_sha256": "7308477a7d1da7de0be823a97ce94c754cd9c573169edab35a7e66afa1f1a93f"
+  },
+  {
+    "archive": "V2.7.5.1.0-mirror-followup.zip",
+    "sha256": "52e35d85bbcfa06f3ede42fe5ee36d31e137a84c11a25c55101fe651f60e18b5",
+    "name": "V2.7.5.1.0",
+    "scope": "Patient appointment refactor and app-owned index follow-up",
+    "evidence": "Follow-up guidance hashes match. All 330 request measurements had matching bodies and cursors",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "prompt_sha256": "75e8b7bec9939b14e2fad9bf5dbfc2f5f32a5c5b7e93ffaea45e81f8ff6d884b",
+    "external_pms_schema_preserved": true,
+    "application_sha256": "50f3ecb01ed0cca0098b178e8f52b4fe4013c6641087b84d5f9982d4fa9dbafa",
+    "harness_sha256": "ee3aef0d677af4046dc2266a7dfcc6af92269a64bc27a2a7a2f4fc11d3bb3979"
+  },
+  {
+    "archive": "V2.4.1.1.0-paired-interrupted.zip",
+    "sha256": "685e66df7c9f916ef19ca4ec4ae5e17437d753b081cd80ff25da94f4f301dcda",
+    "name": "V2.4.1.1.0 paired trial",
+    "scope": "Earlier matched rebuild attempt",
+    "evidence": "Partial application source from an interrupted trial. No completed benchmark",
+    "model": "gpt-6.1-sol",
+    "effort": "xhigh",
+    "exit_code": 4294967295,
+    "input_manifest_sha256": "f49d8f6c495e5086e07d85f3658be1185d367ee896af39f4d5e044fac8e231ee",
+    "application_sha256": "34621a95ff77e7bc7ae099c706f4a6c5974719f215e289e67894ed17220c6aff",
+    "harness_sha256": "372b4e548fd533a0dcc26720fbf0e24b1e512dab155568a370ea4d8a1bbf7f8b"
+  },
+  {
+    "archive": "V2.5.1.1.0-paired-interrupted.zip",
+    "sha256": "2d9f5aba90db561fff41879a45dbbd1580e9a5798ad0fa2006af12dbfda79723",
+    "name": "V2.5.1.1.0 paired trial",
+    "scope": "Earlier matched rebuild attempt",
+    "evidence": "Partial application source from an interrupted trial. No completed benchmark",
+    "model": "gpt-6.1-sol",
+    "effort": "xhigh",
+    "exit_code": 4294967295,
+    "input_manifest_sha256": "0d2a61ece52a602d274daf30100b81688ba256a9e25c43da932f581840b830ae",
+    "application_sha256": "1c1b99904fa0aa573e64b46877364df2620e3c4cb78efa959991b155dc600aad",
+    "harness_sha256": "c183ad9aab5a524a96c6669cb4cf566e67f750da2817f0b2f4533c24ef4dcb1d"
+  }
+]

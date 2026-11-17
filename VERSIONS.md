@@ -1,5 +1,7 @@
 # Harness versions
 
+[Paired runs](runs/README.md)
+
 The original application is the historical control.
 
 | Version | What changed | Evidence | Archive |
@@ -12,9 +14,9 @@ The original application is the historical control.
 | V2.3.0.0.0 | Made entry points, private stages, and failure paths explicit. | [Historical build](reports/Appointment_Flow_All_Versions_Review.md) | [Archive](packages/Apex_Appointment_Flow_Harness_V2.3.0.0.0.zip) |
 | V2.4.0.0.0 | Revised review wording and separated reference implementations from builder inputs. | [Historical build](reports/Appointment_Flow_Harness_Progress.md) | [Archive](packages/Apex_Appointment_Flow_Harness_V2.4.0.0.0.zip) |
 | V2.4.1.1.0 | Added performance checks and AI grading to the V2.4 base. | [Historical build and scoped measurements](reports/Appointment_Flow_All_Versions_Review.md) | [Archive](packages/Apex_Appointment_Flow_Harness_V2.4.1.1.0.zip) |
-| V2.5.0.0.0 | Returned to the V2 base and controlled the standalone launch settings. | [Standalone measured; AIR prepared](reports/V2.5_Family_Ranking_and_Benchmarks.md) | [Archive](packages/Apex_Appointment_Flow_Harness_V2.5.0.0.0.zip) |
-| V2.5.1.0.0 | Added growth measurements and audited query paths against the Rails guide. | [Standalone measured; AIR prepared](reports/V2.5.1.0.0_Active_Record_Audit.md) | [Archive](packages/Apex_Appointment_Flow_Harness_V2.5.1.0.0.zip) |
-| V2.5.1.1.0 | Required AI grading, repair, and regrading in the performance variant. | [Standalone measured; AIR prepared](reports/V2.5_Variant_Comparison.md) | [Archive](packages/Apex_Appointment_Flow_Harness_V2.5.1.1.0.zip) · [Variant input](packages/Apex_Appointment_Flow_Harness_V2.5.1.1.0-variant-input.zip) |
+| V2.5.0.0.0 | Returned to the V2 base and controlled the standalone launch settings. | [Standalone benchmark](reports/V2.5_Family_Ranking_and_Benchmarks.md) | [Archive](packages/Apex_Appointment_Flow_Harness_V2.5.0.0.0.zip) |
+| V2.5.1.0.0 | Added growth measurements and audited query paths against the Rails guide. | [Standalone benchmark](reports/V2.5.1.0.0_Active_Record_Audit.md) | [Archive](packages/Apex_Appointment_Flow_Harness_V2.5.1.0.0.zip) |
+| V2.5.1.1.0 | Required AI grading, repair, and regrading in the performance variant. | [Standalone benchmark](reports/V2.5_Variant_Comparison.md) | [Archive](packages/Apex_Appointment_Flow_Harness_V2.5.1.1.0.zip) · [Variant input](packages/Apex_Appointment_Flow_Harness_V2.5.1.1.0-variant-input.zip) |
 | V2.6.1.1.0 | Measured growing work during implementation and verified a disposable rule change. | [Matched rebuild and follow-up](reports/V2.6_Run_Report.md) | [Archive](packages/Apex_Appointment_Flow_Harness_V2.6.1.1.0.zip) |
 | V2.6.1.2 | Separated structure changes from query changes and required equivalent responses. | [Scoped refactor overlay](reports/V2.6.1.2_Staff_Appointments_Result.md) | [Archive](packages/Apex_Appointment_Flow_Harness_V2.6.1.2-overlay.zip) |
 | V2.7.1.1.0 | Set Rails ownership rules and tightened evidence for plain Active Record. | [Matched rebuild](reports/V2.7_Clean_Room_Comparison.md) | [Archive](packages/Apex_Appointment_Flow_Harness_V2.7.1.1.0.zip) |

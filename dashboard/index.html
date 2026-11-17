@@ -25,18 +25,18 @@
     <nav aria-label="Experiment pages">
       <a href="#overview">Overview</a><a href="#database">Database audit</a><a href="#quality">Code quality</a><a href="#refactor">Refactor</a><a href="#versions">Harness versions</a><a href="#runs">Run log</a>
     </nav>
-    <div class="side-status"><span class="dot"></span>5 builds benchmarked<br>3 RubyMine AIR builds pending</div>
+    <div class="side-status"><span class="dot"></span>5 builds in the shared benchmark<br>Later trials in Harness versions</div>
   </aside>
   <main>
     <div class="mast"><span>Rails / React rebuild comparison</span><span>16 Nov 2026 · PostgreSQL 17.11</span></div>
     <section id="overview" class="view">
-      <header class="intro"><h1>Appointment Flow comparison</h1><p class="lede">The original <strong>appointment-flow</strong> is the baseline. Every comparison shows it first, followed by four standalone Codex builds and the three prepared RubyMine AIR builds.</p></header>
+      <header class="intro"><h1>Appointment Flow comparison</h1><p class="lede">The original <strong>appointment-flow</strong> is the baseline. This shared workload compares it with four standalone builds. Later rebuilds and scoped refactors appear under Harness versions.</p></header>
       <div class="summary snapshot" aria-label="What has been measured">
         <article class="card"><div class="label">Baseline · original project</div><strong class="metric project">appointment-flow</strong><span class="small">Source reviewed. The same database test is complete.</span></article>
-        <article class="card"><div class="label">Same database test completed</div><strong class="metric">5 of 8</strong><span class="small">The original plus V2.5.0.0.0, V2.5.1.0.0, V2.5.1.1.0, and V2.6.1.1.0. All five passed the same 16 checks.</span></article>
+        <article class="card"><div class="label">Same database test completed</div><strong class="metric">5 builds</strong><span class="small">The original plus V2.5.0.0.0, V2.5.1.0.0, V2.5.1.1.0, and V2.6.1.1.0. All five passed the same 16 checks.</span></article>
       </div>
       <div class="board section">
-        <article class="card chart"><div class="chart-head"><div><h2>Database work to send reminders</h2><p class="small">One clinic, one complete run. Choose a case and a measure to compare all eight builds.</p></div></div>
+        <article class="card chart"><div class="chart-head"><div><h2>Database work to send reminders</h2><p class="small">One clinic, one complete run. Choose a case and a measure to compare the five measured builds.</p></div></div>
           <div id="workload-buttons" class="segments" aria-label="Reminder workload"></div>
           <div id="workload-metric-buttons" class="segments" aria-label="Reminder work metric"></div>
           <div id="workload-chart" aria-live="polite"></div>
@@ -47,14 +47,13 @@
           <div class="point"><strong>V2.5.1.0.0 · Standalone Codex</strong><span>The app saves patients, visits, and reminders in groups. The same number of statements can carry more rows.</span></div>
           <div class="point"><strong>V2.5.1.1.0 · Standalone Codex</strong><span>It reads appointments directly from the source. It still writes a separate message row for each reminder.</span></div>
           <div class="point"><strong>V2.6.1.1.0 · Standalone Codex</strong><span>It groups reminder writes and sends 24 reminders in 18 statements. The first run also imports later appointments into its local calendar.</span></div>
-          <div class="point"><strong>RubyMine AIR · waiting to start</strong><span>V2.5.0.0.0, V2.5.1.0.0, and V2.5.1.1.0 each have a prepared project.</span></div>
         </aside>
       </div>
       <article class="card section"><h2>What changed in V2.6.1.1.0</h2><p>The implementation check cut the unchanged retry from <strong>2,410 to 8 rows returned to Rails</strong> in a separate 1,200-appointment fixture. Independent review brought the leadership report from <strong>183 to 6 queries</strong> at 60 clinics. The shared benchmark then cut the 24-reminder batch from <strong>41 to 18 statements</strong> by grouping its writes.</p><p class="sources"><a href="../reports/V2.6_Run_Report.md">How each change was verified</a></p></article>
-      <article class="card section"><h2>All eight builds</h2><div class="tablewrap"><table id="build-table" class="wide"></table></div></article>
+      <article class="card section"><h2>Measured builds</h2><div class="tablewrap"><table id="build-table" class="wide"></table></div></article>
     </section>
     <section id="database" class="view" hidden>
-      <header class="intro"><h1>What the database did</h1><p class="lede">Rails and PostgreSQL recorded the statements for every measured run. Each table shows the original baseline, the standalone Codex builds, and the RubyMine AIR builds. The status tells you which tests are still waiting.</p></header>
+      <header class="intro"><h1>What the database did</h1><p class="lede">Rails and PostgreSQL recorded the statements for every measured run. The tables compare the original baseline and four standalone builds on the same cases.</p></header>
       <section id="original-job" class="section" aria-labelledby="original-job-title">
         <article class="card">
           <h2 id="original-job-title">How the original job turns appointments into staff work</h2>
@@ -87,7 +86,7 @@
               <p class="small">Each tick fetched 8,893 bytes of replica JSON across three reads. Seven replica statements, including connection-level transaction commands, are already included in each total.</p>
             </div>
           </div>
-          <p class="fine">Measured on the frozen original baseline using an isolated PostgreSQL test database and fake delivery. The shared eight-build comparisons below use their own fixture with valid contacts and seven-day appointments.</p>
+          <p class="fine">Measured on the frozen original baseline using an isolated PostgreSQL test database and fake delivery. The shared five-build comparisons below use their own fixture with valid contacts and seven-day appointments.</p>
         </article>
       </section>
       <div class="two section">
@@ -136,6 +135,34 @@
       <tr><td>Tracked-only source lookup</td><td>Scans and rejects 5,577 mirror rows</td><td>Index seek with zero heap fetches</td></tr>
       <tr><td>Load two tracked visits</td><td>176 shared PostgreSQL buffer hits</td><td>3 shared buffer hits</td></tr>
       </tbody></table></div><p class="explain">Full-request growth remains REVISE. The clinic membership check and one upcoming-history join still scan unrelated rows.</p></article>
+      <article id="paired-runs" class="card section"><h2>Harness input and application output</h2><p>Each archive includes both. The evidence column distinguishes verified inputs, historical matches, and unfinished trials.</p><p class="sources"><a href="../runs/README.md">Paired run index</a></p><div class="tablewrap"><table class="wide"><thead><tr><th>Run</th><th>Scope</th><th>Evidence</th><th>Archive</th></tr></thead><tbody><tr><td>Original appointment-flow</td><td>Historical product control</td><td>Includes the preserved project guidance. No single frozen launch input is documented</td><td><a href="../runs/Original.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2</td><td>Historical source and harness</td><td>Archived input manifest matches the saved application workspace</td><td><a href="../runs/V2.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.1</td><td>Historical source and harness</td><td>Input manifest matches the nested harness preserved with the application</td><td><a href="../runs/V2.1.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.2</td><td>Historical source and harness</td><td>Version-associated archives. No matching launch receipt was recovered</td><td><a href="../runs/V2.2.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.3.0.0.0</td><td>Historical source and harness</td><td>Archived input manifest matches the saved application workspace</td><td><a href="../runs/V2.3.0.0.0.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.4.0.0.0</td><td>Historical source and harness</td><td>Version-associated archives. No matching launch receipt was recovered</td><td><a href="../runs/V2.4.0.0.0.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.4.1.1.0</td><td>Historical source and harness</td><td>Archived input manifest matches the saved application workspace</td><td><a href="../runs/V2.4.1.1.0.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V3</td><td>Historical source and harness</td><td>Input manifest matches the nested harness preserved with the application</td><td><a href="../runs/V3.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V3.1.1</td><td>Historical source and harness</td><td>Archived input manifest matches the saved application workspace</td><td><a href="../runs/V3.1.1.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.5.0.0.0</td><td>Standalone full rebuild</td><td>Input manifest matches the launched workspace. The application is the recorded frozen build</td><td><a href="../runs/V2.5.0.0.0.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.5.1.0.0</td><td>Standalone full rebuild</td><td>Input manifest matches the launched workspace. The application is the recorded frozen build</td><td><a href="../runs/V2.5.1.0.0.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.5.1.1.0</td><td>Standalone full rebuild</td><td>Input manifest matches the launched workspace. The application is the recorded frozen build</td><td><a href="../runs/V2.5.1.1.0.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.6.1.1.0</td><td>Standalone full rebuild</td><td>Input manifest matches the launched workspace. The application is the recorded frozen build</td><td><a href="../runs/V2.6.1.1.0.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.7.1.1.0</td><td>Standalone full rebuild</td><td>Input manifest matches the launched workspace. The application is the recorded frozen build</td><td><a href="../runs/V2.7.1.1.0.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.7.2.1.0</td><td>Standalone full rebuild</td><td>Input manifest matches the launched workspace. The application is the recorded frozen build</td><td><a href="../runs/V2.7.2.1.0.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.7.3.1.0</td><td>Standalone full rebuild</td><td>Input manifest matches the launched workspace. The application is the recorded frozen build</td><td><a href="../runs/V2.7.3.1.0.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.7.4.1.0</td><td>Standalone full rebuild</td><td>Input manifest matches the launched workspace. The application is the recorded frozen build</td><td><a href="../runs/V2.7.4.1.0.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.6.1.2-staff-refactor</td><td>Staff appointment refactor</td><td>Preserved launch prompt and guidance paired with the completed source</td><td><a href="../runs/V2.6.1.2-staff-refactor.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.7.1.1.1-staff-refactor</td><td>Staff appointment controller refactor</td><td>Preserved launch prompt and guidance paired with the completed source</td><td><a href="../runs/V2.7.1.1.1-staff-refactor.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.7.2-original-refactor</td><td>Original-app refactor with historical guidance present</td><td>Preserved launch prompt and guidance paired with the completed source</td><td><a href="../runs/V2.7.2-original-refactor.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.7.2-original-isolated</td><td>Original-app refactor with prior guidance excluded</td><td>Preserved launch prompt and guidance paired with the completed source</td><td><a href="../runs/V2.7.2-original-isolated.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.7.3-refresh</td><td>Scoped refresh refactor</td><td>Preserved launch prompt and guidance paired with the completed source</td><td><a href="../runs/V2.7.3-refresh.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.7.3-cold-write</td><td>cold_writes</td><td>Preserved launch prompt and guidance paired with the completed source</td><td><a href="../runs/V2.7.3-cold-write.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.7.4-recipient</td><td>recipient_decision</td><td>Preserved launch prompt and guidance paired with the completed source</td><td><a href="../runs/V2.7.4-recipient.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.7.5.1.0 query refactor</td><td>Patient appointment query before the index follow-up</td><td>Launch prompt and supplied guidance match recorded input hashes. Ten paired HTTP responses matched</td><td><a href="../runs/V2.7.5.1.0-query-refactor.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.7.5.1.0</td><td>Patient appointment refactor and app-owned index follow-up</td><td>Follow-up guidance hashes match. All 330 request measurements had matching bodies and cursors</td><td><a href="../runs/V2.7.5.1.0-mirror-followup.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.4.1.1.0 paired trial</td><td>Earlier matched rebuild attempt</td><td>Partial application source from an interrupted trial. No completed benchmark</td><td><a href="../runs/V2.4.1.1.0-paired-interrupted.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.5.1.1.0 paired trial</td><td>Earlier matched rebuild attempt</td><td>Partial application source from an interrupted trial. No completed benchmark</td><td><a href="../runs/V2.5.1.1.0-paired-interrupted.zip" download>Paired ZIP</a></td></tr></tbody></table></div></article>
       <article class="card section"><h2>Release archive</h2><label for="version-filter" class="label">Filter by version, change, or evidence</label><br>
       <input id="version-filter" type="search" style="font:inherit;max-width:100%;margin:5px 0 14px;padding:6px 10px;border:1px solid var(--rule);border-radius:6px" aria-controls="version-rows">
       <div class="tablewrap"><table class="wide"><thead><tr><th>Version</th><th>Design change</th><th>Evidence</th><th>Archive</th></tr></thead><tbody id="version-rows">
@@ -147,9 +174,9 @@
 <tr><td>V2.3.0.0.0</td><td>Made entry points, private stages, and failure paths explicit.</td><td><a href="../reports/Appointment_Flow_All_Versions_Review.md">Historical build</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.3.0.0.0.zip" download>Download</a></td></tr>
 <tr><td>V2.4.0.0.0</td><td>Revised review wording and separated reference implementations from builder inputs.</td><td><a href="../reports/Appointment_Flow_Harness_Progress.md">Historical build</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.4.0.0.0.zip" download>Download</a></td></tr>
 <tr><td>V2.4.1.1.0</td><td>Added performance checks and AI grading to the V2.4 base.</td><td><a href="../reports/Appointment_Flow_All_Versions_Review.md">Historical build and scoped measurements</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.4.1.1.0.zip" download>Download</a></td></tr>
-<tr><td>V2.5.0.0.0</td><td>Returned to the V2 base and controlled the standalone launch settings.</td><td><a href="../reports/V2.5_Family_Ranking_and_Benchmarks.md">Standalone measured; AIR prepared</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.5.0.0.0.zip" download>Download</a></td></tr>
-<tr><td>V2.5.1.0.0</td><td>Added growth measurements and audited query paths against the Rails guide.</td><td><a href="../reports/V2.5.1.0.0_Active_Record_Audit.md">Standalone measured; AIR prepared</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.5.1.0.0.zip" download>Download</a></td></tr>
-<tr><td>V2.5.1.1.0</td><td>Required AI grading, repair, and regrading in the performance variant.</td><td><a href="../reports/V2.5_Variant_Comparison.md">Standalone measured; AIR prepared</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.5.1.1.0.zip" download>Download</a> · <a href="../packages/Apex_Appointment_Flow_Harness_V2.5.1.1.0-variant-input.zip" download>Variant input</a></td></tr>
+<tr><td>V2.5.0.0.0</td><td>Returned to the V2 base and controlled the standalone launch settings.</td><td><a href="../reports/V2.5_Family_Ranking_and_Benchmarks.md">Standalone benchmark</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.5.0.0.0.zip" download>Download</a></td></tr>
+<tr><td>V2.5.1.0.0</td><td>Added growth measurements and audited query paths against the Rails guide.</td><td><a href="../reports/V2.5.1.0.0_Active_Record_Audit.md">Standalone benchmark</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.5.1.0.0.zip" download>Download</a></td></tr>
+<tr><td>V2.5.1.1.0</td><td>Required AI grading, repair, and regrading in the performance variant.</td><td><a href="../reports/V2.5_Variant_Comparison.md">Standalone benchmark</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.5.1.1.0.zip" download>Download</a> · <a href="../packages/Apex_Appointment_Flow_Harness_V2.5.1.1.0-variant-input.zip" download>Variant input</a></td></tr>
 <tr><td>V2.6.1.1.0</td><td>Measured growing work during implementation and verified a disposable rule change.</td><td><a href="../reports/V2.6_Run_Report.md">Matched rebuild and follow-up</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.6.1.1.0.zip" download>Download</a></td></tr>
 <tr><td>V2.6.1.2</td><td>Separated structure changes from query changes and required equivalent responses.</td><td><a href="../reports/V2.6.1.2_Staff_Appointments_Result.md">Scoped refactor overlay</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.6.1.2-overlay.zip" download>Download</a></td></tr>
 <tr><td>V2.7.1.1.0</td><td>Set Rails ownership rules and tightened evidence for plain Active Record.</td><td><a href="../reports/V2.7_Clean_Room_Comparison.md">Matched rebuild</a></td><td><a href="../packages/Apex_Appointment_Flow_Harness_V2.7.1.1.0.zip" download>Download</a></td></tr>
@@ -167,9 +194,8 @@
       <header class="intro"><h1>Build records</h1><p class="lede">Build time includes implementation, testing, and repair. The database tests ran against frozen copies. The original project has its own development history.</p></header>
       <article class="card section"><h2>Regressions and what to avoid</h2><p>Some changes reduced query counts or removed SQL while sending more data to Rails. Others made the code harder to follow or changed when a concurrent update became visible. The log shows the measured results and the checks that can catch them in later builds.</p><p class="sources"><a href="../reports/Appointment_Flow_Harness_Regression_Log.md">Read the regression log</a></p></article>
       <article class="card section"><h2>V2.7.4.1.0 full rebuild decision</h2><p><strong>Keep V2.7.3.1.0 as the working harness baseline.</strong> The V2.7.4.1.0 rebuild relies on handwritten SQL in views and functions for recipient matching and staff views. That fails the plain Active Record standard. The baseline's recipient safety and database growth gaps remain open.</p><p><strong>Behavior.</strong> V2.7.3.1.0 passed 40 of 44 matched checks at both checkpoints. It confirmed three ambiguous replies and sent one reminder to a shared number. V2.7.4.1.0 passed all 44 at both checkpoints. It routed the ambiguous replies to staff review and held the unsafe reminder.</p><p><strong>Database work.</strong> With 600 later appointments added, the reviewed V2.7.3.1.0 build sent two reminders in 1,228 statements. The reviewed V2.7.4.1.0 build sent the same two in 16 statements. A successful confirming reply went from 3,019 rows returned to Rails to six. The reviewed appointment list loaded one more Rails record in V2.7.4.1.0 and used one fewer statement.</p><p><strong>Scoped refactors.</strong> The earlier refresh trial cut the first reminder run from 1,228 to 26 statements while still affecting 1,207 rows. The separate V2.7.4.1.0 recipient refactor used plain Active Record and passed all 44 checks. Its historical reply transferred 614 rows with 600 additional owners, compared with 14 on the small fixture. That growth remains an open cost.</p><p class="sources"><a href="../reports/V2.7.4_Candidate.md">Full rebuild comparison</a><a href="../benchmarks/V2.7.3_Matched_Final_Workload.csv" download>V2.7.3.1.0 reviewed measurements</a><a href="../benchmarks/V2.7.4_Matched_Final_Workload.csv" download>V2.7.4.1.0 reviewed measurements</a><a href="../benchmarks/V2.7.4_Scoped_Recipient_Workload.csv" download>Scoped recipient measurements</a><a href="../reports/Appointment_Flow_Harness_Regression_Log.md">Regression log</a><a href="../reports/V2.7.3_Performance_Experiment.md">Earlier comparison and checkpoints</a><a href="../benchmarks/V2.7.3_Cold_Write_Refactor_Workload.csv" download>First-time write measurements</a><a href="../packages/Apex_Appointment_Flow_Harness_V2.7.4.1.0.zip" download>V2.7.4.1.0 harness ZIP</a></p></article>
-      <article class="card section"><h2>Build, test, and source record</h2><div class="tablewrap"><table id="run-table" class="wide"></table></div><p class="fine">Standalone runs used GPT-6.1 Sol at High effort and the same launch prompt. V2.6.1.1.0 took 66 minutes for the rebuild and review, plus about 13 minutes for the measured follow-up. The three RubyMine AIR projects have no build results yet.</p></article>
+      <article class="card section"><h2>Build, test, and source record</h2><div class="tablewrap"><table id="run-table" class="wide"></table></div><p class="fine">Standalone runs used GPT-6.1 Sol at High effort and the same launch prompt. V2.6.1.1.0 took 66 minutes for the rebuild and review, plus about 13 minutes for the measured follow-up.</p></article>
       <div class="two section">
-        <article class="card"><h2>Waiting for a run</h2><ol class="sequence"><li><strong>V2.5.0.0.0 · RubyMine AIR.</strong> Project prepared.</li><li><strong>V2.5.1.0.0 · RubyMine AIR.</strong> Project prepared.</li><li><strong>V2.5.1.1.0 · RubyMine AIR.</strong> Project prepared.</li></ol><p class="next sources"><a href="../reports/V2.5_Variant_Comparison.md">Prepared project paths</a><a href="../reports/V2.5_Launch_Prompt.md">Shared prompt</a></p></article>
         <article class="card"><h2>Audit corrections</h2><ol class="sequence"><li>Added PostgreSQL’s tools to PATH so Rails could load the schema.</li><li>Fixed a JSON-encoded GET in the benchmark driver. The rerun reached the appointment-list action.</li><li>Corrected two supplemental probe inputs and verified the expected HTTP responses.</li></ol><p class="small next">Initial and corrected logs are retained. The audited app code stayed frozen.</p></article>
       </div>
       <article class="card section"><h2>Download the evidence</h2><p>The current evidence includes exact revisions, SQL traces, query plans, grading rounds, and the blind reviews. The metrics CSV contains 80 measured operation records.</p><p class="sources"><a href="../reports/Appointment_Flow_Harness_Progress.md">Harness progress by version</a><a href="../reports/V2.7_Regrade_of_V2.6.md">V2.7 regrade</a><a href="../reports/V2.6_Run_Report.md">V2.6 run report</a><a href="../benchmarks/V2.6_Compared_Workload.csv" download>Matched metrics CSV</a>SQL traces and gradesReusable benchmark kit<a href="../packages/Apex_Appointment_Flow_Harness_V2.7.1.1.0.zip" download>V2.7 harness ZIP</a><a href="../packages/Apex_Appointment_Flow_Harness_V2.6.1.1.0.zip" download>V2.6 harness ZIP</a>Earlier V2.5 SQL audit</p><p class="fine">Statement counts include transaction commands. Fixture loading, separate sign-in calls, and schema queries have separate counters.</p></article>
@@ -315,13 +341,7 @@ for (const build of standalone) {
   build.id = `standalone-${build.name}`;
   build.host = "Standalone Codex";
 }
-const air = standalone.filter(build => build.name.startsWith("V2.5.")).map(({name}) => ({
-  id:`air-${name}`, name, host:"RubyMine AIR", missing:"Waiting to start",
-  evidence:"Project prepared. The build, database test, and code review are still waiting.",
-  quality:["Build waiting to start.", "Build waiting to start.", "Review waiting for the build."],
-  workflow:["Build waiting to start.", "Build waiting to start.", "Build waiting to start."]
-}));
-const builds = [original, ...standalone, ...air];
+const builds = [original, ...standalone];
 const cases = [
   ["small","2 due","Each measured run sent two simulated reminders."],
   ["older_history","2 due + 600 old","The added appointments were completed in 2024. Each measured run still sent two reminders."],
