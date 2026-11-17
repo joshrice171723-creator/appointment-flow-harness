@@ -8,7 +8,7 @@ I tested how different coding instructions changed the Rails and React apps AI a
 
 ![Full rebuilds compared with the original app. The 24-reminder run used 119 statements in the original, 18 in V2.6.1.1.0, and 45 in V2.7.1.1.0. A later V2.7 comparison passed four more checks and failed the Active Record rule.](dashboard/experiment-results.png)
 
-**28 run bundles** pair the recovered instructions with the application output. The index marks verified inputs, historical matches, and interrupted builds. [Browse the paired runs](runs/README.md)
+**31 run bundles** pair the recovered instructions with the application output. The index marks verified inputs, historical matches, and interrupted builds. [Browse the paired runs](runs/README.md)
 
 ## What we grade and where
 
@@ -23,7 +23,7 @@ These paths are for the original `appointment-flow` app. Start on `/` and choose
 | **Send a clinic's reminders and create follow-up work** | Background worker calls `ReminderRunner.tick`. Resulting tickets appear on `/front-desk?clinic=1`. | Count expected fake sends and saved tickets, verify that neither is duplicated on retry, and measure the PMS read separately. [Reminder job evidence](#reminder-job-and-pms-reads) |
 | **Handle a patient's reminder reply** | `/patient` · `POST /api/patient/messages/:token` | A unique, valid reply confirms the intended appointment. A number that becomes shared must lead to staff review. If the number is already shared at send time with no alternate channel, create a contact hold and send nothing. [Recipient scenarios](reports/V2.7.4_Candidate.md) |
 
-The rubric also grades the code behind these workflows. The reviewer traces each selected entry point to the rule, checks what changes or rolls back on failure, and tests a small rule change in a disposable copy. The Active Record check follows queries through models and their database sources. These checks apply to the frozen code and have no app URL.
+The rubric also grades the code for these workflows. The reviewer follows each entry point to the business rule. The reviewer records what the app saves or rolls back after a failure. The reviewer tests a small rule change in a separate copy. The Active Record check follows each query to its data source. These checks use frozen code.
 
 ## How to read the version numbers
 
@@ -58,6 +58,8 @@ The two later branches explain why a number sometimes goes down. `V2.8.4.1.0` to
 | **V2.7.2 original refactor, isolated** | Reran the same two-file refactor from the same original commit after removing old project guidance. It did less database work in the growth cases and matched 21 of 22 responses. The remaining difference was which confirmation the request saw during a concurrent write. | [Paired ZIP](runs/V2.7.2-original-isolated.zip) · [Side-by-side results](reports/V2.7.2_Refactor_Isolation_Comparison.md) |
 | **V2.7.5.1.0 patient appointment refactor** | Added an explicit handwritten-SQL gate to the harness and moved query checks into each implementation step. The trial translated the original app's patient appointment query into plain Active Record. Ten paired HTTP responses matched. | [Paired ZIP](runs/V2.7.5.1.0-query-refactor.zip) · [Results](reports/PATIENT_APPOINTMENTS_REFACTOR.md) |
 | **V2.7.5.1.0 app-owned index follow-up** | Tested two indexes on the app's database with the external PMS schema held fixed. Fetching the same two visits went from 176 buffer hits to three. The full request still earned REVISE because two reads did extra work as unrelated history grew. | [Paired ZIP](runs/V2.7.5.1.0-mirror-followup.zip) · [Results](reports/PATIENT_APPOINTMENTS_MIRROR_INDEX.md) |
+| **V2.8.5.1.1 patient appointment refactor** | Reduced the work that the authorization query does. An independent replay still found one broad scan in upcoming history. | [Refactor ZIP](runs/V2.8.5.1.1-refactor.zip) · [Validation report](reports/V2.8.5_Harness_Validation.md) |
+| **V2.8.5.1.1 focused repair** | Used a Rails association to match bookings by appointment, patient, and clinic. The final read passed its focused checks. On the larger data set, upcoming history used 28 buffers, down from 521 in the original. | [Repair ZIP](runs/V2.8.5.1.1-refactor-repair.zip) · [Patient request measurements](benchmarks/V2.8.5_Patient_Appointments_Workload.csv) |
 
 ### Early experiments
 
@@ -88,7 +90,7 @@ The older archive also contains an app snapshot labeled `V26`. Its exact harness
 | **V2.7.3.1.0** | Required the builder to explain which data supports an important lookup and who keeps it current. Review found the workflows easier to read and change. It became the working full-rebuild baseline with 40 of 44 behavior checks passing and first-time refresh work still high. | [Paired ZIP](runs/V2.7.3.1.0.zip) · [Results](reports/V2.7.3_Performance_Experiment.md) |
 | **V2.7.4.1.0** | Checked recipient decisions against relevant history and tested the real prerequisite under growth. It passed 44 of 44 checks and cut the grown reminder case to 16 statements. Handwritten SQL in views and functions failed the plain Active Record standard. | [Paired ZIP](runs/V2.7.4.1.0.zip) · [Adoption decision](reports/V2.7.4_Candidate.md) |
 | **V2.8.4.1.0** | Added a check that identifies the event that sets the clock for a time-dependent decision. It was packaged with no verified completed build. | [Harness ZIP](packages/Apex_Appointment_Flow_Harness_V2.8.4.1.0.zip) · [Evaluation plan](reports/Harness_Autonomous_Experiment_Plan.md) |
-| **V2.8.5.1.1** | Restored the executable Active Record check, added executed-plan evidence for selective reads, and defined how to refactor an existing workflow while keeping its behavior. | [Harness ZIP](packages/Apex_Appointment_Flow_Harness_V2.8.5.1.1.zip) |
+| **V2.8.5.1.1** | Restored the Active Record check and added query plan checks. The rebuild passed its own rubric and 42 of 44 independent checks. It still reads the full source contact directory. | [Harness ZIP](packages/Apex_Appointment_Flow_Harness_V2.8.5.1.1.zip) · [Rebuild ZIP](runs/V2.8.5.1.1-rebuild.zip) · [Validation report](reports/V2.8.5_Harness_Validation.md) |
 
 ### Focused refactors on variant builds
 
@@ -109,7 +111,7 @@ The [harness archive catalog](VERSIONS.md) includes the standalone guidance pack
 The original app runs `ReminderJob` in Sidekiq. It calls `ReminderRunner.tick` in the background. The test runs the same `tick` with synthetic data, without job-queue waiting time.
 
 1. **Read the PMS.** The job refreshes the app's local copy from the read-only replica before sending. PostgreSQL returns one JSON result for clinics, one for patients, and one for appointments. The appointment read has a date window and includes tracked appointments that have moved. The patient read fetches the whole source patient table.
-2. **Update the app and decide what is due.** The job saves changed facts to the app database, reconciles visits, and checks which clinics and patients are eligible. A failed refresh pauses outreach.
+2. **Update the app and find the due reminders.** The job saves changed data in the app database and reconciles visits. It then checks which clinics and patients are eligible. A failed refresh pauses outreach.
 3. **Save follow-up work and fake sends.** Issues appear in the clinic queue at `/front-desk?clinic=1` through `GET /api/board?clinic=1`. A same-clock retry should save zero additional tickets and sends.
 
 The mixed workload starts with 24 appointments. Eight are due for the initial reminder, eight are on the following day with no response on record, and eight lack a usable contact. The first tick creates 16 tickets and records 16 fake emails. The retry must preserve the exact stored outcome. This exercises a different workload from the 24-send comparison below.
@@ -123,7 +125,7 @@ The mixed workload starts with 24 appointments. Eight are due for the initial re
 
 The extra 2,000 patients had no appointments and unique contacts. They left the job's visible result unchanged. The PMS patient response grew from 4,331 to 389,181 bytes, and the initial refresh wrote 2,000 extra patient rows. Each retry fetched the same source payload again and only updated the app's sync row. The original still used three PMS data reads in each tick.
 
-[Reminder job dashboard](dashboard/index.html#original-job) · [Benchmark and query counts](benchmarks/Original_Reminder_Job_PMS_Workload.csv) · [Original worker and service source](https://github.com/joshrice171723-creator/appointment-flow/tree/db037d7932b13fc4d735106e0fa199815fb2d22c/backend/app)
+[Reminder job dashboard](dashboard/index.html#original-job) · [Benchmark and query counts](benchmarks/Original_Reminder_Job_PMS_Workload.csv) · [Benchmark runner and saved traces ZIP](benchmarks/Original_Reminder_Job_PMS_Run.zip) · [Original worker and service source](https://github.com/joshrice171723-creator/appointment-flow/tree/db037d7932b13fc4d735106e0fa199815fb2d22c/backend/app)
 
 ### The reminder benchmark
 
@@ -149,8 +151,9 @@ Each build sent the same 24 synthetic reminders and passed the same 16 checks. T
 | Original appointment-flow | Unmeasured on this suite | — | Historical baseline |
 | V2.7.3.1.0 | 40 of 44 | 1,228 | Working full-rebuild baseline |
 | V2.7.4.1.0 | 44 of 44 | 16 | Authored SQL in views and functions failed the Active Record rule |
+| V2.8.5.1.1 | 42 of 44 | 19 | Active Record check passed. Two checks found a missing week count. The contact lookup still grows with the source directory. |
 
-[Matched comparison and decision](reports/V2.7.4_Candidate.md)
+[V2.7 comparison and decision](reports/V2.7.4_Candidate.md) · [V2.8.5 rebuild measurements](benchmarks/V2.8.5_Rebuild_Workload.csv)
 
 ### The refactor on the original app
 

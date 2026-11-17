@@ -27,3 +27,13 @@ The later SMS control confirmed that V2.6 and V2.7 both sent a reply to staff re
 The frozen original also confirmed both newly shared replies. It treated its local snapshot as fresh and performed no source refresh in the measured request. That identifies an inherited failure pattern. The V2.7.2.1.0 first checkpoint reproduced the outcome with a different lookup and the reviewed revision repaired it. [Original control](../benchmarks/Original_Known_Patient_Recipient_Change_Control.csv)
 
 For every later iteration, record the changed instructions, both application revisions, the fixture and exact result, and any tradeoff that shifts cost between reads, writes, and Ruby. Mark where the evidence comes from a matched measurement, a source observation, or a run with changed conditions. Keep the smallest next check that could decide whether an apparent regression is real. Carry confirmed patterns into general builder guidance and keep project-specific examples and regression fixtures with the external evaluator.
+
+## V2.8.5.1.1 findings
+
+| Finding | Result | Next check |
+|---|---|---|
+| Performance revision 4 returned in the V2.8 branch. | The written Active Record rule stayed in the package. The executable check was missing. | Run package preflight. Make sure the package includes and runs each required check. |
+| The first patient refactor reduced authorization work. | Upcoming history still scanned 5,577 appointments to check two visits. The next repair replaced the scan with two primary-key lookups. | Run the same request on both data sets. Examine buffer counts when returned rows stay the same. |
+| The rebuild passed its own rubric. | The independent test found a missing week count in two results. A two-reminder case used 19 statements on both data sets and returned 2,000 more rows on the larger data set. | Record the response contract. Measure source rows and bytes as well as statement counts. Add a test where a contact change must change the decision. |
+
+[V2.8.5 validation report](V2.8.5_Harness_Validation.md)

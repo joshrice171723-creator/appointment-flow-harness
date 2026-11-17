@@ -1,8 +1,8 @@
 # Paired runs
 
-Each ZIP includes the harness input and the application output in separate nested archives. The company PDF is omitted. The evidence column states how the pair was linked.
+Each run ZIP has the harness input and the application output. The evidence column shows what the records verify. The public ZIPs exclude the company PDF.
 
-The [version catalog](../VERSIONS.md) retains the V2.1.1 and V2.8.4.1.0 design packages. A completed application run was unavailable for both. The older source snapshot labeled V26 is in the [historical source archive](../snapshots/Appointment-Flow-All-Versions-Source.zip). Its exact harness input could not be established.
+See the [version catalog](../VERSIONS.md) for design packages V2.1.1 and V2.8.4.1.0. The [historical source archive](../snapshots/Appointment-Flow-All-Versions-Source.zip) includes the older V26 snapshot. Its harness input remains unverified.
 
 | Run | Scope | Evidence | Download |
 |---|---|---|---|
@@ -34,3 +34,6 @@ The [version catalog](../VERSIONS.md) retains the V2.1.1 and V2.8.4.1.0 design p
 | V2.7.5.1.0 | Patient appointment refactor and app-owned index follow-up | Follow-up guidance hashes match. All 330 request measurements had matching bodies and cursors | [Paired ZIP](V2.7.5.1.0-mirror-followup.zip) |
 | V2.4.1.1.0 paired trial | Earlier matched rebuild attempt | Partial application source from an interrupted trial. No completed benchmark | [Paired ZIP](V2.4.1.1.0-paired-interrupted.zip) |
 | V2.5.1.1.0 paired trial | Earlier matched rebuild attempt | Partial application source from an interrupted trial. No completed benchmark | [Paired ZIP](V2.5.1.1.0-paired-interrupted.zip) |
+| V2.8.5.1.1-rebuild | Standalone full rebuild | The app passed its own rubric and 42 of 44 separate checks. The contact query still grows with source data | [Paired ZIP](V2.8.5.1.1-rebuild.zip) |
+| V2.8.5.1.1-refactor | Patient appointment read refactor on the original app | Response bodies and cursors matched. One upcoming-history query still scans the mirror | [Paired ZIP](V2.8.5.1.1-refactor.zip) |
+| V2.8.5.1.1-refactor-repair | Focused patient history query repair on the original app | The tested patient reads passed. All response bodies and cursors matched. The external PMS schema stayed the same | [Paired ZIP](V2.8.5.1.1-refactor-repair.zip) |

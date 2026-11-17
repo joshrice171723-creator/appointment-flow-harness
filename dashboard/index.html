@@ -119,7 +119,7 @@
 <tr><td>Same-clock retry</td><td class="num">2,024</td><td class="num">0</td><td class="num">0</td><td class="num">88</td><td class="num">393,743</td><td class="num">1</td><td class="num">156</td></tr>
         </tbody></table></div>
         <p class="explain">Three PMS data reads fetched clinics, patients, and appointments in both fixtures. The patient response grew from 4,331 to 389,181 bytes. The first sync copied 2,000 extra patients. A retry transferred those records again and only updated the sync row.</p>
-        <p class="sources"><a href="../benchmarks/Original_Reminder_Job_PMS_Workload.csv" download>Download measured outcomes and PMS payloads by table</a></p></article>
+        <p class="sources"><a href="../benchmarks/Original_Reminder_Job_PMS_Workload.csv" download>Download measured outcomes and PMS payloads by table</a><a href="../benchmarks/Original_Reminder_Job_PMS_Run.zip" download>Benchmark runner and saved traces ZIP</a></p></article>
     </section>
     <section id="quality" class="view" hidden>
       <header class="intro"><h1>What got easier to change</h1><p class="lede">Two AI reviewers compared the original and all four standalone builds in opposite orders. They both chose V2.5.1.1.0 as the app to continue from and tied it with V2.6.1.1.0 for measured database work. Readability rankings varied.</p></header>
@@ -154,6 +154,16 @@
       <tr><td>Load two tracked visits</td><td>176 shared PostgreSQL buffer hits</td><td>3 shared buffer hits</td></tr>
       </tbody></table></div><p class="explain">Full-request growth remains REVISE. The clinic membership check and one upcoming-history join still scan unrelated rows.</p></article>
       <p class="sources"><a href="../reports/PATIENT_APPOINTMENTS_REFACTOR.md">Patient appointment query refactor</a><a href="../reports/PATIENT_APPOINTMENTS_MIRROR_INDEX.md">Index follow-up and remaining query work</a><a href="../benchmarks/V2.7.5_Patient_Appointment_Index_Workload.csv" download>Measured request comparisons</a></p>
+      <article class="card section" id="v285-patient-result"><h2>Patient appointment refactor with V2.8.5.1.1</h2>
+        <p>The final repair kept the same responses and cursors. It changed how the query checks which patient and clinic own a booking.</p>
+        <div class="tablewrap"><table class="wide"><thead><tr><th>Grown fixture</th><th>Original app</th><th>Prior indexed refactor</th><th>Final repair</th></tr></thead><tbody>
+<tr><td>Past history, first page</td><td class="num">522</td><td class="num">134</td><td class="num">30</td></tr>
+<tr><td>Past history, second page</td><td class="num">510</td><td class="num">105</td><td class="num">31</td></tr>
+<tr><td>Upcoming history</td><td class="num">521</td><td class="num">197</td><td class="num">28</td></tr>
+<tr><td>Patient details</td><td class="num">288</td><td class="num">94</td><td class="num">23</td></tr>
+<tr><td>Past history with tracked visits only</td><td class="num">695</td><td class="num">354</td><td class="num">28</td></tr>
+        </tbody></table></div><p class="explain">Values count shared PostgreSQL buffers for the measured SELECT statements. The external PMS schema stayed the same.</p>
+        <p class="sources"><a href="../benchmarks/V2.8.5_Patient_Appointments_Workload.csv" download>Patient request measurements</a><a href="../reports/V2.8.5_Harness_Validation.md">Validation report</a></p></article>
     </section>
     <section id="versions" class="view" hidden>
       <header class="intro"><h1>Harness versions</h1><p class="lede">Compare the instructions, evidence, and version decisions across the experiment.</p></header>
@@ -162,6 +172,7 @@
       <tr data-build="original"><td>appointment-flow</td><td>Unmeasured on this suite</td><td>—</td><td>Historical control</td></tr>
       <tr><td>V2.7.3.1.0</td><td>40 of 44</td><td>1,228</td><td>Working baseline. Recipient-safety and growth gaps remain.</td></tr>
       <tr><td>V2.7.4.1.0</td><td>44 of 44</td><td>16</td><td>Authored SQL in views and functions failed the Active Record rule.</td></tr>
+      <tr><td>V2.8.5.1.1</td><td>42 of 44</td><td>19</td><td>The Active Record check passed. Two checks found a missing week count. The contact lookup still grows.</td></tr>
       </tbody></table></div></article>
       <article id="paired-runs" class="card section"><h2>Harness input and application output</h2><p>Each archive includes both. The evidence column distinguishes verified inputs, historical matches, and unfinished trials.</p><p class="sources"><a href="../runs/README.md">Paired run index</a></p><div class="tablewrap"><table class="wide"><thead><tr><th>Run</th><th>Scope</th><th>Evidence</th><th>Archive</th></tr></thead><tbody><tr><td>Original appointment-flow</td><td>Historical product control</td><td>Includes the preserved project guidance. No single frozen launch input is documented</td><td><a href="../runs/Original.zip" download>Paired ZIP</a></td></tr>
 <tr><td>V2</td><td>Historical source and harness</td><td>Archived input manifest matches the saved application workspace</td><td><a href="../runs/V2.zip" download>Paired ZIP</a></td></tr>
@@ -189,6 +200,9 @@
 <tr><td>V2.7.4-recipient</td><td>recipient_decision</td><td>Preserved launch prompt and guidance paired with the completed source</td><td><a href="../runs/V2.7.4-recipient.zip" download>Paired ZIP</a></td></tr>
 <tr><td>V2.7.5.1.0 query refactor</td><td>Patient appointment query before the index follow-up</td><td>Launch prompt and supplied guidance match recorded input hashes. Ten paired HTTP responses matched</td><td><a href="../runs/V2.7.5.1.0-query-refactor.zip" download>Paired ZIP</a></td></tr>
 <tr><td>V2.7.5.1.0</td><td>Patient appointment refactor and app-owned index follow-up</td><td>Follow-up guidance hashes match. All 330 request measurements had matching bodies and cursors</td><td><a href="../runs/V2.7.5.1.0-mirror-followup.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.8.5.1.1-rebuild</td><td>Standalone full rebuild</td><td>The app passed its own rubric and 42 of 44 separate checks. The contact query still grows with source data</td><td><a href="../runs/V2.8.5.1.1-rebuild.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.8.5.1.1-refactor</td><td>Patient appointment read refactor on the original app</td><td>Response bodies and cursors matched. One upcoming-history query still scans the mirror</td><td><a href="../runs/V2.8.5.1.1-refactor.zip" download>Paired ZIP</a></td></tr>
+<tr><td>V2.8.5.1.1-refactor-repair</td><td>Focused patient history query repair on the original app</td><td>The tested patient reads passed. All response bodies and cursors matched. The external PMS schema stayed the same</td><td><a href="../runs/V2.8.5.1.1-refactor-repair.zip" download>Paired ZIP</a></td></tr>
 <tr><td>V2.4.1.1.0 paired trial</td><td>Earlier matched rebuild attempt</td><td>Partial application source from an interrupted trial. No completed benchmark</td><td><a href="../runs/V2.4.1.1.0-paired-interrupted.zip" download>Paired ZIP</a></td></tr>
 <tr><td>V2.5.1.1.0 paired trial</td><td>Earlier matched rebuild attempt</td><td>Partial application source from an interrupted trial. No completed benchmark</td><td><a href="../runs/V2.5.1.1.0-paired-interrupted.zip" download>Paired ZIP</a></td></tr></tbody></table></div></article>
       <article class="card section"><h2>Release archive</h2><label for="version-filter" class="label">Filter by version, change, or evidence</label><br>

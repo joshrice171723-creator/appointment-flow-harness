@@ -469,5 +469,76 @@
     "input_manifest_sha256": "0d2a61ece52a602d274daf30100b81688ba256a9e25c43da932f581840b830ae",
     "application_sha256": "1c1b99904fa0aa573e64b46877364df2620e3c4cb78efa959991b155dc600aad",
     "harness_sha256": "c183ad9aab5a524a96c6669cb4cf566e67f750da2817f0b2f4533c24ef4dcb1d"
+  },
+  {
+    "archive": "V2.8.5.1.1-rebuild.zip",
+    "sha256": "cde926aa86c6f7304c87a68483d91172267c26f4e6fd1664a5a9ac051882dafe",
+    "name": "V2.8.5.1.1-rebuild",
+    "scope": "Standalone full rebuild",
+    "evidence": "The app passed its own rubric and 42 of 44 separate checks. The contact query still grows with source data",
+    "revision": "84c296404663af439cd4da3cca7a82aed64109f1",
+    "initial_revision": "0b2191ed92d6c9e8bd5a36d397f3f05290b27111",
+    "input_archive_sha256": "9f7c874812863d33d9ff9d74ba7836a60f775960438d02cd3bf2d32f3b6e49c9",
+    "source_archive_sha256": "821ca5db96e67f94df0e5d7848ad3251478c5c3f1c1b69cd9c301b2f61729c39",
+    "started_at": "2026-11-17T06:15:05.461557+00:00",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "launch_text_sha256": "394c940d964e669e4116189804d96d99d9d95e3e2413558df819e80689aef6d3",
+    "application_sha256": "ae871e020f5367a39335bfaa2ee6073c034b26f118cd983a4ee652c885fa7abf",
+    "harness_sha256": "1387ad4b6214bf6b4844530c95182e3805d7008e76bd19be6685720633318e8c"
+  },
+  {
+    "archive": "V2.8.5.1.1-refactor.zip",
+    "sha256": "e4815ac2da2a870c72fccb99dc974bba0f64c28234e0a213853b5fdee8435bdc",
+    "name": "V2.8.5.1.1-refactor",
+    "scope": "Patient appointment read refactor on the original app",
+    "evidence": "Response bodies and cursors matched. One upcoming-history query still scans the mirror",
+    "revision": "f61f9ff7c468f956d4604aaf54ca3ecb427f1afb",
+    "initial_revision": "acb8a00",
+    "input_archive_sha256": "d4598af15b6c88bec45d77a85a0d906289d51823cb474b360076671286770cd0",
+    "source_archive_sha256": "69ce23bd505e3dcdbd693724abc41a2a28667af3f3bc72851ea66216ec9cb572",
+    "started_utc": "2026-11-17T06:14:40.001602+00:00",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "prompt_sha256": "e047466b200acd158993040589dbef2d215931b9bfc85c209286105bce27091c",
+    "original_revision": "db037d7932b13fc4d735106e0fa199815fb2d22c",
+    "application_sha256": "69ce23bd505e3dcdbd693724abc41a2a28667af3f3bc72851ea66216ec9cb572",
+    "harness_sha256": "180f1a615956153777db5e7ea8c4e5739d42263654a65b82b20882db84403573"
+  },
+  {
+    "archive": "V2.8.5.1.1-refactor-repair.zip",
+    "sha256": "5b6d7fb3f98e8ff4ba841da94fe460b3f61812ae41f11f54984640eb527f407d",
+    "name": "V2.8.5.1.1-refactor-repair",
+    "scope": "Focused patient history query repair on the original app",
+    "evidence": "The tested patient reads passed. All response bodies and cursors matched. The external PMS schema stayed the same",
+    "revision": "235c16dc5375c5aca0337cfdf10a19f5434f7881",
+    "initial_revision": "bb76461",
+    "input_archive_sha256": "3f1e46c73c5fe99d487ab1c6a1177d22ec9dfe4d8744d5cd0857c3af54cbfdde",
+    "source_archive_sha256": "8fe11d55e3e55fd306ab1d101413010d0d28a1e9274333d30248bac5689244bf",
+    "started_utc": "2026-11-17T06:58:09.932773+00:00",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "settings": {
+      "enabled_skills": [],
+      "hooks": false,
+      "memories": false,
+      "plugins": false
+    },
+    "prompt_sha256": "5e17e6ea19879954db84b029da7012a85cd51b50892484d79b8056b514bd5679",
+    "original_revision": "db037d7932b13fc4d735106e0fa199815fb2d22c",
+    "application_sha256": "8fe11d55e3e55fd306ab1d101413010d0d28a1e9274333d30248bac5689244bf",
+    "harness_sha256": "e90993264ee8a900e7f539b0379722117a332a082b31814be29e412943b65e40"
   }
 ]
