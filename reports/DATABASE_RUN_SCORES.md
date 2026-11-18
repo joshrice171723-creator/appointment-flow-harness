@@ -2,6 +2,8 @@
 
 Performance measures database work on shared cases. Automation measures six kinds of recorded checks for that run. Check the behavior result and Active Record rule before choosing a build.
 
+These score tables describe historical workloads. Each table has its own inputs, scope, and reference counts. See the [paired clean-room comparison](V2.10.6.3.1_Clean_Room_Comparison.md) for the repaired rebuild against the original on the 4,000-send scenario.
+
 - **Performance (1–100).** For each measured cost, divide the smallest observed cost plus one by the run's cost plus one. The table states the metric weights. Average the weighted ratios over shared cases with the same recorded result. A score of 100 means the run matched the lowest measured work on every scored measure in that table. Round to whole points. Different tables use different workloads.
 - **Automation (1–100).** Count the recorded check types. Each of the six types has equal weight. The score applies to the measured scope. Checking an operation records coverage even if it detects a failure. A missing record leaves a gap in the score.
 - **Comparable outcomes.** Exclude a case from a cost ranking when any included result differs or lacks a required count. Full behavior totals remain visible where recorded. Some older adapters compare returned counts rather than exact bodies. Patient and staff refactor comparisons use exact response hashes.

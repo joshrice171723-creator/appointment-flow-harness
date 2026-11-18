@@ -2,35 +2,33 @@
 
 I tested how different coding instructions changed the Rails and React apps AI agents produced. I evaluated readability, ease of change, correct behavior, and database work.
 
-[Final product](#final-product--curated-original-refactor) · [Version number key](#how-to-read-the-version-numbers) · [Every version](#version-by-version) · [Original-app refactors](#the-original-appointment-flow-and-its-refactors) · [Dashboard](dashboard/index.html) · [AI usage](AI_USAGE.md)
+[Clean-room comparison](#clean-room-build-and-regression-repair) · [Curated original refactor](#final-product--curated-original-refactor) · [Version number key](#how-to-read-the-version-numbers) · [Every version](#version-by-version) · [Original-app refactors](#the-original-appointment-flow-and-its-refactors) · [Dashboard](dashboard/index.html) · [AI usage](AI_USAGE.md)
 
 [What we grade and where](#what-we-grade-and-where) · [Reminder job and PMS reads](#reminder-job-and-pms-reads) · [Correctness and Active Record](#historical-full-build-results-and-the-query-rule) · [How the versions were judged](#how-i-decided-which-version-was-better)
 
-[Search the evidence dashboard](dashboard/index.html#evidence) · [Browse all saved datasets and reports](reports/EVIDENCE_INDEX.md) · [Database performance and automation scores](reports/DATABASE_RUN_SCORES.md) · [Download structured evidence](dashboard/evidence.json)
+[Search the evidence dashboard](dashboard/index.html#evidence) · [Browse all saved datasets and reports](reports/EVIDENCE_INDEX.md) · [Historical database scores](reports/DATABASE_RUN_SCORES.md) · [Download structured evidence](dashboard/evidence.json)
+
+## Clean-room build and regression repair
+
+The V2.10.6.3.1 harness guided the clean-room build. It supplied the written requirements, 10 screenshots, and verification rules. Workbench was added later to record task decisions, check results, and repair rounds against frozen revisions.
+
+The independent comparison of the initial freeze `9c71028` with the original `db037d7` found three gaps. A delayed YES could confirm the wrong appointment. An expired reply review could remain open. Staff confirmation could close a contact issue while a verification conflict remained. The paired rerun on `5f2500c` confirmed all three repairs. The Day 6 backup email rule was preserved. The minimum lead time for a catch-up confirmation request remains open.
+
+| Matched reminder tick, 60 clinics | Original `db037d7` | Repaired rebuild `5f2500c` |
+| --- | ---: | ---: |
+| Distinct simulated sends | 4,000 | 4,000 |
+| Write statements on the first tick | 12,127 | 420 |
+| Duplicate sends across two identical repeats | 0 | 0 |
+
+The rebuild used about 96.5% fewer write statements for this workload. The original stores additional per-send history. It also reads a narrower appointment window. The rebuild still processes the clinic's full appointment history during refresh. These are measured differences in the reminder workload. An overall app ranking would require equivalent workflow coverage and matched measurements. [Revisions, paired results and limitations](reports/V2.10.6.3.1_Clean_Room_Comparison.md)
 
 ## Final product · curated original refactor
 
 The final app preserves the original workflows and fixed external PMS schema. It starts from the V2.10.6.3.1 original refactor and combines measured improvements from the experiment. I integrated and verified these changes in a separate checkout. The result is a directed integration of the experiment's strongest approaches.
 
-[Run the app](final-app/README.md) · [Download the app ZIP](final-app/Appointment-Flow-Curated-Refactor.zip) · [Source revisions and checksums](final-app/provenance.json) · [Download all 420 case results](benchmarks/Appointment_Flow_V1.1.0_Results.csv)
+[Run the app](final-app/README.md) · [Download the app ZIP](final-app/Appointment-Flow-Curated-Refactor.zip) · [Source revisions and checksums](final-app/provenance.json) · [Archived V1.1.0 case results](benchmarks/Appointment_Flow_V1.1.0_Results.csv)
 
-**The final app passed 60 of 60 cases.** The curated app had the highest V1.1.0 score among the refactors. Both it and the original round to 64/100. The original led the full cohort with 64.09 points. The final app scored 63.58 points.
-
-### The same benchmark across seven applications
-
-V1.1.0 gives each workflow 20 points. It scores only cases with verified behavior. The score compares statement counts, rows returned, and Rails objects loaded. The two reminder groups also count rows written and PMS rows returned. A low query count alone cannot earn a high score. Each case uses the best passing counter in this cohort as its reference. The scorer divides the best passing count plus one by the measured count plus one for each metric. Read requests weight statements at 40%, returned rows at 30%, and loaded models at 30%. Reminder runs weight statements, writes, and PMS rows at 25% each. Rails rows contribute 15% and loaded models contribute 10%. Each workflow score averages its case scores.
-
-| Application | Revision | Overall | Cases passed | First run /20 | Retry /20 | Staff /20 | Patient /20 | Guardian /20 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Original app | db037d7 | 64/100 | 60/60 | 4.90 | 7.69 | 12.78 | 18.80 | 19.92 |
-| Curated original refactor | 50b69ee | 64/100 | 60/60 | 4.86 | 7.99 | 13.44 | 17.73 | 19.56 |
-| V2.10.6.3.1 original refactor | e27aca2 | 61/100 | 60/60 | 4.78 | 7.58 | 13.44 | 17.93 | 17.63 |
-| V2.8.5.1.1 original refactor | 235c16d | 55/100 | 60/60 | 4.90 | 7.69 | 12.78 | 18.14 | 11.96 |
-| V2.7.4.1.0 full build | 860fa23 | 46/100 | 14/60 | 18.73 | 18.78 | 8.70 | 0.00 | 0.00 |
-| V2.10.6.3.1 full build | 9a5dbce | 33/100 | 16/60 | 9.53 | 15.31 | 8.42 | 0.00 | 0.00 |
-| V2.7.4 Active Record full build refactor | 6c9e20a | 12/100 | 6/60 | 0.00 | 0.00 | 11.60 | 0.00 | 0.00 |
-
-The benchmark starts from raw PMS fields. It counts the first import, application mirror work, staff tickets, and simulated sends. It repeats the same operation to check for duplicate effects. It then checks clinic appointments, patient details and history, and guardian access. A full build can score zero for an original workflow it does not support. The earlier 91, 94, and 96 scores used different scopes. The original led the patient group. On the past appointments page with added history, it returned 61 rows to Rails. The final app returned 87 because it reads two candidate lists before it merges the page. The final app still used fewer PostgreSQL buffer accesses for that request, from 522 to 165. The V1.1.0 score counts the returned rows. It records query-plan work separately.
+**The published refactor passed all 60 V1.1.0 cases at `50b69ee`.** That dataset tested the original app's contract across seven revisions. Some clean-room revisions lacked several tested workflows, so those cases received zero scores. Use the dataset to see which contracts each revision met and compare database work for cases with equivalent results. The composite score does not establish an overall performance winner. The separately repaired clean-room freeze has its own paired workload above.
 
 ### What changed in the final app
 
@@ -51,7 +49,7 @@ The benchmark starts from raw PMS fields. It counts the first import, applicatio
 
 The final backend suite passed 131 tests with 1,984 assertions. The application query check passed on the migrated database. The frontend build and Compose configuration check passed. Existing PostgreSQL commands handle locks, connection policy, schema setup, and statistics. The query changes use plain Active Record.
 
-The application benchmark has two recorded versions. V1.0.0 measures individual workflows. V1.1.0 scores the expanded workload. The evaluator keeps its protocol, scripts, and fixtures outside the repository and the clean-room build context. The curated integration also used earlier measurements to select changes. Its final score comes from a new run on frozen source.
+The application benchmark has two recorded versions. V1.0.0 measures individual workflows. V1.1.0 scores the expanded workload. The evaluator keeps its protocol, scripts, and fixtures outside the repository and the clean-room build context. The curated integration also used earlier measurements to select changes. Its V1.1.0 results come from a run on frozen source.
 
 | Experiment type | Starting point |
 |---|---|
@@ -72,7 +70,7 @@ The V2.7.4.1.0 **full build** at `860fa23` scored **91/100** and received Joshua
 
 ### How to read a score
 
-Every score names its benchmark, application revision, and workload. Earlier scores cover smaller scopes. The V1.1.0 benchmark covers five workflows and 60 cases. Each workflow contributes up to 20 points. Compare scores within the same set of applications, and use the raw counters to explain the result.
+Every score belongs to a benchmark, revision, and workload. V1.1.0 covers five workflows and 60 cases. A zero can record a missing workflow. Compare raw counters for cases with equivalent outputs and effects. Earlier benchmark scores apply to their smaller scopes.
 
 ![Full rebuilds compared with the original app. The 24-reminder run used 119 statements in the original, 18 in V2.6.1.1.0, and 45 in V2.7.1.1.0. A later V2.7 comparison passed four more checks and failed the Active Record rule.](dashboard/experiment-results.png)
 
@@ -142,7 +140,7 @@ The two later branches explain why a number sometimes goes down. `V2.8.4.1.0` to
 | --- | --- | --- |
 | **V2.10.6.1.1** | Packaged portable rules for existing projects. | Package evidence. No completed application benchmark in this record. [Harness ZIP](packages/Apex_Appointment_Flow_Harness_V2.10.6.1.1.zip) |
 | **V2.10.6.2.1** | Directed refactor of the V2.7.4.1.0 full build. | The builder received benchmark information. Use the result to study the repair loop. [Paired ZIP](runs/V2.10.6.2.1-full-build-refactor.zip) |
-| **V2.10.6.3.1 full build** | Clean-room rebuild at `9a5dbce`. | Passed 16 of 60 V1.1.0 cases. Its reminder batch was efficient. The original patient history and guarantor contracts were outside its implementation. [Paired ZIP](runs/V2.10.6.3.1-full-build.zip) |
+| **V2.10.6.3.1 full build** | Archived export `9a5dbce` and a separate clean-room comparison at `9c71028`, repaired at `5f2500c`. | The archive met 16 of 60 original-contract cases in V1.1.0. The repaired comparison verified 4,000 matching sends and three safety fixes. [Archived ZIP](runs/V2.10.6.3.1-full-build.zip) · [Clean-room comparison](reports/V2.10.6.3.1_Clean_Room_Comparison.md) |
 | **V2.10.6.3.1 original refactor** | Refactor at `e27aca2`. | Passed all 60 cases and had the highest score among the original refactors before the final integration. [Paired ZIP](runs/V2.10.6.3.1-original-refactor.zip) |
 | **V2.7.4 Active Record full build refactor** | Follow-up on the fresh V2.7.4 build at `6c9e20a`. | Passed the earlier scoped tests. Its final raw-source first load failed because required derived values had no normal source-write owner. |
 

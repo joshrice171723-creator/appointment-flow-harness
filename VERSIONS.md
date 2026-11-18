@@ -32,7 +32,7 @@ The original application is the historical control.
 | V3.1.1 | Added structured AI review to the V3 family. The preserved input was labeled V4. | [Historical source review](reports/Appointment_Flow_All_Versions_Review.md) | [Archive](packages/Apex_Appointment_Flow_Harness_V3.1.1.zip) |
 | V2.10.6.1.1 | Packaged portable instructions for audits, refactors, features, and builds. | Packaged design. | [Harness ZIP](packages/Apex_Appointment_Flow_Harness_V2.10.6.1.1.zip) |
 | V2.10.6.2.1 | Added stronger review and benchmark repair evidence. | Directed full build refactor. The benchmark reached the builder. | [Harness ZIP](packages/Apex_Appointment_Flow_Harness_V2.10.6.2.1.zip) · [Loop evidence](reports/AI_Loop_Evidence.md) |
-| V2.10.6.3.1 | Separated project-owned repair checks from held-out evaluation. | Frozen full build `9a5dbce` and original refactor `e27aca2`. | [Harness ZIP](packages/Apex_Appointment_Flow_Harness_V2.10.6.3.1.zip) · [Run scopes](README.md#later-harness-versions) |
+| V2.10.6.3.1 | Separated project-owned repair checks from held-out evaluation. | Archived full-build export `9a5dbce` and original refactor `e27aca2`. Separate clean-room freezes `9c71028` and `5f2500c` have a paired comparison against the original. | [Harness ZIP](packages/Apex_Appointment_Flow_Harness_V2.10.6.3.1.zip) · [Clean-room comparison](reports/V2.10.6.3.1_Clean_Room_Comparison.md) |
 
 Forward version format is `V<family>.<base revision>.<performance>.<AI loop>.<existing-code revision>`.
 Older labels retain their original meanings. Refactor overlays supplement a base harness. The V2.5.1.1.0 variant input has a distinct checksum.

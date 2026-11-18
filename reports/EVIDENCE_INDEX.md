@@ -22,7 +22,9 @@ The [machine-readable index](../dashboard/evidence.json) includes all rows from 
 
 ## Benchmark datasets
 
-[Appointment Flow Performance Benchmark V1.1.0](../benchmarks/Appointment_Flow_V1.1.0_Results.csv) compares 420 case results across seven frozen apps. The [final product](../README.md#final-product--curated-original-refactor) explains the measures and shows the original app beside the selected refactor.
+[Clean-room comparison and regression repair](V2.10.6.3.1_Clean_Room_Comparison.md) records the paired 60-clinic run against the original and the three verified workflow repairs.
+
+The [archived V1.1.0 case results](../benchmarks/Appointment_Flow_V1.1.0_Results.csv) contain 420 results across seven revisions. The workload includes original-app contracts that some rebuilds lack. Use the pass counts to assess coverage. Use raw measurements for equivalent cases to assess cost.
 
 Each row in this index links to every measured case in that dataset. Match the revision, fixture, case, and response before drawing a comparison.
 
