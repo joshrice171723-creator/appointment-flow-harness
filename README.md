@@ -2,6 +2,18 @@
 
 I tested how different coding instructions changed the Rails and React apps AI agents produced. I evaluated readability, ease of change, correct behavior, and database work.
 
+## Performance highlight
+
+The directed **V2.7.4.1.0 Active Record refactor scored 94/100**, compared with **48/100 for the original Appointment Flow app** on the same 16-case standard workload.
+
+| Application | Revision | Database work score |
+| --- | --- | ---: |
+| Original Appointment Flow | Original control | 48/100 |
+| V2.7.4.1.0 full build | `860fa23` | 91/100 |
+| V2.7.4.1.0 directed Active Record refactor | `6c9e20a` | **94/100** |
+
+The refactor started from the 91-point full build. It passed all 44 behavior checks in its evaluation and passed the plain Active Record check. The performance score measures weighted database work on the 16 shared cases. The measured calls started with stored contact keys already populated, so the score excludes that preparation work. The refactor has no later full readability and changeability regrade. [Matched scorecard](reports/DATABASE_RUN_SCORES.md#standard-application-workload) · [Refactor evidence](reports/V2.7.4.1.0_Readability_Assessment.md)
+
 [Clean-room comparison](#clean-room-build-and-regression-repair) · [Curated original refactor](#final-product--curated-original-refactor) · [Version number key](#how-to-read-the-version-numbers) · [Every version](#version-by-version) · [Original-app refactors](#the-original-appointment-flow-and-its-refactors) · [Dashboard](dashboard/index.html) · [AI usage](AI_USAGE.md)
 
 [What we grade and where](#what-we-grade-and-where) · [Reminder job and PMS reads](#reminder-job-and-pms-reads) · [Correctness and Active Record](#historical-full-build-results-and-the-query-rule) · [How the versions were judged](#how-i-decided-which-version-was-better)
