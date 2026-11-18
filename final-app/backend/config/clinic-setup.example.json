@@ -1,0 +1,14 @@
+{
+  "reporting_clinics": [
+    { "id": 1, "timezone": "America/Chicago" },
+    { "id": 5, "timezone": "America/Phoenix" }
+  ],
+  "messaging_clinics": [
+    {
+      "id": 1,
+      "timezone": "America/Chicago",
+      "sender": "+15125550100",
+      "staff": ["Taylor Morgan", "Sam Rivera"]
+    }
+  ]
+}

@@ -22,6 +22,8 @@ The [machine-readable index](../dashboard/evidence.json) includes all rows from 
 
 ## Benchmark datasets
 
+[Appointment Flow Performance Benchmark V1.1.0](../benchmarks/Appointment_Flow_V1.1.0_Results.csv) compares 420 case results across seven frozen apps. The [final product](../README.md#final-product--curated-original-refactor) explains the measures and shows the original app beside the selected refactor.
+
 Each row in this index links to every measured case in that dataset. Match the revision, fixture, case, and response before drawing a comparison.
 
 | Dataset | Rows | Workflow and entry point | Comparison |

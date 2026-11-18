@@ -1,0 +1,105 @@
+x-app: &app
+  build: .
+  image: appointment-flow:local
+
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: provisioner
+      POSTGRES_PASSWORD: local-setup-only
+    volumes:
+      - database:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U provisioner -d postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  setup:
+    <<: *app
+    command: ["bundle", "exec", "ruby", "bin/setup.rb"]
+    volumes:
+      - "${CLINIC_SETUP_FILE:-./backend/config/clinic-setup.example.json}:/config/clinic-setup.json:ro"
+    environment:
+      CLINIC_SETUP_FILE: /config/clinic-setup.json
+      ASSESSMENT_REMINDERS_START: &assessment_start "${ASSESSMENT_REMINDERS_START-2026-10-01}"
+      APP_ADMIN_URL: postgresql://provisioner:local-setup-only@db/postgres
+      PMS_ADMIN_URL: postgresql://provisioner:local-setup-only@db/apex_replica
+      PMS_READER_URL: postgresql://pms_reader:local-reader@db/apex_replica
+      DENTAL_DATABASE_URL: postgresql://flow_app:local-app@db/apex_flow
+    depends_on:
+      db:
+        condition: service_healthy
+
+  app:
+    <<: *app
+    ports:
+      - "127.0.0.1:${PORT:-8174}:8174"
+    environment:
+      ASSESSMENT_REMINDERS_START: *assessment_start
+      PMS_READER_URL: postgresql://pms_reader:local-reader@db/apex_replica
+      DENTAL_DATABASE_URL: postgresql://flow_app:local-app@db/apex_flow
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "ruby", "-rnet/http", "-e", "Net::HTTP.start('127.0.0.1', 8174, open_timeout: 2, read_timeout: 10) { |http| exit(http.get('/api/workspaces').is_a?(Net::HTTPSuccess)) }"]
+      interval: 30s
+      start_period: 120s
+      timeout: 20s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  worker:
+    <<: *app
+    command: ["bundle", "exec", "sidekiq", "-c", "1"]
+    restart: unless-stopped
+    environment:
+      ASSESSMENT_REMINDERS_START: *assessment_start
+      REDIS_URL: redis://redis:6379/0
+      PMS_READER_URL: postgresql://pms_reader:local-reader@db/apex_replica
+      DENTAL_DATABASE_URL: postgresql://flow_app:local-app@db/apex_flow
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+
+  test:
+    <<: *app
+    profiles: ["test"]
+    command: ["bundle", "exec", "ruby", "test/all.rb"]
+    environment:
+      APP_ADMIN_URL: postgresql://provisioner:local-setup-only@db/postgres
+      PMS_READER_URL: postgresql://pms_reader:local-reader@db/apex_replica
+      DENTAL_DATABASE_URL: postgresql://flow_app:local-app@db/apex_flow_test
+    depends_on:
+      db:
+        condition: service_healthy
+
+  scale:
+    <<: *app
+    profiles: ["scale"]
+    command: ["bundle", "exec", "ruby", "bin/benchmark.rb"]
+    environment:
+      APP_ADMIN_URL: postgresql://provisioner:local-setup-only@db/postgres
+      PMS_READER_URL: postgresql://pms_reader:local-reader@db/apex_replica
+      DENTAL_DATABASE_URL: postgresql://flow_app:local-app@db/apex_flow
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  database:
+  redis:

@@ -1,0 +1,195 @@
+.ops main {
+  padding-top: 24px;
+}
+
+.ops .page-heading .eyebrow {
+  display: none;
+}
+
+.ops .outcomes-overview {
+  margin-bottom: 20px;
+  padding: 18px 24px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.ops .outcomes-overview-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 20px;
+  margin-bottom: 14px;
+}
+
+.ops .outcomes-overview-heading h2,
+.ops .outcomes-overview-heading h3,
+.ops .outcomes-overview-heading p {
+  margin: 0;
+}
+
+.ops .clinic-outcomes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.ops .clinic-outcomes > section + section {
+  border-left: 1px solid var(--line);
+  padding-left: 24px;
+}
+
+.ops .outcomes-overview-heading p,
+.ops .outcome-totals small,
+.ops th small {
+  color: var(--muted);
+}
+
+.ops .outcome-distribution {
+  display: flex;
+  height: 16px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.ops .outcome-distribution span {
+  flex-basis: 0;
+  background: var(--outcome-color);
+}
+
+.ops [data-outcome='completed'] { --outcome-color: #2e6d5e; }
+.ops [data-outcome='rescheduled'] { --outcome-color: #557d9a; }
+.ops [data-outcome='canceled'] { --outcome-color: #a35443; }
+.ops [data-outcome='unknown'] { --outcome-color: #8a928d; }
+
+.ops .outcome-totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 145px), 1fr));
+  gap: 12px 24px;
+  margin: 17px 0 0;
+}
+
+.ops .outcome-totals dt {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.ops .outcome-key {
+  flex: 0 0 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: var(--outcome-color);
+}
+
+.ops .outcome-totals dd {
+  margin: 0 0 0 17px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.ops .outcome-totals small {
+  margin-left: 4px;
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+.ops .operations-comparison .section-heading {
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px 20px;
+  margin-bottom: 10px;
+}
+
+.ops .operations-comparison :is(th, td):not(:first-child) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.ops table th[scope='row'] {
+  text-transform: none;
+  letter-spacing: normal;
+  background: transparent;
+  color: var(--ink);
+  font-size: inherit;
+}
+
+.ops .operations-comparison :is(th, td) {
+  padding-block: 12px;
+}
+
+.ops tbody tr:last-child th[scope='row'] {
+  border-bottom: 0;
+}
+
+.ops th small {
+  display: block;
+  font-weight: 400;
+}
+
+.ops .operations-detail {
+  padding-block: 0;
+}
+
+.ops .operations-detail > summary {
+  padding-block: 14px;
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.ops .operations-detail[open] {
+  padding-bottom: 18px;
+}
+
+.follow-up-counts th[scope='rowgroup'] {
+  background: var(--soft);
+  color: var(--ink);
+  white-space: normal;
+}
+
+.follow-up-group-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 10px;
+}
+
+.count-tooltip {
+  position: relative;
+}
+
+.count-tooltip button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: 50%;
+  font: bold 14px Georgia, serif;
+}
+
+.count-tooltip [role='tooltip'] {
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 0;
+  width: min(270px, 55vw);
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: var(--ink);
+  color: var(--surface);
+  font-size: 0.85rem;
+  font-weight: 400;
+  visibility: hidden;
+}
+
+.count-tooltip:is(:hover, :focus-within) [role='tooltip']:not([hidden]) {
+  visibility: visible;
+}
+
+.follow-up-group-heading h3 {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: normal;
+}

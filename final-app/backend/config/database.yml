@@ -1,0 +1,14 @@
+default: &default
+  adapter: postgresql
+  url: <%= ENV.fetch("DENTAL_DATABASE_URL", "postgresql://flow_app@127.0.0.1:55439/apex_flow_contact_demo") %>
+  pool: 5
+  schema_search_path: public
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

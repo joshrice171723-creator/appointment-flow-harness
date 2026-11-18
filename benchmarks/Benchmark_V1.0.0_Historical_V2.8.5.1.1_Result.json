@@ -1,0 +1,71 @@
+{
+  "benchmark_name": "Appointment Flow Performance Benchmark",
+  "benchmark_version": "1.0.0",
+  "experiment_type": "original refactor",
+  "candidate_status": "superseded historical comparison",
+  "original_revision": "db037d7932b13fc4d735106e0fa199815fb2d22c",
+  "frozen_final_revision": "235c16dc5375c5aca0337cfdf10a19f5434f7881",
+  "integration_revision": "0468e584874d4151095ff5d5f595f3cb5c740036",
+  "normalized_backend_files_equal": true,
+  "normalized_backend_file_count": 108,
+  "normalization": "CRLF to LF only",
+  "normalized_backend_sha256": "746c5eb399a413dbb3f7402f72c84448583778e828531e3c3ec91a34f3fb16f1",
+  "fresh_candidate_graded_by_this_record": false,
+  "publication_scope": "Completed historical measurements and outcomes only",
+  "groups": {
+    "cold_mirror_tickets_and_deliveries": {
+      "measured_operations": 48,
+      "verified_cold_starts": 24,
+      "persisted_results_match": true
+    },
+    "patient_details_and_history": {
+      "paired_response_cases": 10,
+      "responses_match": true,
+      "zero_request_writes": true,
+      "focused_tests": 11,
+      "focused_assertions": 136,
+      "benchmark_assertions": 199,
+      "inherited_query_source_findings": 17,
+      "new_query_source_findings": 0,
+      "external_schema_preserved": true
+    },
+    "guarantor_authorization_and_growth": {
+      "paired_response_cases": 32,
+      "measured_requests_per_build": 96,
+      "assertions_per_build": 349,
+      "responses_match": true,
+      "zero_request_writes": true,
+      "external_schema_preserved": true
+    },
+    "staff_appointment_load": {
+      "paired_response_cases": 10,
+      "measured_requests": 20,
+      "samples_per_case_per_build": 1,
+      "responses_match": true,
+      "zero_request_writes": true,
+      "query_plans_captured": false
+    }
+  },
+  "datasets": {
+    "Benchmark_V1.0.0_Historical_V2.8.5.1.1_Cold_Tickets_Raw.csv": {
+      "sha256": "4b6292fd03af44fc6d4babc6c8eddbf44914375dc1a2ff2c2b9c79cbcbc4d9bb",
+      "rows": 48
+    },
+    "Benchmark_V1.0.0_Historical_V2.8.5.1.1_Cold_Tickets_Medians.csv": {
+      "sha256": "f9b602f4632bd3486fe4a7eda424b7dad7b665c458b741a204154f37d8482aa0",
+      "rows": 16
+    },
+    "Benchmark_V1.0.0_Historical_V2.8.5.1.1_Guarantor.csv": {
+      "sha256": "002f13ec7acc03bf53170964e0f72edc5dfca31b806efd514a3e3d7409882f7c",
+      "rows": 64
+    },
+    "Benchmark_V1.0.0_Historical_V2.8.5.1.1_Patient_Requests.csv": {
+      "sha256": "ea329188845ea37f56e3eeed32e4745e9deadbbc0fa82c9d315c0548a51a971a",
+      "rows": 20
+    },
+    "Benchmark_V1.0.0_Historical_V2.8.5.1.1_Staff_Appointments.csv": {
+      "sha256": "5a395d29c6231808604aa2eb42e7d934cc7226491e8c35b506f6c52d52515f6b",
+      "rows": 20
+    }
+  }
+}

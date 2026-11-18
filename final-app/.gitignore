@@ -1,0 +1,29 @@
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
+/.idea/
+/.ignore
+
+/.venv/
+/.pgdata/
+/__pycache__/
+/.env
+/.env.*
+/Appointment-Confirmation-Take-Home.pdf
+/node_modules/
+/public/application.js
+/.bundle/
+/log/
+/tmp/
+/frontend/node_modules/
+/backend/public/application.js
+/backend/public/flow.css
+/backend/.bundle/
+/backend/log/
+/backend/tmp/
+/pms_api/
+
+/frontend/test-results/
+/frontend/playwright-report/
+
+# Private assessment input.
+/docs/ai-harness/reference/*.pdf

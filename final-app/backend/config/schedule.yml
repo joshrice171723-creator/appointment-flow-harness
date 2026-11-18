@@ -1,0 +1,4 @@
+reminder_tick:
+  cron: "*/5 * * * *"
+  class: ReminderJob
+  queue: default

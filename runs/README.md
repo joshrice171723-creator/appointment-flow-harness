@@ -38,3 +38,6 @@ See the [version catalog](../VERSIONS.md) for design packages V2.1.1 and V2.8.4.
 | V2.8.5.1.1-refactor | Patient appointment read refactor on the original app | Response bodies and cursors matched. One upcoming-history query still scans the mirror | [Paired ZIP](V2.8.5.1.1-refactor.zip) |
 | V2.8.5.1.1-refactor-repair | Focused patient history query repair on the original app | The tested patient reads passed. All response bodies and cursors matched. The external PMS schema stayed the same | [Paired ZIP](V2.8.5.1.1-refactor-repair.zip) |
 | V2.9.5.1.1-rebuild | Standalone full rebuild | The input manifest and prompt match the launch receipt. Includes first and final source checkpoints plus the observed checks | [Paired ZIP](V2.9.5.1.1-rebuild.zip) |
+| V2.10.6.3.1-full-build | full build | Frozen full build. Evaluated on V1.1.0. | [Paired ZIP](V2.10.6.3.1-full-build.zip) |
+| V2.10.6.3.1-original-refactor | original refactor | Frozen original-app refactor. Evaluated on V1.1.0. | [Paired ZIP](V2.10.6.3.1-original-refactor.zip) |
+| V2.10.6.2.1-full-build-refactor | full build refactor | Directed refactor with benchmark exposure. Use it to study repair. Its frozen revision has no independent V1.1.0 score. | [Paired ZIP](V2.10.6.2.1-full-build-refactor.zip) |
