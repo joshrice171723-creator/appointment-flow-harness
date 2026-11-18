@@ -72,8 +72,6 @@ The V2.7.4.1.0 **full build** at `860fa23` scored **91/100** and received Joshua
 
 Every score belongs to a benchmark, revision, and workload. V1.1.0 covers five workflows and 60 cases. A zero can record a missing workflow. Compare raw counters for cases with equivalent outputs and effects. Earlier benchmark scores apply to their smaller scopes.
 
-![Full rebuilds compared with the original app. The 24-reminder run used 119 statements in the original, 18 in V2.6.1.1.0, and 45 in V2.7.1.1.0. A later V2.7 comparison passed four more checks and failed the Active Record rule.](dashboard/experiment-results.png)
-
 **35 run bundles** pair the recovered instructions with the application output. The index marks verified inputs, historical matches, and interrupted builds. [Browse the paired runs](runs/README.md)
 
 ## Read the comparisons
@@ -147,8 +145,6 @@ The two later branches explain why a number sometimes goes down. `V2.8.4.1.0` to
 See the [version catalog](VERSIONS.md) and [paired run index](runs/README.md) for each archived input and checkpoint.
 
 ### The original appointment-flow and its refactors
-
-![Original app and two staff appointment refactors. On the dated view, 1,852 rows fell to 41 and 31. On the upcoming view, 314 rows changed to 322 and 14. A separate patient history refactor reduced buffer hits from 176 to 3 for one lookup.](dashboard/original-refactor-results.png)
 
 | Version or trial | What changed and what we found | Files |
 |---|---|---|
